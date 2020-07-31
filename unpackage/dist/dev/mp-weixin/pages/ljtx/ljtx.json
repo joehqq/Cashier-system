@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "立即提现",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "u-cell-group": "/uview-ui/components/u-cell-group/u-cell-group",
+    "u-cell-item": "/uview-ui/components/u-cell-item/u-cell-item",
+    "u-modal": "/uview-ui/components/u-modal/u-modal"
+  }
+}

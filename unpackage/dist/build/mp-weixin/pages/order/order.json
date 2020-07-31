@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "订单",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "u-picker": "/uview-ui/components/u-picker/u-picker"
+  }
+}

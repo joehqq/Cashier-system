@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "每日报表",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "u-line-progress": "/uview-ui/components/u-line-progress/u-line-progress",
+    "u-picker": "/uview-ui/components/u-picker/u-picker"
+  }
+}

@@ -1,0 +1,150 @@
+{
+	"easycom": {
+		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+	},
+	"pages": [ //pages数组中第一项表示应用启动页,
+		{
+			"path": "pages/home/home",
+			"style": {
+				"navigationBarTitleText": "洪湾商户",
+				"navigationBarTextStyle": "black"
+			}
+		}
+		, {
+			"path": "pages/min/min",
+			"style": {"navigationBarTitleText": "我的",
+				"navigationBarTextStyle": "black"}
+		}, {
+			"path": "pages/order/order",
+			"style": {
+				"navigationBarTitleText": "订单",
+				"navigationBarTextStyle": "black"
+			}
+		}, {
+			"path": "pages/login/logs",
+			"style": {
+				"navigationBarTitleText": "授权登录",
+				"navigationBarTextStyle": "black"
+			}
+
+		}, {
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "登录",
+				"navigationBarTextStyle": "black"
+			}
+
+		}
+	    ,{
+            "path" : "pages/exchange/exchange",
+            "style" : {
+				"navigationBarTitleText": "兑换成功",
+				"navigationBarTextStyle": "black"
+			}
+        }
+        ,{
+            "path" : "pages/invoice/invoice",
+            "style" : {
+				"navigationBarTitleText": "发票信息",
+				"navigationBarTextStyle": "black"
+			}
+        }
+        ,{
+            "path" : "pages/invoice/invoices/invoices",
+            "style" : {
+				"navigationBarTitleText": "发票信息",
+				"navigationBarTextStyle": "black"
+			}
+        }
+        ,{
+            "path" : "pages/zaH/zaH",
+            "style" : {
+				"navigationBarTitleText": "我的账号",
+				"navigationBarTextStyle": "black"
+			}
+        } ,{
+            "path" : "pages/login/xy",
+            "style" : {
+				"navigationBarTitleText": "用户服务协议",
+				"navigationBarTextStyle": "black"
+			}
+        }
+		,{
+		    "path" : "pages/zaH/zaHupdata/zaHupdata",
+		    "style" : {
+				"navigationBarTitleText": "我的账号",
+				"navigationBarTextStyle": "black"
+			}
+		}
+        ,{
+            "path" : "pages/baob/baob",
+            "style" : {
+				"navigationBarTitleText": "每日报表",
+				"navigationBarTextStyle": "black"
+			}
+        }
+        ,{
+            "path" : "pages/txjl/txjl",
+            "style" : {
+				"navigationBarTitleText": "提现记录",
+				"navigationBarTextStyle": "black"
+			}
+        }
+        ,{
+            "path" : "pages/ljtx/ljtx",
+            "style" : {
+				"navigationBarTitleText": "立即提现",
+				"navigationBarTextStyle": "black"
+			}
+        }
+        ,{
+            "path" : "pages/ditle/ditle",
+            "style" : {
+				"navigationBarTitleText": "提现详情",
+				"navigationBarTextStyle": "black"
+			}
+        }
+		,{
+		    "path" : "pages/zaH/zhxx/zhxx",
+		    "style" : {
+				"navigationBarTitleText": "我的账号",
+				"navigationBarTextStyle": "black"
+			}
+		},{
+		    "path" : "pages/iphon/iphon",
+		    "style" : {
+				"navigationBarTitleText": "修改手机号",
+				"navigationBarTextStyle": "black"
+			}
+		}
+       
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "#fff",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#fff",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#979797",
+		"selectedColor": "#7CC457",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+			"pagePath": "pages/home/home",
+			"iconPath": "static/img/bar/home1.png",
+			"selectedIconPath": "static/img/bar/home.png",
+			"text": "首页"
+		}, {
+			"pagePath": "pages/order/order",
+			"iconPath": "static/img/bar/shu.png",
+			"selectedIconPath": "static/img/bar/ren1.png",
+			"text": "订单"
+		}, {
+			"pagePath": "pages/min/min",
+			"iconPath": "static/img/bar/ren.png",
+			"selectedIconPath": "static/img/bar/shu1.png",
+			"text": "我的"
+		}]
+	}
+}

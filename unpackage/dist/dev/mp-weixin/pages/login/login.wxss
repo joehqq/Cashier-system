@@ -1,0 +1,152 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.data-v-b237504c .u-input__input {
+  margin-right: 0 !important;
+}
+.bar.data-v-b237504c {
+  width: 100%;
+  margin-top: 50rpx;
+  text-align: center;
+  height: 34rpx;
+  font-size: 24rpx;
+  font-family: PingFang SC;
+  font-weight: 400;
+  line-height: 34rpx;
+  color: #7cc457;
+  opacity: 1;
+  color: #999999;
+}
+.bar text.data-v-b237504c {
+  color: #7CC457;
+}
+.zcend.data-v-b237504c {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.zcend view.data-v-b237504c {
+  width: 432px;
+  height: 34px;
+  font-size: 24px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  line-height: 34px;
+  color: #7cc457;
+  opacity: 1;
+}
+.endbtn.data-v-b237504c {
+  margin-top: 92rpx;
+  margin: 92rpx auto 0;
+  width: 542rpx;
+  height: 80rpx;
+  background: #7cc457;
+  opacity: 1;
+  border-radius: 8rpx;
+  text-align: center;
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  line-height: 80rpx;
+  color: white;
+  opacity: 1;
+}
+.btnqq.data-v-b237504c {
+  width: 176rpx;
+  height: 64rpx;
+  background: white;
+  border: 2rpx solid #7cc457;
+  opacity: 1;
+  border-radius: 16rpx;
+  font-size: 24rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  text-align: center;
+  line-height: 64rpx;
+  color: #7cc457;
+  opacity: 1;
+}
+.login.data-v-b237504c {
+  padding: 0 48rpx 0;
+  box-sizing: border-box;
+}
+.center.data-v-b237504c {
+  width: 654rpx;
+  height: 122rpx;
+  margin: 0 auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.center text.data-v-b237504c {
+  height: 48rpx;
+  font-size: 34rpx;
+  font-family: PingFang SC;
+  font-weight: 400;
+  line-height: 48rpx;
+  color: black;
+  opacity: 1;
+  display: block;
+  margin-right: 30rpx;
+}
+.head image.data-v-b237504c {
+  display: block;
+  margin: 174rpx auto 48rpx;
+  width: 144rpx;
+  height: 144rpx;
+}
+.head view.data-v-b237504c {
+  width: 100%;
+  text-align: center;
+  height: 44rpx;
+  font-size: 32rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  margin-bottom: 20rpx;
+  line-height: 44rpx;
+  color: #333333;
+  opacity: 1;
+}
+.head text.data-v-b237504c {
+  display: block;
+  width: 100%;
+  text-align: center;
+  height: 40rpx;
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  font-weight: 400;
+  line-height: 40rpx;
+  color: #999999;
+  opacity: 1;
+  margin-bottom: 76rpx;
+}
+

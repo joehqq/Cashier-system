@@ -1,0 +1,130 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.btn.data-v-276e7b58 {
+  position: fixed;
+  bottom: 298rpx;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  width: 544rpx;
+  height: 80rpx;
+  background: #7cc457;
+  opacity: 1;
+  border-radius: 8rpx;
+  text-align: center;
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  line-height: 80rpx;
+  color: white;
+  opacity: 1;
+}
+.app.data-v-276e7b58 {
+  padding: 24rpx;
+  box-sizing: border-box;
+}
+.nons.data-v-276e7b58 {
+  border-bottom: none !important;
+}
+.boxse.data-v-276e7b58 {
+  box-sizing: border-box;
+  padding: 0 24rpx;
+}
+.boxse .txje.data-v-276e7b58 {
+  height: 96rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  border-bottom: 1px solid #e6e6e6;
+}
+.boxse .txje text.data-v-276e7b58 {
+  width: 205rpx;
+  height: 40rpx;
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  line-height: 40rpx;
+  color: #999999;
+  opacity: 1;
+}
+.boxse .txje view.data-v-276e7b58 {
+  width: 100%;
+  height: 40rpx;
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  line-height: 40rpx;
+  color: #333333;
+  opacity: 1;
+}
+.box.data-v-276e7b58 {
+  width: 100%;
+  background: white;
+  box-shadow: 0px 2rpx 12rpx rgba(0, 0, 0, 0.08);
+  opacity: 1;
+  border-radius: 16rpx;
+}
+.head.data-v-276e7b58 {
+  overflow: hidden;
+  width: 100%;
+  margin-top: 24rpx;
+  height: 264rpx;
+  text-align: center;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAV8AAACECAYAAAA3OyjZAAAGy0lEQVR4Xu3cPW6cVRQG4HNjJ5aAHdCDUApWQEnFQoCO1PS0UGYXVKkoWQEFkVgAK+BHssfjD91BI0XGHmc88bwJ5/ka52fuHJ3nnHk9+jLOqGvXsiwfV9VXVfVFVX1YVe9df4zfEyBAgMBOgb+r6veqelFVz8cYv11/9Nj+wbIsp1X1XVU9q6r5axcBAgQIHC5wWVXfV9W3Y4zV9uk24bssy1lV/VRVnx1exzMQIECAwA0CP1fV52OM8/l32/B9XlVf4iJAgACBBxWYtyC+3oTvsixPq+qXqjp50JKenAABAgTWVfXpGOPXGb7zXsQ3TAgQIEDgKAI/jDGezfB9WVWfHKWkIgQIECDwcozxdIbvn1X1Pg8CBAgQOIrAX2OMD2b4LkcppwgBAgQIbATGvISvbSBAgMBxBYTvcb1VI0CAgHe+doAAAQIpAe98U/LqEiDQWkD4th6/5gkQSAkI35S8ugQItBYQvq3Hr3kCBFICwjclry4BAq0FhG/r8WueAIGUgPBNyatLgEBrAeHbevyaJ0AgJSB8U/LqEiDQWkD4th6/5gkQSAkI35S8ugQItBYQvq3Hr3kCBFICwjclry4BAq0FhG/r8WueAIGUgPBNyatLgEBrAeHbevyaJ0AgJSB8U/LqEiDQWkD4th6/5gkQSAkI35S8ugQItBYQvq3Hr3kCBFICwjclry4BAq0FhG/r8WueAIGUgPBNyatLgEBrAeHbevyaJ0AgJSB8U/LqEiDQWkD4th6/5gkQSAkI35S8ugQItBYQvq3Hr3kCBFICwjclry4BAq0FhG/r8WueAIGUgPBNyatLgEBrAeHbevyaJ0AgJSB8U/LqEiDQWkD4th6/5gkQSAkI35S8ugQItBYQvq3Hr3kCBFICwjclry4BAq0FhG/r8WueAIGUgPBNyatLgEBrAeHbevyaJ0AgJSB8U/LqEiDQWkD4th6/5gkQSAkI35S8ugQItBYQvq3Hr3kCBFICwjclry4BAq0FhG/r8WueAIGUgPBNyatLgEBrAeHbevyaJ0AgJSB8U/LqEiDQWkD4th6/5gkQSAkI35S8ugQItBYQvq3Hr3kCBFICwjclry4BAq0FhG/r8WueAIGUgPBNyatLgEBrAeHbevyaJ0AgJSB8U/LqEiDQWkD4th6/5gkQSAkI35S8ugQItBYQvq3Hr3kCBFICwjclry4BAq0FhG/r8WueAIGUgPBNyatLgEBrAeHbevyaJ0AgJSB8U/LqEiDQWkD4th6/5gkQSAkI35S8ugQItBYQvq3Hr3kCBFICwjclry4BAq0FhG/r8WueAIGUgPBNyatLgEBrAeHbevyaJ0AgJSB8U/LqEiDQWkD4th6/5gkQSAkI35S8ugQItBYQvq3Hr3kCBFICwjclry4BAq0FhG/r8WueAIGUgPBNyatLgEBrAeHbevyaJ0AgJSB8U/LqEiDQWkD4th6/5gkQSAkI35S8ugQItBYQvq3Hr3kCBFICwjclry4BAq0FhG/r8WueAIGUgPBNyatLgEBrAeHbevyaJ0AgJSB8U/LqEiDQWkD4th6/5gkQSAkI35S8ugQItBYQvq3Hr3kCBFICwjclry4BAq0FhG/r8WueAIGUgPBNyatLgEBrAeHbevyaJ0AgJSB8U/LqEiDQWkD4th6/5gkQSAm8dvheXV3Ver2u+XVejx49qpOTk83X17mc55faH7tn91K7N7Pxtv07OTkZY1mWZVeAzsOr1erGhzx+/PjOAHaeX2p/7J7dS+3eNnhvq19VH90ZvhcXF3VbPo8x6smTJzvf/DrPL7U/ds/upXZvhuKu/auqH+8M3/Pz853henZ2tvPvnee3a0Eecn/snt1L7d6se8f+/SF8ffP4337zFL7C9y0O3xK+wlf43iIgvIX3Q4b3uLq6Wua925uueb9k3rfYdc17vs7zS+3Pbbct7K7X7tueXePy8nKZHxu76Zof0bi8vNwZvqenp5uPnTn/XwF+D7s/u/7Bl/3D2s9t99o/LPvG+fn5Mj8ydv3d63znMD8mcccn0TbnnOeX2B+757X3TmfPDN/td7HtC2gG7qvveLcBvP26fdyrL7j5XdD5f28/8Dvu/tg9r713MXvGxcXFzh+yeJ2fYPMYAgQIENhPQPju5+XRBAgQeCMCwveNMHoSAgQI7CcwVquV2w77mXk0AQIEDhYQvgcTegICBAjsL7D5nO/+x5wgQIAAgUMEhO8hes4SIEDgngLC955wjhEgQOAQgbFer912OETQWQIECNxDQPjeA80RAgQIHCqw+V/NDn0S5wkQIEBgPwHhu5+XRxMgQOCNCPwDk8eKNod0tjoAAAAASUVORK5CYII=);
+  background-size: 100%;
+}
+.head view.data-v-276e7b58 {
+  margin-top: 48rpx;
+  width: 100%;
+  margin-bottom: 16rpx;
+  text-align: center;
+  height: 56rpx;
+  font-size: 40rpx;
+  font-family: PingFang SC;
+  font-weight: bold;
+  line-height: 56rpx;
+  opacity: 1;
+}
+.head text.data-v-276e7b58 {
+  display: block;
+  margin-top: 24rpx;
+  width: 100%;
+  height: 44rpx;
+  font-size: 32rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  line-height: 44rpx;
+  color: #333333;
+  opacity: 1;
+}
+

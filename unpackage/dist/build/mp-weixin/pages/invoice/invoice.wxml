@@ -1,0 +1,1 @@
+<view class="app"><view class="box"><view class="head">企业发票</view><view class="center cents"><view class="tt">发票抬头</view><text>{{''+texts+''}}</text></view><view class="center"><view class="tt">税号</view><text>454545454545</text></view></view><view data-event-opts="{{[['tap',[['gohome',['$event']]]]]}}" class="btn" bindtap="__e">去修改</view></view>

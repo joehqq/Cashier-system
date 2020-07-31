@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "发票信息",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "u-field": "/uview-ui/components/u-field/u-field"
+  }
+}

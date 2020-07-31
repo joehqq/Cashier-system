@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "修改手机号",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "u-input": "/uview-ui/components/u-input/u-input",
+    "u-toast": "/uview-ui/components/u-toast/u-toast",
+    "u-verification-code": "/uview-ui/components/u-verification-code/u-verification-code",
+    "u-button": "/uview-ui/components/u-button/u-button"
+  }
+}

@@ -1,0 +1,1 @@
+<view class="u-progress data-v-01e9aff3" style="{{'border-radius:'+(round?'100rpx':0)+';'+('height:'+(height+'rpx')+';')+('background-color:'+(inactiveColor)+';')}}"><view class="{{['u-active data-v-01e9aff3',type?'u-type-'+type+'-bg':'',striped?'u-striped':'',striped&&stripedActive?'u-striped-active':'']}}" style="{{$root.s0}}">{{(showPercent?percent+'%':'')+''}}</view></view>

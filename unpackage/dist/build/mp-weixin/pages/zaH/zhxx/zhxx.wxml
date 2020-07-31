@@ -1,0 +1,1 @@
+<view class="app"><view class="head"><view class="zh">账户信息修改</view><view class="gs"><view>公司名称</view><u-input bind:input="__e" vue-id="c3d10d64-1" type="{{type}}" border="{{border}}" value="{{value}}" data-event-opts="{{[['^input',[['__set_model',['','value','$event',[]]]]]]}}" bind:__l="__l"></u-input></view></view></view>

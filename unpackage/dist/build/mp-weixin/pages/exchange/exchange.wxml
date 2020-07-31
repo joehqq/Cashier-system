@@ -1,0 +1,1 @@
+<view class="app"><image class="img" src="../../static/img/home/cg.png" mode></image><view class="tx">提现成功</view><view class="qx">所提现金额将在2小时内到账</view><view data-event-opts="{{[['tap',[['gohome',['$event']]]]]}}" class="btn" bindtap="__e">回到首页</view></view>
