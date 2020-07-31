@@ -114,7 +114,7 @@
 			</view>
 		</view>
 		<u-modal v-model="show" @confirm='bk' title="未绑定银行卡" show-cancel-button=true confirm-text='去绑卡' :content="content"></u-modal>
-		<u-modal v-model="shows" @confirm='dl' title="暂未登录" show-cancel-button=true confirm-text='去登陆' content="登录后才能继续当前操作"></u-modal>
+		<u-modal v-model="shows" @confirm='dl' title="暂未登录" show-cancel-button=true confirm-text='去登录' content="登录后才能继续当前操作"></u-modal>
 	</view>
 </template>
 

@@ -218,7 +218,11 @@ var _default = { data: function data() {return { tes: '《用户服务协议》'
             url: '/pages/home/home' });
 
         } else {
-          _this.$u.toast("\u767B\u5F55\u5931\u8D25\u8BF7\u91CD\u65B0\u70B9\u51FB\u6216\u624B\u673A\u53F7\u767B\u5F55");
+          if (res.message == '请选择此账号绑定的手机号进行登录！') {
+            _this.$u.toast("\u8BF7\u9009\u62E9\u6B64\u8D26\u53F7\u7ED1\u5B9A\u7684\u624B\u673A\u53F7\u8FDB\u884C\u767B\u5F55\uFF01");
+          } else {
+            _this.$u.toast("\u7F51\u7EDC\u9519\u8BEF,\u8BF7\u7A0D\u540E\u91CD\u8BD5");
+          }
           uni.login({
             provider: 'weixin',
             success: function success(loginRes) {

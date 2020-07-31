@@ -86,7 +86,11 @@
 							url: '/pages/home/home'
 						});
 					}else{
-						this.$u.toast(`登录失败请重新点击或手机号登录`);
+						if(res.message=='请选择此账号绑定的手机号进行登录！'){
+							this.$u.toast(`请选择此账号绑定的手机号进行登录！`);
+						}else{
+							this.$u.toast(`网络错误,请稍后重试`);
+						}
 						uni.login({
 						  provider: 'weixin',
 						  success: function (loginRes) {
