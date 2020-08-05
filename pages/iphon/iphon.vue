@@ -10,7 +10,7 @@
 				<text :class="type==2?'':'grays'">2</text>	绑定新号码
 				</view>
 			</view>
-			<view class="center">
+			<view class="center" >
 				<view class="btnsyzm">
 					<view class="ipnum" v-if="type==1">
 						{{iphon}}
@@ -22,13 +22,18 @@
 						<view class="btnqq" @click="getCode">{{tips}}</view>
 					</view>
 				</view>
-				<u-input placeholder='请输入验证码' v-model="mobiles" :type="type" />
+				<u-input style="margin-left: 24rpx;" placeholder='请输入验证码' v-model="mobiles" :type="type" />
 			</view>
 		</view>
 			<u-button  class="btn" @click="gohome"  :ripple="true">{{texts}}</u-button>
 	
 		<view class="endcalss">
 			手机号修改成功后需使用新号码登录
+		</view>
+		<view class="lxkf">
+			<button class="kf" open-type="contact">
+				<image src="../../static/img/bar/wx.png" mode=""></image> <text>联系客服</text>
+			</button>
 		</view>
 	</view>
 </template>
@@ -43,7 +48,7 @@
 				texts: '确认认证',
 				// refCode: null,
 				iphon:'',
-				seconds: 10,
+				seconds: 60,
 				code: '',
 				codeText: '',
 				xgcg: false,
@@ -73,7 +78,11 @@
 						homeApi.yzms({
 							id: num.id
 						}).then(res => {
-							uni.setStorageSync('uuid', res.data)
+							if(res.code==100){
+								uni.setStorageSync('uuid', res.data)
+							}else{
+								this.$u.toast(res.message);
+							}
 							this.$refs.uCode.start();
 						})
 					} else {
@@ -92,11 +101,16 @@
 							uni.showLoading({
 								title: '正在获取验证码'
 							})
-							homeApi.yzm({
+							homeApi.mobile({
 								mobile: this.mobile
 							}).then(res => {
-								uni.setStorageSync('uuid', res.data)
+								if(res.code==100){
+									uni.setStorageSync('uuid', res.data)
+								}else{
+									this.$u.toast(res.message);
+								}
 								this.$refs.uCode.start();
+							
 							})
 						} else {
 							this.$u.toast('请耐心等待');
@@ -123,8 +137,9 @@
 			gohome() {
 			if(this.type==1){
 				if(this.mobiles!=''){
+						let user=JSON.parse(uni.getStorageSync('num'))
 					const obj={
-							uuid:uni.getStorageSync('uuid'),
+							id:user.id,
 							code:this.mobiles
 						}
 					homeApi.update(JSON.stringify(obj)).then(res=>{
@@ -134,7 +149,7 @@
 							this.$u.toast('操作成功,请输入新手机号');
 							this.mobiles=''
 						}else{
-							this.$u.toast(`${res.message}`);
+								this.$u.toast(res.message);
 						}
 					})
 				}else{
@@ -152,17 +167,19 @@
 						uuid:uni.getStorageSync('uuid'),
 						mobile:this.mobile
 					}
-					homeApi.mobile(JSON.stringify(obj)).then(res=>{
+					homeApi.updatemobile(JSON.stringify(obj)).then(res=>{
 						if(res.code==100){
-							user.mobile=this.mobile
+							var tel = this.mobile;
+							tel = "" + tel;
+							user.mobile = tel.substr(0,3) + "****" + tel.substr(7)
 							uni.setStorageSync('num',JSON.stringify(user))
-							this.$u.toast('操作成功');
+							this.$u.toast('修改成功');
 							uni.redirectTo({
 							  url: '/pages/home/home'
 							});
 							
 						}else{
-							this.$u.toast(`${res.message}`);
+								this.$u.toast(res.message);
 						}
 					})
 				}
@@ -182,6 +199,46 @@
 </script>
 
 <style lang="scss" scoped>
+	.lxkf {
+		width: 100%;
+		position: fixed;
+		bottom: 48rpx;
+		text-align: center;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	
+		image {
+			width: 32rpx;
+			height: 32rpx;
+			margin-right: 25rpx;
+	
+		}
+	
+		text {
+			width: 112rpx;
+			height: 40rpx;
+			font-size: 28rpx;
+			font-family: PingFang SC;
+			font-weight: 400;
+			line-height: 40rpx;
+			color: rgba(102, 102, 102, 1);
+			opacity: 1;
+		}
+	}
+	.kf {
+		background-color: transparent !important;
+		display: flex;
+		align-items: center;
+	}
+
+	.kf::after {
+		border: none !important;
+	}
+	/deep/.u-input__input{
+		margin-left: 24rpx;
+
+	}
 	.grays{
 		background-color: #fff !important;
 		border: 1px solid #999999 !important;
@@ -261,7 +318,9 @@
 		left: 50%;
 		transform: translateX(-50%);
 	}
-
+	/deep/.u-input{
+		margin-right: 48rpx;
+	}
 	.btn {
 		position: fixed;
 		bottom: 298rpx;
@@ -322,6 +381,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	margin-bottom: 24rpx;
 	}
 
 	/deep/.u-field {
@@ -331,7 +391,7 @@
 
 	.box {
 		width: 702rpx;
-		margin: 0 auto;
+		margin: 24rpx auto 0;
 		background: rgba(255, 255, 255, 1);
 		box-shadow: 0px 2rpx 12rpx rgba(0, 0, 0, 0.08);
 		opacity: 1;

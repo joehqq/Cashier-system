@@ -24,8 +24,22 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+.cui.data-v-127632e4 {
+  padding-left: 0rpx !important;
+  font-size: 32rpx !important;
+}
+.cuiend.data-v-127632e4 {
+  padding-left: 0rpx !important;
+  font-size: 24rpx !important;
+}
 .data-v-127632e4 .u-mode-center-box {
   border: 1px solid #E6e6e6;
+}
+.fh.data-v-127632e4 {
+  padding-left: 10rpx;
+  font-size: 20rpx;
+  padding-right: 5rpx;
+  color: #fa4d4d;
 }
 .footesbox.data-v-127632e4 {
   display: -webkit-box;
@@ -46,9 +60,6 @@
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-          justify-content: space-between;
   -webkit-box-align: center;
   -webkit-align-items: center;
           align-items: center;
@@ -61,11 +72,11 @@
 }
 .footesbox .sonmeqian text.data-v-127632e4 {
   padding-left: 10rpx;
-  font-size: 14rpx;
+  font-size: 20rpx;
+  padding-right: 5rpx;
   color: #fa4d4d;
 }
 .footesbox .sonmeqian view.data-v-127632e4 {
-  font-size: 24rpx;
   font-family: SF Pro Text;
   font-weight: 600;
   color: #fa4d4d;
@@ -82,6 +93,27 @@
 }
 .red.data-v-127632e4 {
   color: black !important;
+}
+.dabh.data-v-127632e4 {
+  width: 100%;
+  text-align: left;
+  height: 40rpx;
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  line-height: 40rpx;
+  color: #333333;
+  opacity: 1;
+  margin: 12rpx 0 42rpx 24rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
 }
 .card.data-v-127632e4 {
   margin-bottom: 24rpx;
@@ -103,12 +135,10 @@
   bottom: 24rpx;
 }
 .card .heads.data-v-127632e4 {
-  padding-top: 50rpx !important;
   width: 100%;
-  margin-bottom: 26rpx;
-  height: 112rpx;
+  padding-top: 24rpx;
   background: white;
-  padding: 0 24rpx;
+  padding: 24rpx  24rpx 0;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -120,15 +150,14 @@
           align-items: center;
 }
 .card .heads text.data-v-127632e4 {
-  width: 96rpx;
+  width: 260rpx;
   height: 44rpx;
-  font-size: 32rpx;
+  font-size: 36rpx;
   font-family: PingFang SC;
   font-weight: bold;
   color: #7cc457;
   opacity: 1;
 }
-.card .heads.data-v-127632e4,
 .card .heads view.data-v-127632e4 {
   height: 34rpx;
   font-size: 24rpx;
@@ -170,15 +199,14 @@
 }
 .card .center .centerbox .num.data-v-127632e4 {
   height: 40rpx;
-  font-size: 24rpx;
+  font-size: 32rpx;
   font-family: SF Pro Text;
   font-weight: 600;
-  line-height: 28rpx;
   color: #fa4d4d;
   opacity: 1;
 }
 .card .center .centerbox .num text.data-v-127632e4 {
-  font-size: 14rpx;
+  font-size: 20rpx;
 }
 .card .center .centerbox .dis.data-v-127632e4 {
   width: 100%;
@@ -206,6 +234,12 @@
   width: 154rpx;
   height: 162rpx;
   margin-right: 28rpx;
+}
+.xzt.data-v-127632e4 {
+  font-size: 28rpx !important;
+}
+.cardboxs.data-v-127632e4 {
+  margin-top: 340rpx;
 }
 .qianbox.data-v-127632e4 {
   display: -webkit-box;
@@ -247,11 +281,13 @@
   color: #333333;
   opacity: 1;
 }
-.data-v-127632e4 .u-mask-zoom {
-  background-color: transparent !important;
-}
 .head.data-v-127632e4 {
-  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  width: 702rpx;
   height: 300rpx;
   background: white;
   box-shadow: 0px 2rpx 12rpx rgba(0, 0, 0, 0.08);
@@ -260,6 +296,7 @@
   padding: 48rpx 0 4rpx;
   box-sizing: border-box;
   margin-bottom: 24rpx;
+  z-index: 9;
 }
 .head .rq.data-v-127632e4 {
   display: -webkit-box;
@@ -286,5 +323,6 @@
 }
 .app.data-v-127632e4 {
   padding: 0 24rpx 0;
+  box-sizing: border-box;
 }
 

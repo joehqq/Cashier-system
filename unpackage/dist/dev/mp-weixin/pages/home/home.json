@@ -1,6 +1,7 @@
 {
   "navigationBarTitleText": "洪湾商户",
   "navigationBarTextStyle": "black",
+  "enablePullDownRefresh": true,
   "usingComponents": {
     "u-tabs": "/uview-ui/components/u-tabs/u-tabs",
     "u-modal": "/uview-ui/components/u-modal/u-modal"

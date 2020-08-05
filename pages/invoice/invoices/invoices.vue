@@ -2,12 +2,44 @@
 	<view class="app">
 		<view class="box">
 			<view class="head">
-				<view class="gr" :class="type==1?'add':''" @click="gr">
+				<view class="headtext">
+					发票信息
+				</view>
+				<view class="dxz">
+					<u-radio-group  v-model="valuegr" @change="radioGroupChange" width='100%' >
+								<u-radio 
+								name='gr'
+								width='100%'
+								 shape="circle"
+								  active-color="#7CC457"
+								:disabled= 'false'
+								@change="gr"
+								>
+									个人发票
+								</u-radio>
+								
+					</u-radio-group>
+					
+					<u-radio-group  v-model="valuegs" @change="radioGroupChange" width='100%' >
+							<u-radio
+							@change="qy" 
+							 active-color="#7CC457"
+							 shape="circle"
+							name='qy'
+							:disabled= 'false'
+							>
+								企业发票
+							</u-radio>
+								
+					</u-radio-group>
+				</view>
+				
+				<!-- <view class="gr" :class="type==1?'add':''" @click="gr">
 					个人发票
 				</view>
 				<view class="gr" :class="type==2?'add':''" @click="qy">
 					企业发票
-				</view>
+				</view> -->
 			</view>
 			<view class="center">
 					<u-field
@@ -32,7 +64,12 @@
 		<view class="btn" @click="gohome">
 			保存修改
 		</view>
-		
+		<view class="btns" @click="gofp">
+			选择微信发票
+		</view>
+		<view class="sx">
+			
+		</view>
 	</view>
 </template>
 
@@ -41,6 +78,9 @@
 	export default {
 		data() {
 			return {
+				valuegr:'',
+				valuegs:'',
+				value: 'gr',
 				mobile:'',
 				mobiles:'',
 				type:1,
@@ -48,18 +88,51 @@
 				reluse:false
 			};
 		}, 
-		onShow() {
-			// {"id":5,"bm":"1","mc":"234234","sm":"234","mobile":"131****8456","openId":"oZCyb5Z2GgAx-OifFcxwUWUyO4Fs","cashOut":99999,"card":"2134",
-			// "payee":"ljm","company":"45455656","personInvoiceHead":null,"companyInvoiceHead":null,"companyInvoiceNum":null}
+		onLoad() {
 		const obj=JSON.parse(uni.getStorageSync('num'))
-		if(this.type==1){
-			this.mobile=obj.personInvoiceHead 
-		}else{
-			this.mobile=obj.companyInvoiceHead 
+		if(obj.companyInvoiceHead ){
+			this.mobile=obj.companyInvoiceHead
 			this.mobiles=obj.companyInvoiceNum 
+			this.valuegr=''
+			this.valuegs='qy'
+			this.type=2
+		}else{
+			this.type=1
+			this.mobile=obj.personInvoiceHead 
+			this.valuegr='gr'
+			this.valuegs=''
+			
 		}
 		},
 		methods:{
+			radioChange(e) {
+						// console.log(e);
+					},
+					// 选中任一radio时，由radio-group触发
+					radioGroupChange(e) {
+						// console.log(e);
+					},
+			gofp(){
+				const that =this
+				uni.chooseInvoiceTitle({
+				    success(res) {
+						if(res.type==1){
+							// 个人
+							that.valuegr='gr'
+							that.valuegs=''
+							that.mobile=res.title
+							that.type=1
+						}else{
+							that.type=2
+							that.valuegr=''
+							that.valuegs='qy'
+							// 公司
+							that.mobile=res.title
+							that.mobiles=res.taxNumber
+						}
+				  }
+				})
+			},
 			regTest(data){
 			 var regExp = /^([1-9]{1})(\d{15}|\d{18})$/; 
 			 if(regExp.test(data)){
@@ -79,8 +152,10 @@
 				this.reluse=false
 				this.mobile=obj.personInvoiceHead
 				this.mobiles=''
+				this.valuegs=''
 			},
 			qy(){
+				this.valuegr=''
 				const obj=JSON.parse(uni.getStorageSync('num'))
 				this.mobiles=obj.companyInvoiceNum
 				this.type=2
@@ -119,16 +194,16 @@
 		     	}
 				const oj={
 					id:obj.id,
-					personInvoiceHead:this.type==1?this.mobile:null,
-					companyInvoiceHead:this.type==1?null:this.mobile,
-					companyInvoiceNum:this.type==1?null:this.mobiles
+					personInvoiceHead:this.type==1?this.mobile:'',
+					companyInvoiceHead:this.type==1?'':this.mobile,
+					companyInvoiceNum:this.type==1?'':this.mobiles
 				}
 			homeApi.businessupdate(JSON.stringify(oj)).then(res=>{
 				console.log(res)
 				if(res.code==100){
-					obj.personInvoiceHead=this.type==1?this.mobile:null
-					obj.companyInvoiceHead=this.type==1?null:this.mobile,
-					obj.companyInvoiceNum=this.type==1?null:this.mobiles,
+					obj.personInvoiceHead=this.type==1?this.mobile:''
+					obj.companyInvoiceHead=this.type==1?'':this.mobile,
+					obj.companyInvoiceNum=this.type==1?'':this.mobiles,
 					uni.setStorageSync('num',JSON.stringify(obj))
 					this.$u.toast(`修改成功`);
 				}else{
@@ -147,6 +222,40 @@
 </script>
 
 <style lang="scss" scoped>
+	.app{
+		position: relative;
+	}
+	.sx{
+		width:2rpx;
+		height:55rpx;
+		background:#E6E6E6;
+		opacity:1;
+		position: absolute;
+		top: 84rpx;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+	.u-radio__icon-wrap{
+		margin-right: 18rpx !important;
+
+	}
+	.dxz{
+		display: flex;
+		justify-content: space-around;
+		width: 100%;
+	}
+	.headtext{
+		width:100%;
+		text-align: left;
+		height:40rpx;
+		font-size:28rpx;
+		font-family:PingFang SC;
+		font-weight:bold;
+		line-height:40rpx;
+		color:rgba(51,51,51,1);
+		opacity:1;
+		margin-bottom: 20rpx;
+	}
 	.tsbox{
 		width:360rpx;
 		height:112rpx;
@@ -161,9 +270,24 @@
 		left: 50%;
 		transform: translateX(-50%);
 	}
+	.btns{
+		position: fixed;
+		width:100%;
+		height:40rpx;
+		font-size:28rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		line-height:40rpx;
+		color:rgba(124,196,87,1);
+		opacity:1;
+		text-align: center;
+		bottom: 286rpx;
+		left: 50%;
+		transform: translateX(-50%);
+	}
 	.btn{
 		position: fixed;
-		bottom: 298rpx;
+		bottom: 394rpx;
 		left: 50%;
 		transform: translateX(-50%);
 		width:544rpx;
@@ -204,6 +328,9 @@
 		display: flex;
 		align-items: center;
 		background-color: #fff;
+		flex-wrap: wrap;
+		padding: 30rpx 28rpx !important;
+
 	}
 	/deep/.u-field{
 		padding: 30rpx 28rpx !important;

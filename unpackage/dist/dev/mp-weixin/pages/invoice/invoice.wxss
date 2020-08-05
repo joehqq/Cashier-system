@@ -57,6 +57,7 @@
   font-weight: 500;
   color: #999999;
   opacity: 1;
+  width: 160rpx;
 }
 .center text.data-v-11ab5162 {
   font-size: 28rpx;
@@ -64,6 +65,54 @@
   font-weight: 500;
   color: #333333;
   opacity: 1;
+  overflow: hidden;
+  /*自动隐藏文字*/
+  text-overflow: ellipsis;
+  /*文字隐藏后添加省略号*/
+  white-space: nowrap;
+  /*强制不换行*/
+}
+.boxs1.data-v-11ab5162 {
+  height: 198rpx !important;
+}
+.boxs1 .cents.data-v-11ab5162 {
+  border-bottom: none   !important;
+}
+.imgbox image.data-v-11ab5162 {
+  width: 300rpx;
+  height: 260rpx;
+  display: block;
+  margin: 206rpx auto 54rpx;
+}
+.imgbox .zw.data-v-11ab5162 {
+  width: 100%;
+  height: 40rpx;
+  text-align: center;
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  font-weight: 400;
+  line-height: 32rpx;
+  color: #333333;
+  opacity: 1;
+  margin: 0 auto 8rpx;
+}
+.imgbox .qsz.data-v-11ab5162 {
+  width: 100%;
+  font-size: 24rpx;
+  color: #7CC457;
+  text-align: center;
+}
+.imgbox .xm.data-v-11ab5162 {
+  width: 100%;
+  height: 78rpx;
+  font-size: 24rpx;
+  text-align: center;
+  font-family: PingFang SC;
+  font-weight: 400;
+  line-height: 22rpx;
+  color: #999999;
+  opacity: 1;
+  margin-bottom: 10rpx;
 }
 .box.data-v-11ab5162 {
   position: relative;

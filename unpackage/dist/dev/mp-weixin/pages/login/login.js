@@ -94,13 +94,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   uInput: function() {
-    return Promise.all(/*! import() | uview-ui/components/u-input/u-input */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-input/u-input")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-input/u-input.vue */ 213))
+    return Promise.all(/*! import() | uview-ui/components/u-input/u-input */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-input/u-input")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-input/u-input.vue */ 227))
   },
   uToast: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-toast/u-toast */ "uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-toast/u-toast.vue */ 221))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-toast/u-toast */ "uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-toast/u-toast.vue */ 235))
   },
   uVerificationCode: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-verification-code/u-verification-code */ "uview-ui/components/u-verification-code/u-verification-code").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-verification-code/u-verification-code.vue */ 228))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-verification-code/u-verification-code */ "uview-ui/components/u-verification-code/u-verification-code").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-verification-code/u-verification-code.vue */ 242))
+  },
+  uLoading: function() {
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-loading/u-loading */ "uview-ui/components/u-loading/u-loading").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-loading/u-loading.vue */ 220))
   }
 }
 var render = function() {
@@ -173,6 +176,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
 var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 42));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
 //
@@ -205,11 +215,20 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
 //
 //
 //
-var _default = { data: function data() {return { value: '', tips: '', tes: '《用户服务协议》', texts: '确认认证', values: '', seconds: 20, code: '', codeText: '' };}, methods: { dl: function dl() {var _this = this;if (this.value != '' && this.values != '') {var uuid = uni.getStorageSync('uuid');var obj = { mobile: this.value, code: this.values, uuid: uuid, js_code: uni.getStorageSync('code') };console.log(obj);_home.default.login(JSON.stringify(obj)).then(function (res) {console.log(res);if (res.code == 100) {uni.setStorageSync('token', res.data.token);uni.setStorageSync('num', JSON.stringify(res.data.businessInfo));uni.switchTab({ url: '/pages/home/home' });
+//
+//
+//
+//
+//
+//
+//
+var _default = { data: function data() {return { value: '', tips: '', tes: '《用户服务协议》', texts: '确认认证', values: '', show: false, seconds: 60, code: '', codeText: '' };}, methods: { dl: function dl() {var _this = this;if (this.value == '') {this.$u.toast("\u8BF7\u8F93\u5165\u624B\u673A\u53F7");} else if (this.values == '') {this.$u.toast("\u8BF7\u8F93\u5165\u9A8C\u8BC1\u7801");} else if (!uni.getStorageSync('uuid')) {this.$u.toast("\u9A8C\u8BC1\u7801\u9519\u8BEF");} else {var uuid = uni.getStorageSync('uuid');var obj = { mobile: this.value, code: this.values, uuid: uuid, js_code: uni.getStorageSync('code') };console.log(obj);this.show = true;_home.default.login(JSON.stringify(obj)).then(function (res) {if (res.code == 100) {uni.setStorageSync('token', res.data.token);uni.setStorageSync('num', JSON.stringify(res.data.businessInfo));uni.switchTab({ url: '/pages/home/home' });
 
           } else {
             if (res.message == '请选择此账号绑定的手机号进行登录！') {
               _this.$u.toast("\u8BF7\u9009\u62E9\u6B64\u8D26\u53F7\u7ED1\u5B9A\u7684\u624B\u673A\u53F7\u8FDB\u884C\u767B\u5F55\uFF01");
+            } else if (res.message == "验证码输入错误！") {
+              _this.$u.toast("\u9A8C\u8BC1\u7801\u8F93\u5165\u9519\u8BEF\uFF01");
             } else {
               _this.$u.toast("\u7F51\u7EDC\u9519\u8BEF,\u8BF7\u7A0D\u540E\u91CD\u8BD5");
             }
@@ -220,8 +239,10 @@ var _default = { data: function data() {return { value: '', tips: '', tes: '《�
               } });
 
           }
+          _this.show = false;
         });
       }
+
     },
     ty: function ty() {
       uni.navigateTo({
@@ -238,15 +259,23 @@ var _default = { data: function data() {return { value: '', tips: '', tes: '《�
       } else if (!/^1[3456789]\d{9}$/.test(this.value)) {
         this.$u.toast('请输入正确手机号码');
       } else {
-        console.log(this.$refs.uCode.canGetCode);
         if (this.$refs.uCode.canGetCode) {
           // 模拟向后端请求验证码
-          uni.showLoading({
-            title: '正在获取验证码' });
-
+          // uni.showLoading({
+          // 	title: '正在获取验证码'
+          // })
+          this.$u.toast('正在获取验证码');
           _home.default.yzm({ mobile: this.value }).then(function (res) {
-            uni.setStorageSync('uuid', res.data);
-            _this2.$refs.uCode.start();
+
+            if (res.message == "查无此商家账号") {
+              _this2.$u.toast('查无此商家账号');
+            } else if (res.code == 100) {
+              uni.setStorageSync('uuid', res.data);
+              _this2.$refs.uCode.start();
+            } else {
+              _this2.$u.toast('网络错误,请稍后重试');
+            }
+
           });
         } else {
           this.$u.toast('请耐心等待');

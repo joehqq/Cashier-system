@@ -92,7 +92,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return recyclableRender; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
-var components
+var components = {
+  uLoading: function() {
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-loading/u-loading */ "uview-ui/components/u-loading/u-loading").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-loading/u-loading.vue */ 220))
+  }
+}
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
@@ -163,6 +167,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
 var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 42));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
 //
@@ -194,14 +201,29 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
 //
 //
 //
-var _default = { data: function data() {return { tes: '《用户服务协议》', openid: '', session_key: '' };}, onLoad: function onLoad() {uni.login({ provider: 'weixin', success: function success(loginRes) {uni.setStorageSync('code', loginRes.code);} });}, created: function created() {}, methods: { bindGetUserInfo: function bindGetUserInfo(e) {console.log(e);console.log(11111);}, iphon: function iphon() {uni.navigateTo({ url: '/pages/login/login' });}, ty: function ty() {
+//
+//
+//
+var _default = { data: function data() {return { tes: '《用户服务协议》', openid: '', session_key: '', show: false };}, onLoad: function onLoad() {uni.login({ provider: 'weixin', success: function success(loginRes) {uni.setStorageSync('code', loginRes.code);} });}, created: function created() {}, methods: { iphosn: function iphosn() {uni.authorize({ scope: 'scope.invoice', success: function success() {wx.chooseInvoiceTitle({ success: function success(res) {console.log(res);} });} });}, bindGetUserInfo: function bindGetUserInfo(e) {console.log(e);
+      console.log(11111);
+    },
+    iphon: function iphon() {
+
+      uni.navigateTo({
+        url: '/pages/login/login' });
+
+    },
+    ty: function ty() {
       uni.navigateTo({
         url: '/pages/login/xy' });
 
     },
 
     getPhoneNumber: function getPhoneNumber(e) {var _this = this;
-
+      // if(e.detail.encryptedData){}
+      console.log(e.detail.encryptedData, 'e.detail.encryptedData');
+      console.log(e.detail.iv, 'e.detail.iv');
+      this.show = true;
       var obj = {
         code: uni.getStorageSync('code'),
         ivData: e.detail.iv,
@@ -210,10 +232,9 @@ var _default = { data: function data() {return { tes: '《用户服务协议》'
       _home.default.wx({ js_code: uni.getStorageSync('code'),
         ivData: e.detail.iv,
         encrypData: e.detail.encryptedData }).then(function (res) {
-        console.log(res);
         if (res.code == 100) {
           uni.setStorageSync('token', res.data.token);
-          uni.setStorageSync('num', JSON.stringify(res.data.xtdmb));
+          uni.setStorageSync('num', JSON.stringify(res.data.businessInfo));
           uni.switchTab({
             url: '/pages/home/home' });
 
@@ -221,7 +242,7 @@ var _default = { data: function data() {return { tes: '《用户服务协议》'
           if (res.message == '请选择此账号绑定的手机号进行登录！') {
             _this.$u.toast("\u8BF7\u9009\u62E9\u6B64\u8D26\u53F7\u7ED1\u5B9A\u7684\u624B\u673A\u53F7\u8FDB\u884C\u767B\u5F55\uFF01");
           } else {
-            _this.$u.toast("\u7F51\u7EDC\u9519\u8BEF,\u8BF7\u7A0D\u540E\u91CD\u8BD5");
+            _this.$u.toast(res.message);
           }
           uni.login({
             provider: 'weixin',
@@ -230,6 +251,7 @@ var _default = { data: function data() {return { tes: '《用户服务协议》'
             } });
 
         }
+        _this.show = false;
       });
       console.log(e);
     },

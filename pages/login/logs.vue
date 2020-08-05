@@ -11,10 +11,9 @@
 				</view>
 			</view>
 			<view class="btn">
-				<!-- <view  @click="wx"></view> -->
-				
 				<button class="custom-style1" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber"  >微信一键登录</button>
 				<view class="custom-style" @click="iphon">手机号快捷登录</view>
+				<!-- <view class="custom-style" @click="iphosn">手机的方式号快捷登录</view> -->
 			</view>
 		</view>
 
@@ -24,7 +23,11 @@
 			</button>
 		</view>
 		<view class="bar" @click="ty">
-			点击注册即表示您同意<text>{{tes}}</text>
+			点击登录即表示您同意<text>{{tes}}</text>
+		</view>
+		
+		<view class="boxzz" v-if="show">
+			<u-loading class="ddjz" :show="show" mode="circle"></u-loading>
 		</view>
 	</view>
 </template>
@@ -37,7 +40,8 @@
 			return {
 				tes: '《用户服务协议》',
 				openid:'',
-				session_key:''
+				session_key:'',
+				show:false
 			};
 		},
 		onLoad() {
@@ -51,7 +55,18 @@
 		created() {
 		},
 		methods: {
-		
+		iphosn(){
+			uni.authorize({
+			    scope: 'scope.invoice',
+			    success() {
+			      wx.chooseInvoiceTitle({
+			        success(res) {
+						console.log(res)
+					}
+			      })
+			    }
+			})
+		},
 			bindGetUserInfo(e){
 				console.log(e)
 				console.log(11111)
@@ -69,7 +84,10 @@
 			},
 			
 			getPhoneNumber(e) {
-				
+				// if(e.detail.encryptedData){}
+				console.log(e.detail.encryptedData,'e.detail.encryptedData')
+				console.log(e.detail.iv,'e.detail.iv')
+				this.show=true
 				const obj = {
 					code: uni.getStorageSync('code'),
 					ivData:e.detail.iv,
@@ -78,10 +96,9 @@
 				homeApi.wx({js_code: uni.getStorageSync('code'),
 					ivData:e.detail.iv,
 					encrypData:e.detail.encryptedData}).then(res => {
-					console.log(res)
 					if(res.code==100){
 						   uni.setStorageSync('token',res.data.token)
-						   uni.setStorageSync('num',JSON.stringify(res.data.xtdmb))
+						   uni.setStorageSync('num',JSON.stringify(res.data.businessInfo))
 						uni.switchTab({
 							url: '/pages/home/home'
 						});
@@ -89,7 +106,7 @@
 						if(res.message=='请选择此账号绑定的手机号进行登录！'){
 							this.$u.toast(`请选择此账号绑定的手机号进行登录！`);
 						}else{
-							this.$u.toast(`网络错误,请稍后重试`);
+							this.$u.toast(res.message);
 						}
 						uni.login({
 						  provider: 'weixin',
@@ -98,6 +115,7 @@
 						  }
 						}); 
 					}
+					this.show=false
 				})
 				console.log(e)
 			},
@@ -112,6 +130,8 @@
 <style lang="scss" scoped>
 	.kf {
 		background-color: transparent !important;
+		display: flex;
+		align-items: center;
 	}
 
 	.kf::after {
@@ -121,7 +141,7 @@
 	.lxkf {
 		width: 100%;
 		position: fixed;
-		bottom: 120rpx;
+		bottom: 114rpx;
 		text-align: center;
 		display: flex;
 		align-items: center;
@@ -148,7 +168,7 @@
 
 	.bar {
 		position: fixed;
-		bottom: 48rpx;
+		bottom: 58rpx;
 		width: 100%;
 		text-align: center;
 		height: 34rpx;
@@ -171,7 +191,6 @@
 		line-height: 80rpx;
 		width: 542rpx;
 		height: 80rpx;
-		border: 2rpx solid rgba(124, 196, 87, 1);
 		opacity: 1;
 		border-radius: 8rpx;
 		color: rgba(124, 196, 87, 1);
@@ -189,7 +208,7 @@
 		background: rgba(124, 196, 87, 1);
 		opacity: 1;
 		border-radius: 8rpx;
-		margin-bottom: 24rpx;
+		margin-bottom: 52rpx;
 	}
 
 	.app {
@@ -199,7 +218,7 @@
 
 	.headdiv {
 		margin-top: 48rpx;
-		margin-bottom: 128rpx;
+		margin-bottom: 218rpx;
 	}
 
 	.head {
@@ -240,5 +259,19 @@
 			color: rgba(153, 153, 153, 1);
 			opacity: 1;
 		}
+	}
+	.ddjz{
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%,-50%);
+	}
+	.boxzz{
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		top: 0;
+		left: 0;
+		background-color: rgba(0, 0, 0, 0.6);
 	}
 </style>

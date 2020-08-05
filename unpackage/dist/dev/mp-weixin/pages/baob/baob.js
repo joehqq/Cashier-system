@@ -94,30 +94,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   uLineProgress: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-line-progress/u-line-progress */ "uview-ui/components/u-line-progress/u-line-progress").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-line-progress/u-line-progress.vue */ 242))
-  },
-  uPicker: function() {
-    return Promise.all(/*! import() | uview-ui/components/u-picker/u-picker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-picker/u-picker")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-picker/u-picker.vue */ 203))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-line-progress/u-line-progress */ "uview-ui/components/u-line-progress/u-line-progress").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-line-progress/u-line-progress.vue */ 270))
   },
   uModal: function() {
     return __webpack_require__.e(/*! import() | uview-ui/components/u-modal/u-modal */ "uview-ui/components/u-modal/u-modal").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-modal/u-modal.vue */ 182))
+  },
+  uPicker: function() {
+    return Promise.all(/*! import() | uview-ui/components/u-picker/u-picker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-picker/u-picker")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-picker/u-picker.vue */ 210))
   }
 }
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var f0 = _vm._f("myday")(_vm.datas, _vm.day, _vm.tYear, _vm.m)
+
   var l0 = _vm.__map(_vm.lists, function(item, index) {
-    var f0 = _vm._f("nums")(item.total, _vm.type)
-
-    return {
-      $orig: _vm.__get_orig(item),
-      f0: f0
-    }
-  })
-
-  var l1 = _vm.__map(_vm.list, function(item, index) {
-    var f1 = _vm._f("nums")(item.amount, _vm.type)
+    var f1 = _vm._f("nums")(item.total, _vm.type)
 
     return {
       $orig: _vm.__get_orig(item),
@@ -125,12 +118,25 @@ var render = function() {
     }
   })
 
+  var l1 = _vm.__map(_vm.list, function(item, index) {
+    var f2 = _vm._f("nums")(item.amount, _vm.type)
+
+    return {
+      $orig: _vm.__get_orig(item),
+      f2: f2
+    }
+  })
+
   if (!_vm._isMounted) {
     _vm.e0 = function($event) {
-      _vm.show = true
+      _vm.show1 = true
     }
 
     _vm.e1 = function($event) {
+      _vm.show = true
+    }
+
+    _vm.e2 = function($event) {
       _vm.show = false
     }
   }
@@ -139,6 +145,7 @@ var render = function() {
     {},
     {
       $root: {
+        f0: f0,
         l0: l0,
         l1: l1
       }
@@ -177,7 +184,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@vue/babel-preset-app/node_modules/@babel/runtime/regenerator */ 39));
 
 
 
@@ -273,7 +280,23 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 42));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 42));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};} //
 //
 //
 //
@@ -368,17 +391,60 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
 //
 //
 //
-var myDate = new Date();var _default = { data: function data() {return { form: { all: 0, dz: 0, xs: 0 }, shows: false, lists: [], list: [], show: false, time: '2020-0602 10:23', tYear: '', m: '', params: { year: true, month: true, day: false, hour: false, minute: false, second: false }, xgcg: false, phflangs: false, type: 1, day: '' };}, computed: { hga: function hga() {console.log(this.type);console.log(this.phflangs, 'phflangs');if (this.type == 1 && this.phflangs) {return 'height:300rpx';} else if (this.type == 2 && this.phflang) {return 'height:300rpx';} else {return 'height:100%';}}, styles: function styles(val) {var str = "background:url(../../static/img/home/264".concat(val + 1, ".png)");return str;}, datas: function datas() {var das = myDate.getDate();if (this.day == das) {return '今日';} else if (this.day - 1 == das) {return '昨日';} else {return this.day + '日';}} }, filters: { nums: function nums(val, val1) {if (val1 == 1) {return val + '斤';} else {return val + '元';}} }, created: function created() {this.doHandleYear();this.doHandleMonth();if (uni.getStorageSync('num')) {this.getbb();this.getday();} else {this.shows = true;}}, methods: { getday: function getday() {var _this = this;var date = new Date();var obj = JSON.parse(uni.getStorageSync('num'));_home.default.day(JSON.stringify({ shyh: obj.bm, xsrq: this.tYear + this.m + this.day })).then(function (res) {if (res.code == 100) {if (res.data != null) {_this.form.all = res.data.amount;_this.form.xs = res.data.total;} else {
-            _this.$u.toast('当前日期无数据');
-            _this.form.all = 0;
-            _this.form.xs = 0;
-            _this.form.dz = 0;
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var timer;var timers;var myDate = new Date();var _default = { data: function data() {return { show1: false, showwu: false, form: { all: 0, dz: 0, xs: 0 }, datas: myDate.getDate(), shows: false, lists: [], list: [], show: false, time: '2020-0602 10:23', tYear: '', m: '', params: { year: true, month: true, day: false, hour: false, minute: false, second: false }, xgcg: false, phflangs: false, type: 1, day: '' };}, onPullDownRefresh: function onPullDownRefresh() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_this.datas = myDate.getDate();_context.next = 3;return _this.doHandleYear();case 3:_context.next = 5;return _this.doHandleMonth();case 5:if (!uni.getStorageSync('num')) {_context.next = 15;break;}_this.shows = false;_context.next = 9;return _this.getbb();case 9:_context.next = 11;return _this.getzdz();case 11:_context.next = 13;return _this.getday();case 13:_context.next = 16;break;case 15:_this.shows = true;case 16:uni.stopPullDownRefresh();_context.next = 19;return _this.$u.toast("\u5237\u65B0\u6210\u529F");case 19:case "end":return _context.stop();}}}, _callee);}))();}, computed: { hga: function hga() {console.log(this.type);console.log(this.phflangs, 'phflangs');console.log(this.phflang, 'phflang');if (this.type == 1 && this.phflangs) {console.log(1111);return true;}if (this.type == 1 && !this.phflangs) {console.log(2222);return false;}if (this.type == 2 && !this.phflang) {console.log(3333);return false;}if (this.type == 2 && this.phflang) {console.log(44444);return true;}}, styles: function styles(val) {var str = "background:url(../../static/img/home/264".concat(val + 1, ".png)");return str;} }, filters: { myday: function myday(val, val1, val2, val3) {// val1==this
+      var Year = myDate.getFullYear();var onth = myDate.getMonth();var ms = onth + 1;if (ms.toString().length == 1) {ms = '0' + ms;}if (val1 == val && val2 == Year && ms == val3) {return '今日';} else if (val1 - 1 == val && val2 == Year && ms == val3) {return '昨日';} else {return val + '日';} // console.log(val)
+      // console.log(val1)
+    }, nums: function nums(val, val1) {if (val1 == 1) {return "".concat(val, "   \u5143");} else {return "".concat(val, "   \u65A4");}} }, created: function created() {this.doHandleYear();
+    this.doHandleMonth();
+    this.getday();
+    if (uni.getStorageSync('num')) {
+
+      this.getbb();
+      this.getzdz();
+    } else {
+      this.shows = true;
+    }
+
+
+  },
+  methods: {
+    xzrq: function xzrq() {
+
+    },
+    getday: function getday() {var _this2 = this;
+      var date = new Date();
+      var obj = JSON.parse(uni.getStorageSync('num'));
+      _home.default.day({
+        id: obj.id,
+        xsrq: this.tYear + this.m + (this.datas < 10 ? '0' + this.datas : this.datas) }).
+      then(function (res) {
+        if (res.code == 100) {
+          if (res.data != null) {
+            _this2.form.all = res.data.total == null ? 0 : res.data.total;
+            _this2.form.xs = res.data.amount == null ? 0 : res.data.amount;
+          } else {
+            _this2.$u.toast('当前日期无汇总数据');
+            _this2.form.all = 0;
+            _this2.form.xs = 0;
+            _this2.form.dz = 0;
           }
 
         } else {
-          _this.$u.toast('请求失败，请稍后重试');
+          _this2.$u.toast('请求失败，请稍后重试');
         }
-        console.log(res);
       });
     },
     dl: function dl() {
@@ -386,64 +452,119 @@ var myDate = new Date();var _default = { data: function data() {return { form: {
         url: '/pages/login/logs' });
 
     },
-    getbb: function getbb() {var _this2 = this;
+    getzdz: function getzdz() {var _this3 = this;
       var obj = JSON.parse(uni.getStorageSync('num'));
-      var asd = {
-        shyh: obj.bm,
-        xsrq: this.tYear + this.m + this.day };
-
-      var asds = {
-        shyh: obj.bm,
-        xsrq: this.tYear + this.m + this.day };
-
-      _home.default.total(JSON.stringify(asds)).then(function (res) {
-        _this2.lists = res.data;
+      _home.default.businessreal({
+        id: obj.id,
+        xsrq: this.tYear + this.m + (this.datas < 10 ? '0' + this.datas : this.datas) }).
+      then(function (res) {
+        _this3.form.dz = res.data.amount;
+        // if(res.data)
+      });
+    },
+    getbb: function getbb() {var _this4 = this;
+      var obj = JSON.parse(uni.getStorageSync('num'));
+      _home.default.total({
+        id: obj.id,
+        xsrq: this.tYear + this.m + (this.datas < 10 ? '0' + this.datas : this.datas) }).
+      then(function (res) {
         if (res.data.length > 0) {
-          _this2.phflang = false;
-          var big = _this2.lists[0].total;
-          _this2.lists.map(function (ele, index) {
+          _this4.lists = res.data;
+          _this4.phflangs = false;
+          var big = _this4.lists[0].total;
+          _this4.lists.map(function (ele, index) {
             ele.num = ele.total / big * 100;
           });
         } else {
-          _this2.phflangs = true;
+          _this4.phflangs = true;
         }
 
       });
-      _home.default.businessamount(JSON.stringify(asd)).then(function (res) {
-        _this2.list = res.data;
+
+      _home.default.businessamount({
+        id: obj.id,
+        xsrq: this.tYear + this.m + (this.datas < 10 ? '0' + this.datas : this.datas) }).
+
+      then(function (res) {
         if (res.data.length > 0) {
-          _this2.phflang = false;
-          var bigs = _this2.list[0].amount;
-          _this2.list.map(function (ele, index) {
+          _this4.list = res.data;
+          _this4.phflang = false;
+          var bigs = _this4.list[0].amount;
+          _this4.list.map(function (ele, index) {
             ele.nums = ele.amount / bigs * 100;
           });
         } else {
-          _this2.phflang = true;
+          _this4.phflang = true;
         }
 
 
       });
     },
     lefts: function lefts() {
+      this.type = 1;
+      var that = this;
+      that.lists = [];
+      that.list = [];
+      var tYear = myDate.getFullYear();
+      var tMonthesq = myDate.getMonth();
       var das = myDate.getDate();
-      if (this.day == das) {
-        this.day = das;
-      } else {
-        this.day++;
+      var mwsq = tMonthesq + 1;
+      if (mwsq.toString().length == 1) {
+        mwsq = '0' + mwsq;
       }
-      this.getday();
+      if (mwsq == that.m && tYear == that.tYear) {
+        if (that.datas == das) {
+          that.datas = das;
+        } else {
+          that.datas++;
+        }
+      } else {
+        var curDate = new Date(that.tYear);
+        var curMonth = curDate.getMonth();
+        curDate.setMonth(curMonth + 1);
+        curDate.setDate(0);
+        var enddats = curDate.getDate();
+        if (that.datas == enddats) {
+          that.datas = enddats;
+        } else {
+          that.datas++;
+        }
+      }
+      if (timer) {
+        clearTimeout(timer);
+      }
+      timer = setTimeout(function () {
 
-      this.getbb();
+        that.getday();
+        that.getbb();
+        that.getzdz();
+
+        timer = undefined;
+      }, 300);
+
     },
     rights: function rights() {
-
-      if (this.day == 1) {
-        this.day = 1;
+      this.type = 1;
+      var that = this;
+      console.log(this.type);
+      this.lists = [];
+      this.list = [];
+      if (this.datas == 1) {
+        this.datas = 1;
       } else {
-        this.day--;
+        this.datas--;
       }
-      this.getday();
-      this.getbb();
+      if (timers) {
+        clearTimeout(timers);
+      }
+      timers = setTimeout(function () {
+
+        that.getday();
+        that.getbb();
+        that.getzdz();
+        timers = undefined;
+      }, 300);
+
     },
     gr: function gr() {
       this.type = 1;
@@ -451,10 +572,36 @@ var myDate = new Date();var _default = { data: function data() {return { form: {
     qy: function qy() {
       this.type = 2;
     },
+    getCountDays: function getCountDays(ym) {
+      var curDate = new Date(ym);
+      var curMonth = curDate.getMonth();
+      curDate.setMonth(curMonth + 1);
+      curDate.setDate(0);
+      this.datas = curDate.getDate();
+    },
     sjqr: function sjqr(val) {
+      this.type = 1;
+      this.list = [];
+      this.lists = [];
+      var th = myDate.getMonth();
+      var ear = myDate.getFullYear();
+      var mq = th + 1;
+      if (mq.toString().length == 1) {
+        mq = '0' + mq;
+        console.log(22222);
+      }
+      if (val.month != mq || ear != val.year) {
+        this.getCountDays(val.year);
+        console.log(3333);
+      }
+      if (val.month == mq && ear == val.year) {
+        this.datas = myDate.getDate();
+      }
       this.m = val.month;
       this.tYear = val.year;
       this.getday();
+      this.getbb();
+      this.getzdz();
     },
     doHandleYear: function doHandleYear(tYear) {
 
@@ -464,14 +611,13 @@ var myDate = new Date();var _default = { data: function data() {return { form: {
       this.tYear = tYear;
     },
     doHandleMonth: function doHandleMonth() {
-      var tMonth = myDate.getMonth();
+      var tMonthesw = myDate.getMonth();
 
-      var m = tMonth + 1;
+      var m = tMonthesw + 1;
       if (m.toString().length == 1) {
         m = '0' + m;
       }
       this.m = m;
-
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

@@ -159,29 +159,63 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 
 {
   data: function data() {
     return {
       texts: '',
-      sh: '' };
+      sh: '',
+      ry: false,
+      fp: false,
+      gs: false };
 
   },
   onShow: function onShow() {
     var obj = JSON.parse(uni.getStorageSync('num'));
+
     if (obj.personInvoiceHead) {
+      this.ry = true;
       this.texts = obj.personInvoiceHead;
     } else if (obj.companyInvoiceHead) {
+      this.gs = true;
       this.texts = obj.companyInvoiceHead;
     } else {
       this.texts = '';
+      this.fp = true;
     }
-    this.sh = obj.companyInvoiceNum | '';
+    console.log(obj, 'ry');
+    this.sh = obj.companyInvoiceNum == null ? '' : obj.companyInvoiceNum;
   },
   methods: {
     gohome: function gohome() {
-      console.log(111);
       uni.redirectTo({
         url: '/pages/invoice/invoices/invoices' });
 

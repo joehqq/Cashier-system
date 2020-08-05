@@ -94,16 +94,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   uInput: function() {
-    return Promise.all(/*! import() | uview-ui/components/u-input/u-input */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-input/u-input")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-input/u-input.vue */ 213))
+    return Promise.all(/*! import() | uview-ui/components/u-input/u-input */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-input/u-input")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-input/u-input.vue */ 227))
   },
   uToast: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-toast/u-toast */ "uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-toast/u-toast.vue */ 221))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-toast/u-toast */ "uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-toast/u-toast.vue */ 235))
   },
   uVerificationCode: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-verification-code/u-verification-code */ "uview-ui/components/u-verification-code/u-verification-code").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-verification-code/u-verification-code.vue */ 228))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-verification-code/u-verification-code */ "uview-ui/components/u-verification-code/u-verification-code").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-verification-code/u-verification-code.vue */ 242))
   },
   uButton: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-button/u-button */ "uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-button/u-button.vue */ 249))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-button/u-button */ "uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-button/u-button.vue */ 277))
   }
 }
 var render = function() {
@@ -179,6 +179,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
 var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 42));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
 //
@@ -214,11 +219,15 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
 //
 //
 //
+//
+//
+//
+//
+//
 var _default = { data: function data() {return { tips: '', texts: '确认认证', // refCode: null,
-      iphon: '', seconds: 10, code: '', codeText: '', xgcg: false, mobile: '', mobiles: '', type: 1 };}, onShow: function onShow() {var num = JSON.parse(uni.getStorageSync('num'));this.iphon = num.mobile;}, methods: { codeChange: function codeChange(text) {this.tips = text;}, getCode: function getCode() {var _this = this;var num = JSON.parse(uni.getStorageSync('num'));if (this.type == 1) {if (this.$refs.uCode.canGetCode) {// 模拟向后端请求验证码
-          uni.showLoading({ title: '正在获取验证码' });_home.default.yzms({ id: num.id }).
-          then(function (res) {
-            uni.setStorageSync('uuid', res.data);
+      iphon: '', seconds: 60, code: '', codeText: '', xgcg: false, mobile: '', mobiles: '', type: 1 };}, onShow: function onShow() {var num = JSON.parse(uni.getStorageSync('num'));this.iphon = num.mobile;}, methods: { codeChange: function codeChange(text) {this.tips = text;}, getCode: function getCode() {var _this = this;var num = JSON.parse(uni.getStorageSync('num'));if (this.type == 1) {if (this.$refs.uCode.canGetCode) {// 模拟向后端请求验证码
+          uni.showLoading({ title: '正在获取验证码' });_home.default.yzms({ id: num.id }).then(function (res) {if (res.code == 100) {uni.setStorageSync('uuid', res.data);} else {_this.$u.toast(res.message);
+            }
             _this.$refs.uCode.start();
           });
         } else {
@@ -237,11 +246,16 @@ var _default = { data: function data() {return { tips: '', texts: '确认认证'
             uni.showLoading({
               title: '正在获取验证码' });
 
-            _home.default.yzm({
+            _home.default.mobile({
               mobile: this.mobile }).
             then(function (res) {
-              uni.setStorageSync('uuid', res.data);
+              if (res.code == 100) {
+                uni.setStorageSync('uuid', res.data);
+              } else {
+                _this.$u.toast(res.message);
+              }
               _this.$refs.uCode.start();
+
             });
           } else {
             this.$u.toast('请耐心等待');
@@ -268,8 +282,9 @@ var _default = { data: function data() {return { tips: '', texts: '确认认证'
     gohome: function gohome() {var _this2 = this;
       if (this.type == 1) {
         if (this.mobiles != '') {
+          var user = JSON.parse(uni.getStorageSync('num'));
           var obj = {
-            uuid: uni.getStorageSync('uuid'),
+            id: user.id,
             code: this.mobiles };
 
           _home.default.update(JSON.stringify(obj)).then(function (res) {
@@ -279,7 +294,7 @@ var _default = { data: function data() {return { tips: '', texts: '确认认证'
               _this2.$u.toast('操作成功,请输入新手机号');
               _this2.mobiles = '';
             } else {
-              _this2.$u.toast("".concat(res.message));
+              _this2.$u.toast(res.message);
             }
           });
         } else {
@@ -287,27 +302,29 @@ var _default = { data: function data() {return { tips: '', texts: '确认认证'
         }
       } else {
         this.texts = '确认修改';
-        var user = JSON.parse(uni.getStorageSync('num'));
+        var _user = JSON.parse(uni.getStorageSync('num'));
         if (this.mobile == '' || this.mobiles == '') {
           this.$u.toast('请输入完整手机号或验证码');
         } else {
           var _obj = {
-            id: user.id,
+            id: _user.id,
             code: this.mobiles,
             uuid: uni.getStorageSync('uuid'),
             mobile: this.mobile };
 
-          _home.default.mobile(JSON.stringify(_obj)).then(function (res) {
+          _home.default.updatemobile(JSON.stringify(_obj)).then(function (res) {
             if (res.code == 100) {
-              user.mobile = _this2.mobile;
-              uni.setStorageSync('num', JSON.stringify(user));
-              _this2.$u.toast('操作成功');
+              var tel = _this2.mobile;
+              tel = "" + tel;
+              _user.mobile = tel.substr(0, 3) + "****" + tel.substr(7);
+              uni.setStorageSync('num', JSON.stringify(_user));
+              _this2.$u.toast('修改成功');
               uni.redirectTo({
                 url: '/pages/home/home' });
 
 
             } else {
-              _this2.$u.toast("".concat(res.message));
+              _this2.$u.toast(res.message);
             }
           });
         }

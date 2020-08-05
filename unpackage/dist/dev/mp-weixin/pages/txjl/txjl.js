@@ -178,6 +178,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 42));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
 //
@@ -208,7 +223,22 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
 //
 //
 //
-var _default = { data: function data() {return { list: [] };}, onLoad: function onLoad() {this.getlist();}, methods: { add: function add(val) {uni.navigateTo({ url: "/pages/ditle/ditle?id=".concat(val) });}, getlist: function getlist() {var _this = this;var shyc = JSON.parse(uni.getStorageSync('num'));var objs = { size: null, current: null, bm: shyc.bm };_home.default.cash(JSON.stringify(objs)).then(function (res) {_this.list = res.data.records;});}, gohome: function gohome() {uni.switchTab({
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var _default = { data: function data() {return { list: [] };}, onLoad: function onLoad() {this.getlist();}, methods: { hasDot: function hasDot(num) {if (!isNaN(num)) {return (num + '').indexOf('.') != -1 ? num : num.toFixed(2);}}, add: function add(val) {uni.navigateTo({ url: "/pages/ditle/ditle?id=".concat(val) });}, getlist: function getlist() {var _this = this;var shyc = JSON.parse(uni.getStorageSync('num'));_home.default.cash({ size: null, current: null, id: shyc.id }).then(function (res) {if (res.data.length > 0) {_this.list = res.data.records;_this.list.map(function (e) {e.zkze = _this.hasDot(e.zkze);});_this.list.map(function (e) {var munse = (e.zkze + '').indexOf('.');e.cui = (e.zkze + '').slice(0, munse);e.cuiend = (e.zkze + '').slice(munse + 1, (e.zkze + '').length);});}});}, gohome: function gohome() {uni.switchTab({
         url: '/pages/home/home' });
 
     } },

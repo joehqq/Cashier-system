@@ -24,6 +24,43 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+.app.data-v-56463e38 {
+  position: relative;
+}
+.sx.data-v-56463e38 {
+  width: 2rpx;
+  height: 55rpx;
+  background: #E6E6E6;
+  opacity: 1;
+  position: absolute;
+  top: 84rpx;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
+.u-radio__icon-wrap.data-v-56463e38 {
+  margin-right: 18rpx !important;
+}
+.dxz.data-v-56463e38 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-around;
+          justify-content: space-around;
+  width: 100%;
+}
+.headtext.data-v-56463e38 {
+  width: 100%;
+  text-align: left;
+  height: 40rpx;
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  font-weight: bold;
+  line-height: 40rpx;
+  color: #333333;
+  opacity: 1;
+  margin-bottom: 20rpx;
+}
 .tsbox.data-v-56463e38 {
   width: 360rpx;
   height: 112rpx;
@@ -39,9 +76,25 @@
   -webkit-transform: translateX(-50%);
           transform: translateX(-50%);
 }
+.btns.data-v-56463e38 {
+  position: fixed;
+  width: 100%;
+  height: 40rpx;
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  line-height: 40rpx;
+  color: #7cc457;
+  opacity: 1;
+  text-align: center;
+  bottom: 286rpx;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
 .btn.data-v-56463e38 {
   position: fixed;
-  bottom: 298rpx;
+  bottom: 394rpx;
   left: 50%;
   -webkit-transform: translateX(-50%);
           transform: translateX(-50%);
@@ -86,6 +139,9 @@
   -webkit-align-items: center;
           align-items: center;
   background-color: #fff;
+  -webkit-flex-wrap: wrap;
+          flex-wrap: wrap;
+  padding: 30rpx 28rpx !important;
 }
 .data-v-56463e38 .u-field {
   padding: 30rpx 28rpx !important;

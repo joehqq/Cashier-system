@@ -1,4 +1,14 @@
 import http from './request.js'
+
+// 提现
+
+function businesstxjs(data){
+	return http({
+		url: '/business/user/info',
+		method: 'GET', // 严格区分大小写,必须是大写
+		data
+	})
+}
 // 获取验证码
 function yzm(data){
 	return http({
@@ -49,36 +59,44 @@ function income(data){
 function cash(data){
 	return http({
 		url: '/business/cash-out/list',
-		method: 'POST', // 严格区分大小写,必须是大写
+		method: 'GET', // 严格区分大小写,必须是大写
 		data
 	})
 }
 function business(data){
 	return http({
 		url: '/business/xs-dj2020/list',
-		method: 'POST', // 严格区分大小写,必须是大写
+		method: 'GET', // 严格区分大小写,必须是大写
 		data
 	})
 }
 // 更换手机号
 function update(data){
 	return http({
-		url: '/business/xt-dmb/update/verification',
+		url: '/business/user/update/verification',
 		method: 'POST', // 严格区分大小写,必须是大写
+		data
+	})
+}
+
+function updatemobile(data){
+	return http({
+		url: '/business/user/update/mobile',
+		method: 'GET', // 严格区分大小写,必须是大写
 		data
 	})
 }
 function mobile(data){
 	return http({
-		url: '/business/xt-dmb/update/mobile',
-		method: 'POST', // 严格区分大小写,必须是大写
+		url: '/system//getCode/new-mobile',
+		method: 'GET', // 严格区分大小写,必须是大写
 		data
 	})
 }
 // 修改银行卡
 function yhkupdate(data){
 	return http({
-		url: '/business/xt-dmb/update',
+		url: '/business/user/update',
 		method: 'POST', // 严格区分大小写,必须是大写
 		data
 	})
@@ -112,22 +130,31 @@ function amount(data){
 function businessamount(data){
 	return http({
 		url: '/business/xs-dj2020/amount',
-		method: 'POST', // 严格区分大小写,必须是大写
+		method: 'GET', // 严格区分大小写,必须是大写
 		data
 	})
 }
 function total(data){
 	return http({
 		url: '/business/xs-dj2020/total',
-		method: 'POST', // 严格区分大小写,必须是大写
+		method: 'GET', // 严格区分大小写,必须是大写
 		data
 	})
 }
+// business
+// cash
 //获取指定日期的销售收入与销售数量
 function day(data){
 	return http({
 		url: '/business/xs-dj2020/amount/day',
-		method: 'POST', // 严格区分大小写,必须是大写
+		method: 'GET', // 严格区分大小写,必须是大写
+		data
+	})
+}
+function businessreal(data){
+	return http({
+		url: '/business/xs-dj2020/amount/real/day',
+		method: 'GET', // 严格区分大小写,必须是大写
 		data
 	})
 }
@@ -151,7 +178,7 @@ function payed(data){
 //修改用户信息
 function businessupdate(data){
 	return http({
-		url: '/business/xt-dmb/update',
+		url: '/business/user/update',
 		method: 'post', // 严格区分大小写,必须是大写
 		data
 	})
@@ -169,8 +196,11 @@ export default {
 	info,
 	wx,
 	businessupdate,
+	businesstxjs,
 	outam,
 	businessamount,
+	updatemobile,
+	businessreal,
 	amount,
 	update,
 	mobile,

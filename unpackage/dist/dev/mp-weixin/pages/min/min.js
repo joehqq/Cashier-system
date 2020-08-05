@@ -222,21 +222,30 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
 var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 42));var _methods;function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
 {
 
   data: function data() {
     return {
-      zhye: '',
+      zhye: '0',
       allday: {
-        day: { amount: null },
-        month: { amount: null } },
+        day: {
+          amount: null },
+
+        month: {
+          amount: null } },
+
 
       shows: false,
-      // {"id":5,"bm":"1","mc":"234234","sm":"234","mobile":"131****8456","openId":"oZCyb5Z2GgAx-OifFcxwUWUyO4Fs","cashOut":99999,"card":"2134","payee":"ljm","company":null,"personInvoiceHead":null,"companyInvoiceHead":null,"companyInvoiceNum":null}
       form: {
         img: '../../static/img/home/log.png',
-        num: '请先登录吧~',
+        num: '',
         payee: '',
         fpxx: '',
         fp: '' },
@@ -280,24 +289,27 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
       current: 0 };
 
   },
-  onShow: function onShow() {
+  onHide: function onHide() {
+    this.shows = false;
+  },
+  onShow: function onShow() {var _this = this;
     this.iPhone();
     this.getlists();
     if (uni.getStorageSync('num')) {
       var num = JSON.parse(uni.getStorageSync('num'));
+      _home.default.businesstxjs({ id: num.id }).then(function (res) {
+        console.log(res, 888);
+        _this.form.company = res.data.company == null ? '' : res.data.company;
+        _this.form.payee = res.data.payee == null ? '' : res.data.payee;
+        if (res.data.personInvoiceHead) {
+          _this.form.fp = res.data.personInvoiceHead;
+        } else if (res.data.companyInvoiceHead) {
+          _this.form.fp = res.data.companyInvoiceHead;
+        } else {
+          _this.form.fp = '';
+        }
+      });
       this.form.num = num.mobile;
-      this.form.company = num.company;
-      this.form.payee = num.payee;
-      console.log(this.form);
-      if (num.personInvoiceHead) {
-        this.form.fp = num.personInvoiceHead;
-      } else if (num.companyInvoiceHead) {
-        this.form.fp = num.companyInvoiceHead;
-      } else {
-        this.form.fp = '';
-      }
-
-
     } else {
       this.shows = true;
     }
@@ -308,14 +320,14 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
       if (val != null) {
         return val;
       } else {
-        return '';
+        return '暂无数据';
       }
     },
     srs: function srs(val) {
       if (val != null) {
         return val;
       } else {
-        return '';
+        return '暂无数据';
       }
     } },
 
@@ -325,21 +337,21 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
         url: '/pages/login/logs' });
 
     },
-    getlists: function getlists() {var _this = this;
+    getlists: function getlists() {var _this2 = this;
       if (uni.getStorageSync('num')) {
         var objs = JSON.parse(uni.getStorageSync('num'));
-        this.zhye = objs.cashOut;
+        this.zhye = objs.cashOut == null ? 0 : objs.cashOut;
         var currTime = new Date();
         var year = currTime.getFullYear();
         var month = currTime.getMonth() + 1;
         var day = currTime.getDate();
         _home.default.outam({
-          bm: objs.bm,
+          id: objs.id,
           month: month,
           year: year,
           day: day }).
         then(function (res) {
-          _this.allday = res.data;
+          _this2.allday = res.data;
         });
       } else {
         this.shows = true;

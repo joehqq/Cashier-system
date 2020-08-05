@@ -2,12 +2,17 @@
 	"easycom": {
 		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
 	},
+	 "permission": {
+	    "scope.invoice": {
+	      "desc": "选择微信发票快捷填写" // 高速公路行驶持续后台定位
+	    }},
 	"pages": [ //pages数组中第一项表示应用启动页,
 		{
 			"path": "pages/home/home",
 			"style": {
 				"navigationBarTitleText": "洪湾商户",
-				"navigationBarTextStyle": "black"
+				"navigationBarTextStyle": "black",
+				"enablePullDownRefresh": true
 			}
 		}
 		, {
@@ -18,7 +23,8 @@
 			"path": "pages/order/order",
 			"style": {
 				"navigationBarTitleText": "订单",
-				"navigationBarTextStyle": "black"
+				"navigationBarTextStyle": "black",
+				"enablePullDownRefresh": true
 			}
 		}, {
 			"path": "pages/login/logs",
@@ -80,7 +86,8 @@
             "path" : "pages/baob/baob",
             "style" : {
 				"navigationBarTitleText": "每日报表",
-				"navigationBarTextStyle": "black"
+				"navigationBarTextStyle": "black",
+				"enablePullDownRefresh": true
 			}
         }
         ,{

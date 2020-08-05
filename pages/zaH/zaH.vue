@@ -1,5 +1,6 @@
 <template>
 	<view class="app">
+	<view v-if="shows">
 		<view class="box">
 			<view class="head">
 				账号信息
@@ -22,11 +23,24 @@
 			</view>
 		</view>
 		<view class="btn" @click="gohome">
-			去修改/添加
+			去修改
 			
 		</view>
 		<view class="btntexts">
 			仅支持浦发银行储蓄卡，开卡请联系浦发银行
+		</view>
+	</view >
+		<view v-else class='imgbox'>
+			<image src="../../static/img/home/zwph.png" mode=""></image>
+			<view class="zw">
+				暂无收款账号信息
+			</view>
+			<view class="xm">
+				小MO不知道收入存放在哪里呢~
+			</view>
+			<view class="qsz" @click="gohome">
+				去设置
+			</view>
 		</view>
 	</view>
 </template>
@@ -37,15 +51,25 @@
 		data() {
 			return {
 				texts:'',
-				zh:''
+				zh:'',
+				shows:true
 			};
 		},
 		onShow() {
 			if(uni.getStorageSync('num')){
 				const shyc =JSON.parse(uni.getStorageSync('num'))
 				// uni.getStorageSync('num')
-				this.texts=shyc.payee
-				this.zh=shyc.card
+				this.texts=shyc.payee==null?'':shyc.payee
+				this.zh=shyc.card==null?'':shyc.card
+				
+				if(this.texts==''&&this.zh==''){
+					this.shows=false
+				}else{
+					this.shows=true
+				}
+				
+			}else{
+				this.shows=false
 			}
 		},
 		methods:{
@@ -63,6 +87,41 @@
 </script>
 
 <style lang="scss" scoped>
+	.imgbox{
+		image{
+			width: 300rpx;
+			height: 260rpx;
+			display: block;
+			margin: 206rpx auto 54rpx;
+		}
+		.zw{
+			width:100%;
+			height:40rpx;
+			text-align: center;
+			font-size:28rpx;
+			font-family:PingFang SC;
+			font-weight:400;
+			line-height:32rpx;
+			color:rgba(51,51,51,1);
+			opacity:1;
+			margin: 0 auto 8rpx;
+		}
+		.qsz{
+			width:100%;			font-size:24rpx;	color: #7CC457;		text-align: center;
+		}
+		.xm{
+		width:100%;
+			height:78rpx;
+			font-size:24rpx;
+			text-align: center;
+			font-family:PingFang SC;
+			font-weight:400;
+			line-height:22rpx;
+			color:#999999;
+			opacity:1;
+			margin-bottom:10rpx ;
+		}
+	}
 	.btntexts{
 		width:100%;
 		text-align: center;
@@ -81,7 +140,7 @@
 		height:80rpx;
 		background:rgba(124,196,87,1);
 		opacity:1;
-		margin: 384rpx auto 0;
+		margin: 608rpx auto 0;
 		border-radius:8rpx;
 		text-align: center;
 		font-size:28rpx;

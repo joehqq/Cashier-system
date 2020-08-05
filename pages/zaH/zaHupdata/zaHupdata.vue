@@ -63,7 +63,10 @@
 		},
 		methods:{
 			gohome(){
-					var regExp = /^([1-9]{1})(\d{15}|\d{18})$/;
+				
+				    
+				
+					var regExp = /^(622516|622517|622518|622521|622522|622523|984301|984303|621352|621793|621795|621796|621351|621390|621792|621791)\d{10}$/g;
 					const that =this
 					if(!this.mobile){
 						this.texts='姓名不能为空'
@@ -72,7 +75,7 @@
 						return
 					}
 					if(!regExp.test(this.mobiles)){
-						this.texts='请输入正确的银行卡号'
+						this.texts='请输入正确的浦发银行卡号'
 						this.xgcg=true
 						setTimeout(function(){ that.xgcg=false }, 1000);
 						return
@@ -92,6 +95,9 @@
 								console.log(datas)
 								uni.setStorageSync('num',JSON.stringify(datas))
 								this.texts='修改成功'
+								uni.redirectTo({
+								  url: '/pages/zaH/zaH'
+								});
 								this.xgcg=true
 								setTimeout(function(){ that.xgcg=false }, 1000);
 								
@@ -101,9 +107,7 @@
 						})
 						
 					}
-			// uni.redirectTo({
-			//   url: '/pages/invoice/invoices/invoices'
-			// });
+			
 			// uni.redirectTo({
 			//     url: '/pages/home/home'
 			// });

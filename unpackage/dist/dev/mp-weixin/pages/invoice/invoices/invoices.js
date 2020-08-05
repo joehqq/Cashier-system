@@ -47,6 +47,43 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var _home = _interopRequireDefault(__webpack_require__(/*! ../../../api/home.js */ 42));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
 //
@@ -85,12 +122,50 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../../api/home.js 
 //
 //
 //
-var _default = { data: function data() {return { mobile: '', mobiles: '', type: 1, relu: false, reluse: false };}, onShow: function onShow() {// {"id":5,"bm":"1","mc":"234234","sm":"234","mobile":"131****8456","openId":"oZCyb5Z2GgAx-OifFcxwUWUyO4Fs","cashOut":99999,"card":"2134",
-    // "payee":"ljm","company":"45455656","personInvoiceHead":null,"companyInvoiceHead":null,"companyInvoiceNum":null}
-    var obj = JSON.parse(uni.getStorageSync('num'));if (this.type == 1) {this.mobile = obj.personInvoiceHead;} else {this.mobile = obj.companyInvoiceHead;this.mobiles = obj.companyInvoiceNum;}}, methods: { regTest: function regTest(data) {var regExp = /^([1-9]{1})(\d{15}|\d{18})$/;if (regExp.test(data)) {this.reluse = false;}}, relus: function relus(val) {var reg = /^[\u2E80-\u9FFF]+$/; //Unicode编码中的汉字范围
-      if (reg.test(val)) {this.relu = false;}}, gr: function gr() {var obj = JSON.parse(uni.getStorageSync('num'));this.type = 1;this.relu = false;this.reluse = false;this.mobile = obj.personInvoiceHead;this.mobiles = '';
-    },
-    qy: function qy() {
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var _default = { data: function data() {return { valuegr: '', valuegs: '', value: 'gr', mobile: '', mobiles: '', type: 1, relu: false, reluse: false };}, onLoad: function onLoad() {var obj = JSON.parse(uni.getStorageSync('num'));if (obj.companyInvoiceHead) {this.mobile = obj.companyInvoiceHead;this.mobiles = obj.companyInvoiceNum;this.valuegr = '';this.valuegs = 'qy';this.type = 2;} else {this.type = 1;this.mobile = obj.personInvoiceHead;this.valuegr = 'gr';this.valuegs = '';}}, methods: { radioChange: function radioChange(e) {// console.log(e);
+    }, // 选中任一radio时，由radio-group触发
+    radioGroupChange: function radioGroupChange(e) {// console.log(e);
+    }, gofp: function gofp() {var that = this;uni.chooseInvoiceTitle({ success: function success(res) {if (res.type == 1) {// 个人
+            that.valuegr = 'gr';that.valuegs = '';that.mobile = res.title;that.type = 1;} else {that.type = 2;that.valuegr = '';that.valuegs = 'qy'; // 公司
+            that.mobile = res.title;that.mobiles = res.taxNumber;}} });}, regTest: function regTest(data) {var regExp = /^([1-9]{1})(\d{15}|\d{18})$/;if (regExp.test(data)) {this.reluse = false;}}, relus: function relus(val) {var reg = /^[\u2E80-\u9FFF]+$/; //Unicode编码中的汉字范围
+      if (reg.test(val)) {this.relu = false;}}, gr: function gr() {var obj = JSON.parse(uni.getStorageSync('num'));this.type = 1;this.relu = false;this.reluse = false;this.mobile = obj.personInvoiceHead;this.mobiles = '';this.valuegs = '';}, qy: function qy() {this.valuegr = '';
       var obj = JSON.parse(uni.getStorageSync('num'));
       this.mobiles = obj.companyInvoiceNum;
       this.type = 2;
@@ -129,16 +204,16 @@ var _default = { data: function data() {return { mobile: '', mobiles: '', type: 
       }
       var oj = {
         id: obj.id,
-        personInvoiceHead: this.type == 1 ? this.mobile : null,
-        companyInvoiceHead: this.type == 1 ? null : this.mobile,
-        companyInvoiceNum: this.type == 1 ? null : this.mobiles };
+        personInvoiceHead: this.type == 1 ? this.mobile : '',
+        companyInvoiceHead: this.type == 1 ? '' : this.mobile,
+        companyInvoiceNum: this.type == 1 ? '' : this.mobiles };
 
       _home.default.businessupdate(JSON.stringify(oj)).then(function (res) {
         console.log(res);
         if (res.code == 100) {
-          obj.personInvoiceHead = _this.type == 1 ? _this.mobile : null;
-          obj.companyInvoiceHead = _this.type == 1 ? null : _this.mobile,
-          obj.companyInvoiceNum = _this.type == 1 ? null : _this.mobiles,
+          obj.personInvoiceHead = _this.type == 1 ? _this.mobile : '';
+          obj.companyInvoiceHead = _this.type == 1 ? '' : _this.mobile,
+          obj.companyInvoiceNum = _this.type == 1 ? '' : _this.mobiles,
           uni.setStorageSync('num', JSON.stringify(obj));
           _this.$u.toast("\u4FEE\u6539\u6210\u529F");
         } else {
@@ -278,8 +353,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return recyclableRender; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
+  uRadioGroup: function() {
+    return Promise.all(/*! import() | uview-ui/components/u-radio-group/u-radio-group */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-radio-group/u-radio-group")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-radio-group/u-radio-group.vue */ 249))
+  },
+  uRadio: function() {
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-radio/u-radio */ "uview-ui/components/u-radio/u-radio").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-radio/u-radio.vue */ 256))
+  },
   uField: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-field/u-field */ "uview-ui/components/u-field/u-field").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-field/u-field.vue */ 235))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-field/u-field */ "uview-ui/components/u-field/u-field").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-field/u-field.vue */ 263))
   }
 }
 var render = function() {

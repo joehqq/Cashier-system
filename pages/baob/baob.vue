@@ -2,30 +2,31 @@
 	<view class="app">
 		<view class="head">
 			<view class="head1">
-				<view class="heads" @click="show=true">
+				<view class="heads" >
 					<view class="rq">
 						{{tYear}}年 {{m}}月
 					</view>
-					<image src="../../static/img/home/y.png" mode=""></image>
+						<image class="tszp" @click="show1=true" src="../../static/img/home/tss.png" mode=""></image>
+					<image @click="show=true"  src="../../static/img/home/y.png" mode=""></image>
 				</view>
 				<view class="headss">
 					<image @click="rights" src="../../static/img/home/righticon.png" mode=""></image>
-					<text>{{datas }}</text>
+					<text @click="xzrq" >{{datas |myday(day,tYear,m)}}</text>
 					<image @click="lefts" src="../../static/img/home/y.png" mode=""></image>
 				</view>
 			</view>
 			<view class="boxs">
 				<view class="je1">
 					<view class="je">
-						{{form.all}}
+						{{form.all==null?0:form.xs }}
 					</view>
 					<view class="wz">
 						总销售 (元)
 					</view>
 				</view>
-				<view class="je1 ">
+				<view class="je1 jiebk">
 					<view class="je">
-						{{form.dz}}
+						{{form.dz==null?0:form.dz}}
 					</view>
 					<view class="wz">
 						总到账 (元)
@@ -33,14 +34,14 @@
 				</view>
 				<view class="je1">
 					<view class="je">
-						{{form.xs}} 
-						</view>
+						{{form.xs==null?0:form.all}}
+					</view>
 					<view class="wz">
 						总销量 (斤)
 					</view>
-				
+
+				</view>
 			</view>
-		</view>
 		</view>
 		<view class="pm">
 			<view class="as">
@@ -50,21 +51,21 @@
 
 				<view class="headpm">
 					<view class="gr" :class="type==1?'add':''" @click="gr">
-						数量
-					</view>
-					<view class="gr" :class="type==2?'add':''" @click="qy">
 						金额
 					</view>
+					<view class="gr" :class="type==2?'add':''" @click="qy">
+						数量
+					</view>
 				</view>
-				<view class="centerpm" :style="hga">
+				<view class="centerpm">
 					<view v-for="(item,index) in lists" :key='index' class="centerpms" v-show="type==2">
 						<view class="paiming">
 							<view class="textbox">
 								<image v-if="index>2?false:true" :src="'../../static/img/home/264'+index+'.png'" mode=""></image>
 								<view class="boxims" v-else>
-									0{{ index+1 }}
+									<text v-if="index+1>9?true:false">0</text> {{ index+1 }}
 								</view>
-								<text class="hsy">{{item.SPMC}}</text>
+								<text class="hsy">{{item.SPMC==null?'':item.SPMC}}</text>
 							</view>
 							<text class="js">{{item.total | nums(type)}} </text>
 						</view>
@@ -78,32 +79,50 @@
 								<view class="boxims" v-else>
 									0{{ index+1 }}
 								</view>
-								<text class="hsy">{{item.SPMC}}</text>
+								<text class="hsy">{{item.SPMC==null?'':item.SPMC}}</text>
 							</view>
 							<text class="js">{{item.amount | nums(type)}} </text>
 						</view>
 						<u-line-progress active-color="linear-gradient(90deg,rgba(255,235,187,1) 0%,rgba(250,77,77,1) 100%);" height='16'
 						 :show-percent="false" :percent="item.nums"></u-line-progress>
 					</view>
+					<view class="asdimg" v-if="hga">
+						<image src="../../static/img/home/zwph.png" mode=""></image>
+						<view>
+							暂无成交排行
+						</view>
+						<text>客官请耐心等待 !</text>
+					</view>
 				</view>
 			</view>
 		</view>
+		<u-modal v-model="show1" title="可提现收益"
+		content='每日早晨7:00更新当日销售数据的统计情况'
+		:show-confirm-button='false' cancel-color='#7CC457'
+		 :show-cancel-button='true' cancel-text='知道了' 
+		></u-modal>
 		<u-picker @cancel="show=false" @confirm="sjqr" mode="time" v-model="show" :params="params" :end-year='tYear'></u-picker>
-		<u-modal v-model="shows" @confirm='dl' title="暂未登录" show-cancel-button=true confirm-text='去登陆' content="登录后才能继续当前操作"></u-modal>
+		<u-modal v-model="shows" @confirm='dl' title="暂未登录" show-cancel-button=true confirm-text='去登录' content="登录后才能继续当前操作"></u-modal>
 	</view>
 </template>
 
 <script>
+	let timer;
+	let timers;
+
 	import homeApi from '../../api/home.js'
 	var myDate = new Date();
 	export default {
 		data() {
 			return {
-				form:{
-					all:0,
-					dz:0,
-					xs:0
+				show1:false,
+				showwu: false,
+				form: {
+					all: 0,
+					dz: 0,
+					xs: 0
 				},
+				datas: myDate.getDate(),
 				shows: false,
 				lists: [],
 				list: [],
@@ -120,86 +139,126 @@
 					second: false
 				},
 				xgcg: false,
-				phflangs:false,
+				phflangs: false,
 				type: 1,
 				day: ''
 			};
 		},
+		async onPullDownRefresh() {
+			this.datas = myDate.getDate(),
+				await this.doHandleYear()
+			await this.doHandleMonth()
+			if (uni.getStorageSync('num')) {
+				this.shows = false
+
+				await this.getbb()
+				await this.getzdz()
+				await this.getday()
+				
+			} else {
+				this.shows = true
+			}
+			uni.stopPullDownRefresh();
+			await this.$u.toast(`刷新成功`);
+		},
 		computed: {
-			hga(){
+			hga() {
 				console.log(this.type)
-				console.log(this.phflangs,'phflangs')
-				if(this.type==1&&this.phflangs){
-					return 'height:300rpx'
+				console.log(this.phflangs, 'phflangs')
+				console.log(this.phflang, 'phflang')
+				if (this.type == 1 && this.phflangs) {
+					console.log(1111)
+					return true
 				}
-				else if(this.type==2&&this.phflang){
-					return 'height:300rpx'
-				}else{
-					return 'height:100%'
+				if (this.type == 1 && !this.phflangs) {
+					console.log(2222)
+					return false
 				}
+				if (this.type == 2 && !this.phflang) {
+					console.log(3333)
+					return false
+				}
+				if (this.type == 2 && this.phflang) {
+					console.log(44444)
+					return true
+				}
+
 			},
 			styles(val) {
 				var str = `background:url(../../static/img/home/264${val+1}.png)`
 				return str
-			},
-			datas() {
-				const das = myDate.getDate()
-				if (this.day == das) {
-					return '今日'
-				} else if (this.day - 1 == das) {
-					return '昨日'
-				} else {
-					return this.day + '日'
-				}
-
 			}
+
 		},
 		filters: {
-			
+			myday(val, val1, val2, val3) {
+				// val1==this
+
+
+				var Year = myDate.getFullYear();
+				var onth = myDate.getMonth();
+				var ms = onth + 1;
+				if (ms.toString().length == 1) {
+					ms = '0' + ms;
+				}
+
+				if (val1 == val && val2 == Year && ms == val3) {
+					return '今日'
+				} else if (val1 - 1 == val && val2 == Year && ms == val3) {
+					return '昨日'
+				} else {
+					return val + '日'
+				}
+				// console.log(val)
+				// console.log(val1)
+			},
 			nums(val, val1) {
 				if (val1 == 1) {
-					return val + '斤'
+					return `${val}   元`
 				} else {
-					return val + '元'
+					return `${val}   斤`
 				}
 			}
 		},
 		created() {
 			this.doHandleYear()
 			this.doHandleMonth()
+			this.getday()
 			if (uni.getStorageSync('num')) {
 
 				this.getbb()
-				this.getday()
+				this.getzdz()
 			} else {
 				this.shows = true
 			}
 
-			
+
 		},
 		methods: {
-			getday(){
-				const date =new Date()
+			xzrq(){
+				
+			},
+			getday() {
+				const date = new Date()
 				const obj = JSON.parse(uni.getStorageSync('num'))
-				homeApi.day(JSON.stringify({
-					shyh: obj.bm,
-					xsrq:this.tYear+this.m+this.day
-				})).then(res=>{
-					if(res.code==100){
-						if(res.data!=null){
-							this.form.all=res.data.amount
-							this.form.xs=res.data.total
-						}else{
-							this.$u.toast('当前日期无数据');
-							this.form.all=0
-							this.form.xs=0
-							this.form.dz=0
+				homeApi.day({
+					id: obj.id,
+					xsrq: this.tYear + this.m + (this.datas<10?'0'+this.datas:this.datas)
+				}).then(res => {
+					if (res.code == 100) {
+						if (res.data != null ) {
+							this.form.all = res.data.total==null?0:res.data.total
+							this.form.xs = res.data.amount==null?0:res.data.amount
+						} else {
+							this.$u.toast('当前日期无汇总数据');
+							this.form.all = 0
+							this.form.xs = 0
+							this.form.dz = 0
 						}
-						
-					}else{
-							this.$u.toast('请求失败，请稍后重试');
+
+					} else {
+						this.$u.toast('请求失败，请稍后重试');
 					}
-					console.log(res)
 				})
 			},
 			dl() {
@@ -207,64 +266,119 @@
 					url: '/pages/login/logs'
 				});
 			},
+			getzdz(){
+				const obj = JSON.parse(uni.getStorageSync('num'))
+				homeApi.businessreal({
+					id: obj.id,
+					xsrq: this.tYear + this.m + (this.datas<10?'0'+this.datas:this.datas)
+				}).then(res=>{
+					this.form.dz= res.data.amount
+					// if(res.data)
+				})
+			},
 			getbb() {
 				const obj = JSON.parse(uni.getStorageSync('num'))
-				const asd={
-					shyh: obj.bm,
-					xsrq:this.tYear+this.m+this.day
-				}
-				const asds={
-					shyh: obj.bm,
-					xsrq:this.tYear+this.m+this.day
-				}
-				homeApi.total(JSON.stringify(asds)).then(res => {
-					this.lists = res.data
-					if(res.data.length>0){
-						this.phflang=false
+				homeApi.total({
+					id: obj.id,
+					xsrq: this.tYear + this.m + (this.datas<10?'0'+this.datas:this.datas)
+				}).then(res => {
+					if (res.data.length > 0) {
+						this.lists = res.data
+						this.phflangs = false
 						let big = this.lists[0].total
 						this.lists.map((ele, index) => {
 							ele.num = ele.total / big * 100
 						})
-					}else{
-						this.phflangs=true
+					} else {
+						this.phflangs = true
 					}
-					
+
 				})
-				homeApi.businessamount(JSON.stringify(asd)).then(res => {
-					this.list = res.data
-					if(res.data.length>0){
-						this.phflang=false
+				
+				homeApi.businessamount({
+					id: obj.id,
+					xsrq: this.tYear + this.m + (this.datas<10?'0'+this.datas:this.datas)
+
+				}).then(res => {
+					if (res.data.length > 0) {
+						this.list = res.data
+						this.phflang = false
 						let bigs = this.list[0].amount
 						this.list.map((ele, index) => {
 							ele.nums = ele.amount / bigs * 100
 						})
-					}else{
-						this.phflang=true
+					} else {
+						this.phflang = true
 					}
-					
+
 
 				})
 			},
 			lefts() {
-				const das = myDate.getDate()
-				if (this.day == das) {
-					this.day = das
-				} else {
-					this.day++
-				}
-				this.getday()
+				this.type=1
+				      let that = this;
+					  that.lists=[]
+					  that.list=[]
+					  var tYear = myDate.getFullYear();
+					  var tMonthesq = myDate.getMonth();
+					  const das = myDate.getDate()
+					  var mwsq = tMonthesq + 1;
+					  if (mwsq.toString().length == 1) {
+					  	mwsq = '0' + mwsq;
+					  }
+					  if (mwsq == that.m && tYear == that.tYear) {
+					  	if (that.datas == das) {
+					  		that.datas = das
+					  	} else {
+					  		that.datas++
+					  	}
+					  } else {
+					  	var curDate = new Date(that.tYear);
+					  	var curMonth = curDate.getMonth();
+					  	curDate.setMonth(curMonth + 1);
+					  	curDate.setDate(0);
+					  	const enddats = curDate.getDate();
+					  	if (that.datas == enddats) {
+					  		that.datas = enddats
+					  	} else {
+					  		that.datas++
+					  	}
+					  }
+				      if (timer) {
+				        clearTimeout(timer);
+				      }
+				        timer = setTimeout(function() {
+				        
+				         that.getday()
+				         that.getbb()
+						 that.getzdz()
+				          
+				          timer = undefined;
+				        }, 300);
 				
-					this.getbb()
 			},
-			rights() {
-
-				if (this.day == 1) {
-					this.day = 1
+			rights() {		
+				this.type=1
+				let that = this;
+				console.log(this.type)
+				this.lists=[]
+				this.list=[]
+				if (this.datas == 1) {
+					this.datas = 1
 				} else {
-					this.day--
+					this.datas--
 				}
-				this.getday()
-				this.getbb()
+				if (timers) {
+				  clearTimeout(timers);
+				}
+				  timers = setTimeout(function() {
+				  
+				  that.getday()
+				  that.getbb()
+				    that.getzdz()
+				    timers = undefined;
+				  }, 300);
+				
 			},
 			gr() {
 				this.type = 1
@@ -272,10 +386,36 @@
 			qy() {
 				this.type = 2
 			},
+			getCountDays(ym) {
+				var curDate = new Date(ym);
+				var curMonth = curDate.getMonth();
+				curDate.setMonth(curMonth + 1);
+				curDate.setDate(0);
+				this.datas = curDate.getDate();
+			},
 			sjqr(val) {
+				this.type=1
+				this.list=[]
+				this.lists=[]
+				var th = myDate.getMonth();
+				var ear = myDate.getFullYear();
+				var mq = th + 1;
+				if (mq.toString().length == 1) {
+					mq = '0' + mq;
+					console.log(22222)
+				}
+				if (val.month != mq || ear != val.year) {
+					this.getCountDays(val.year)
+					console.log(3333)
+				}
+				if (val.month == mq && ear == val.year) {
+					this.datas = myDate.getDate();
+				}
 				this.m = val.month
 				this.tYear = val.year
 				this.getday()
+				this.getbb()
+				this.getzdz()
 			},
 			doHandleYear(tYear) {
 
@@ -285,20 +425,58 @@
 				this.tYear = tYear
 			},
 			doHandleMonth() {
-				var tMonth = myDate.getMonth();
+				var tMonthesw = myDate.getMonth();
 
-				var m = tMonth + 1;
+				var m = tMonthesw + 1;
 				if (m.toString().length == 1) {
 					m = '0' + m;
 				}
 				this.m = m
-
 			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
+	.asdimg {
+		height: 532rpx;
+		width: 100%;
+
+		image {
+			display: block;
+			width: 262rpx;
+			height: 225rpx;
+			margin: 68rpx auto 62rpx;
+		}
+
+		view {
+			width: 100%;
+			text-align: center;
+			height: 40rpx;
+			font-size: 28rpx;
+			font-family: PingFang SC;
+			font-weight: 400;
+			line-height: 28rpx;
+			color: rgba(51, 51, 51, 1);
+			opacity: 1;
+			margin-bottom: 8rpx;
+		}
+
+		text {
+			width: 100%;
+			height: 34rpx;
+			display: block;
+			text-align: center;
+			margin: 0 auto;
+			font-size: 24rpx;
+			font-family: PingFang SC;
+			font-weight: 400;
+			line-height: 20rpx;
+			color: rgba(153, 153, 153, 1);
+			opacity: 1;
+		}
+	}
+
 	.centerpms {
 		margin-bottom: 48rpx;
 	}
@@ -324,7 +502,16 @@
 		margin-bottom: 20rpx;
 
 	}
-
+	/deep/.u-progress{
+		width: 604rpx !important;
+		margin: 0 auto !important;
+		display: block !important;
+	
+	}
+.jiebk{
+	border-right: 2rpx solid #e6e6e6;
+	border-left: 2rpx solid #e6e6e6;
+}
 	.centerpm {
 		padding: 24rpx;
 		box-sizing: border-box;
@@ -377,7 +564,8 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-width: 100%;
+		width: 100%;
+
 		.je1 {
 			display: flex;
 			flex-wrap: wrap;
@@ -408,6 +596,17 @@ width: 100%;
 				opacity: 1;
 			}
 		}
+	}
+.tszp{
+	position: absolute;
+	top: 0;
+	left: 180rpx;
+	width: 44rpx;
+	height: 44rpx;
+}
+	.xzt {
+		font-size:
+			28rpx !important;
 	}
 
 	.pm {
@@ -444,6 +643,7 @@ width: 100%;
 			box-shadow: 0px 0rpx 0rpx rgba(0, 0, 0, 0.08) !important;
 			border-radius: 0 !important;
 			background-color: #fff !important;
+			font-weight: bold !important;
 		}
 
 		.gr {
@@ -454,7 +654,7 @@ width: 100%;
 			text-align: center;
 			font-size: 28rpx;
 			font-family: PingFang SC;
-			font-weight: bold;
+			font-weight: 400;
 			color: rgba(51, 51, 51, 1);
 			opacity: 1;
 			height: 80rpx;
@@ -476,10 +676,11 @@ width: 100%;
 	}
 
 	.heads {
+		position: relative;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		width: 218rpx;
+		width: 245rpx;
 		height: 40rpx;
 		font-size: 28rpx;
 		font-family: PingFang SC;
@@ -498,7 +699,7 @@ width: 100%;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		width: 160rpx;
+		width: 184rpx;
 		height: 40rpx;
 		font-size: 28rpx;
 		font-family: PingFang SC;

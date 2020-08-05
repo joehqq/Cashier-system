@@ -164,6 +164,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 42));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
 //
@@ -197,8 +211,22 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
 //
 //
 //
-var _default = { data: function data() {return { texts: '', zh: '' };}, onShow: function onShow() {if (uni.getStorageSync('num')) {var shyc = JSON.parse(uni.getStorageSync('num')); // uni.getStorageSync('num')
-      this.texts = shyc.payee;this.zh = shyc.card;}}, methods: { gohome: function gohome() {console.log(111);uni.navigateTo({ url: '/pages/zaH/zaHupdata/zaHupdata' }); // uni.redirectTo({
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var _default = { data: function data() {return { texts: '', zh: '', shows: true };}, onShow: function onShow() {if (uni.getStorageSync('num')) {var shyc = JSON.parse(uni.getStorageSync('num')); // uni.getStorageSync('num')
+      this.texts = shyc.payee == null ? '' : shyc.payee;this.zh = shyc.card == null ? '' : shyc.card;if (this.texts == '' && this.zh == '') {this.shows = false;} else {this.shows = true;}} else {this.shows = false;}}, methods: { gohome: function gohome() {console.log(111);uni.navigateTo({ url: '/pages/zaH/zaHupdata/zaHupdata' }); // uni.redirectTo({
       //     url: '/pages/home/home'
       // });
     } } };exports.default = _default;

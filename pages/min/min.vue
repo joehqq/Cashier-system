@@ -1,35 +1,36 @@
 <template>
 	<view class="app">
 		<view class="head" @click="dl">
-			<open-data default-avatar='../../static/img/home/log.png' class="ope" type="userAvatarUrl"></open-data>
+			<view class="headcnms">
+				<open-data default-avatar='../../static/img/home/log.png' class="ope" type="userAvatarUrl"></open-data>
+			</view>
 			<view class="headbox">
-					<open-data class='nkname' default-text='欢迎登录' type="userNickName"></open-data>
+				<open-data class='nkname' default-text='欢迎登录' type="userNickName"></open-data>
 				<text>
 					{{form.num}}
 				</text>
 			</view>
 		</view>
 		<view class="bodys">
-			<view class="ye" v-if="zhye">
-				账户余额
-			</view>
 			<view class="je" v-if="zhye">
-				￥<text>{{zhye}}</text>
+				<text>{{zhye}}</text>
 			</view>
 			<view class="boxs">
+				<image class="bgdtp" src="../../static/img/home/bj.png" mode=""></image>
 				<view class="box">
 					<view class="jrsr">
 						今日收入
 					</view>
-					<view class="qian">
+					<view class="qian" :class="allday.day.amount==null?'xzt':''">
 						{{allday.day.amount |sr}}
 					</view>
 				</view>
+
 				<view class="box">
 					<view class="jrsr">
 						本月收入
 					</view>
-					<view class="qian">
+					<view class="qian" :class="allday.month.amount==null?'xzt':''">
 						{{allday.month.amount |srs}}
 					</view>
 				</view>
@@ -40,10 +41,13 @@
 				我的信息
 			</view>
 			<u-cell-group>
-				<u-cell-item title="我的账号" @click='xgzh' :value="form.company">
-					<image slot="icon" style="width: 48rpx; height: 48rpx;margin-right: 24rpx;" src="../../static/img/home/2598.png"
-					 mode=""></image>
-				</u-cell-item>
+				
+					<u-cell-item title="我的账号" @click='xgzh' :value="form.company">
+						<image slot="icon" style="width: 48rpx; height: 48rpx;margin-right: 24rpx;" src="../../static/img/home/2598.png"
+						 mode=""></image>
+					</u-cell-item>
+			
+				
 				<u-cell-item title="修改手机" :value="form.num" @click='xgsj'>
 					<image slot="icon" style="width: 48rpx; height: 48rpx;margin-right: 24rpx;" src="../../static/img/home/2595.png"
 					 mode=""></image>
@@ -56,111 +60,119 @@
 					<image slot="icon" style="width: 48rpx; height: 48rpx;margin-right: 24rpx;" src="../../static/img/home/2596.png"
 					 mode=""></image>
 				</u-cell-item>
+				<view class="fsmx">
 				<u-cell-item title="每日报表" @click='mrbb'>
 					<image slot="icon" style="width: 48rpx; height: 48rpx;margin-right: 24rpx;" src="../../static/img/home/2599.png"
 					 mode=""></image>
 				</u-cell-item>
+				</view>
 			</u-cell-group>
 		</view>
-		<u-modal v-model="shows" @confirm='dl' title="暂未登录" show-cancel-button=true confirm-text='去登陆' content="登录后才能继续当前操作"></u-modal>
+		<u-modal v-model="shows" @confirm='dl' title="暂未登录" show-cancel-button=true confirm-text='去登录' content="登录后才能继续当前操作"></u-modal>
 	</view>
 </template>
 
 <script>
 	import homeApi from '../../api/home.js'
 	export default {
-		
+
 		data() {
 			return {
-				zhye:'',
-				allday:{
-					day:{amount:null},
-					month:{amount:null}
+				zhye: '0',
+				allday: {
+					day: {
+						amount: null
+					},
+					month: {
+						amount: null
+					}
 				},
-				shows:false,
-			// {"id":5,"bm":"1","mc":"234234","sm":"234","mobile":"131****8456","openId":"oZCyb5Z2GgAx-OifFcxwUWUyO4Fs","cashOut":99999,"card":"2134","payee":"ljm","company":null,"personInvoiceHead":null,"companyInvoiceHead":null,"companyInvoiceNum":null}
+				shows: false,
 				form: {
 					img: '../../static/img/home/log.png',
-					num: '请先登录吧~',
-					payee:'',
-					fpxx:'',
-					fp:''
+					num: '',
+					payee: '',
+					fpxx: '',
+					fp: ''
 				},
 				listabc: [{
-										iconPath: "home",
-										selectedIconPath: "home-fill",
-										text: '首页',
-										count: 2,
-										isDot: true,
-										customIcon: false,
-									},
-									{
-										iconPath: "photo",
-										selectedIconPath: "photo-fill",
-										text: '放映厅',
-										customIcon: false,
-									},
-									{
-										iconPath: "https://cdn.uviewui.com/uview/common/min_button.png",
-										selectedIconPath: "https://cdn.uviewui.com/uview/common/min_button_select.png",
-										text: '发布',
-										midButton: true,
-										customIcon: false,
-									},
-									{
-										iconPath: "play-right",
-										selectedIconPath: "play-right-fill",
-										text: '直播',
-										customIcon: false,
-									},
-									{
-										iconPath: "account",
-										selectedIconPath: "account-fill",
-										text: '我的',
-										count: 23,
-										isDot: false,
-										customIcon: false,
-									},
-								],
-								current: 0
+						iconPath: "home",
+						selectedIconPath: "home-fill",
+						text: '首页',
+						count: 2,
+						isDot: true,
+						customIcon: false,
+					},
+					{
+						iconPath: "photo",
+						selectedIconPath: "photo-fill",
+						text: '放映厅',
+						customIcon: false,
+					},
+					{
+						iconPath: "https://cdn.uviewui.com/uview/common/min_button.png",
+						selectedIconPath: "https://cdn.uviewui.com/uview/common/min_button_select.png",
+						text: '发布',
+						midButton: true,
+						customIcon: false,
+					},
+					{
+						iconPath: "play-right",
+						selectedIconPath: "play-right-fill",
+						text: '直播',
+						customIcon: false,
+					},
+					{
+						iconPath: "account",
+						selectedIconPath: "account-fill",
+						text: '我的',
+						count: 23,
+						isDot: false,
+						customIcon: false,
+					},
+				],
+				current: 0
 			};
+		},
+		onHide() {
+			this.shows = false
 		},
 		onShow() {
 			this.iPhone()
 			this.getlists()
-			if(uni.getStorageSync('num')){
-				const num=JSON.parse(uni.getStorageSync('num'))
-				this.form.num=num.mobile
-				this.form.company=num.company
-				this.form.payee=num.payee
-				console.log(this.form)
-				if(num.personInvoiceHead){
-					this.form.fp=num.personInvoiceHead
-				}else if(num.companyInvoiceHead){
-					this.form.fp=num.companyInvoiceHead
-				}else{
-					this.form.fp=''
-				}
-				
-				
-			}else{
-				this.shows=true
+			if (uni.getStorageSync('num')) {
+				const num = JSON.parse(uni.getStorageSync('num'))
+				homeApi.businesstxjs({id:num.id}).then(res=>{
+					console.log(res,888)
+					this.form.company = res.data.company==null?'':res.data.company
+					this.form.payee = res.data.payee==null?'':res.data.payee
+					if (res.data.personInvoiceHead) {
+						this.form.fp = res.data.personInvoiceHead
+					} else if (res.data.companyInvoiceHead) {
+						this.form.fp = res.data.companyInvoiceHead
+					} else {
+						this.form.fp = ''
+					}
+				})
+				this.form.num = num.mobile
+			} else {
+				this.shows = true
 			}
-			
+
 		},
-		filters:{
-			sr(val){
-				if(val!=null){
+		filters: {
+			sr(val) {
+				if (val != null) {
 					return val
-				}else{
-					return ''
+				} else {
+					return '暂无数据'
 				}
 			},
-			srs(val){
-				if(val!=null){
+			srs(val) {
+				if (val != null) {
 					return val
-				}else{
-					return ''
+				} else {
+					return '暂无数据'
 				}
 			}
 		},
@@ -170,86 +182,86 @@
 					url: '/pages/login/logs'
 				});
 			},
-			getlists(){
-				if(uni.getStorageSync('num')){
-					const objs=JSON.parse(uni.getStorageSync('num'))
-					this.zhye=objs.cashOut
-					var currTime=new Date()
-					var year = currTime.getFullYear();   
+			getlists() {
+				if (uni.getStorageSync('num')) {
+					const objs = JSON.parse(uni.getStorageSync('num'))
+					this.zhye = objs.cashOut == null ? 0 : objs.cashOut
+					var currTime = new Date()
+					var year = currTime.getFullYear();
 					var month = currTime.getMonth() + 1
-					var day = currTime.getDate(); 
+					var day = currTime.getDate();
 					homeApi.outam({
-						bm:objs.bm,
-						month:month,
-						year:year,
-						day:day
-					}).then(res=>{
-						this.allday=res.data
+						id: objs.id,
+						month: month,
+						year: year,
+						day: day
+					}).then(res => {
+						this.allday = res.data
 					})
-				}else{
-					this.shows=true
+				} else {
+					this.shows = true
 				}
-				
+
 			},
-			dl(){
-				if(uni.getStorageSync('num')){
-					
-				
-				
-				}else{
+			dl() {
+				if (uni.getStorageSync('num')) {
+
+
+
+				} else {
 					uni.navigateTo({
 						url: '/pages/login/logs'
 					});
 				}
 			},
 			xgsj() {
-				if(uni.getStorageSync('num')){
+				if (uni.getStorageSync('num')) {
 					uni.navigateTo({
 						url: '/pages/iphon/iphon'
 					});
-				}else{
-					this.shows=true
+				} else {
+					this.shows = true
 				}
 			},
 			xgzh() {
-				if(uni.getStorageSync('num')){
+				if (uni.getStorageSync('num')) {
 					uni.navigateTo({
 						url: '/pages/zaH/zhxx/zhxx'
 					});
-				}else{
-					this.shows=true
+				} else {
+					this.shows = true
 				}
-				
+
 			},
 			mrbb() {
-				if(uni.getStorageSync('num')){
+				if (uni.getStorageSync('num')) {
 					uni.navigateTo({
 						url: '/pages/baob/baob'
 					});
-				}else{
-					this.shows=true
+				} else {
+					this.shows = true
 				}
-				
+
 			},
 			skzh() {
-				if(uni.getStorageSync('num')){
+				if (uni.getStorageSync('num')) {
 					uni.navigateTo({
 						url: '/pages/zaH/zaH'
 					});
-				}else{
-					this.shows=true
+				} else {
+					this.shows = true
 				}
-				
+
 			},
 			fpxx() {
-				if(uni.getStorageSync('num')){
+				if (uni.getStorageSync('num')) {
 					uni.navigateTo({
 						url: '/pages/invoice/invoice'
 					});
-				}else{
-					this.shows=true
+				} else {
+					this.shows = true
 				}
-				
+
 			},
 			iPhone() {
 
@@ -262,13 +274,53 @@
 	}
 </script>
 
-<style scoped lang="scss" >
-	/deep/.u-mask-zoom{
-		background-color: transparent !important;
+<style scoped lang="scss">
+	
+	.fsmx{
+		/deep/.u-border-bottom:after{
+			border-bottom-width: 0px;
+
+			}
 	}
-	/deep/.u-mode-center-box{
-		border:1px solid #E6e6e6;
+	.headcnms{
+		width: 128rpx;
+		height: 128rpx;
+		border-radius: 50%;
+		overflow: hidden;
+		margin-left: 24rpx;
 	}
+	/deep/.u-cell {
+		width: 650rpx !important;
+		margin: 0 auto !important;
+		padding: 24rpx 0 !important
+
+
+	}
+
+	.bgdtp {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+
+	page {
+		height: 100%;
+	}
+
+	.app {
+		height: 100%;
+	}
+
+	/deep/.u-mask-zoom {
+		// background-color: transparent !important;
+	}
+
+	/deep/.u-mode-center-box {
+		border: 1px solid #F5F5F5;
+	}
+
 	.min {
 		width: 100%;
 		background: rgba(255, 255, 255, 1);
@@ -298,6 +350,10 @@
 
 		.box {
 			width: 50%;
+			position: relative;
+			z-index: 9;
+			margin-top: 175rpx;
+
 			.jrsr {
 				width: 100%;
 				height: 34rpx;
@@ -322,13 +378,24 @@
 			}
 		}
 	}
+	
+	/deep/.u-cell__value {
+		overflow: hidden; /*自动隐藏文字*/
+		
+		text-overflow: ellipsis;/*文字隐藏后添加省略号*/
+		
+		white-space: nowrap;/*强制不换行*/
+	}
+
+	.xzt {
+		font-size: 20rpx !important;
+	}
 
 	.app {
 		padding: 24rpx 24rpx 0;
 
 		.bodys {
-			background-image: url(../../static/img/home/bj.png);
-			background-size: 100%;
+			position: relative;
 			width: 100%;
 			height: 336rpx;
 			margin-bottom: 24rpx;
@@ -346,6 +413,10 @@
 			}
 
 			.je {
+				position: absolute;
+				z-index: 999;
+				top: 102rpx;
+				left: 80rpx;
 				margin-bottom: 34rpx;
 				color: #fff;
 				font-size: 26rpx;
@@ -379,7 +450,9 @@
 				display: flex;
 				align-items: center;
 				flex-wrap: wrap;
-				view,.nkname {
+
+				view,
+				.nkname {
 					width: 100%;
 					height: 44rpx;
 					font-size: 32rpx;

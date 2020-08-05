@@ -104,6 +104,15 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  if (!_vm._isMounted) {
+    _vm.e0 = function($event) {
+      _vm.show2 = true
+    }
+
+    _vm.e1 = function($event) {
+      _vm.show1 = true
+    }
+  }
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -258,10 +267,41 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 42));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var _default =
 {
   data: function data() {
     return {
+      show1: false,
+      show2: false,
       form: {
         now: '',
         sevenDays: '',
@@ -269,6 +309,7 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
         amount: '' },
 
       alllist: [],
+      showwu: false,
       show: false,
       shows: false,
       content: '需要绑定银行卡后,才可显示可提现金额',
@@ -287,74 +328,126 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
       current: 0 };
 
   },
+  onPullDownRefresh: function onPullDownRefresh() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:if (!
+              uni.getStorageSync('num')) {_context.next = 7;break;}_context.next = 3;return (
+                _this.getall());case 3:_context.next = 5;return (
+                _this.getlist());case 5:_context.next = 8;break;case 7:
+
+
+              _this.shows = true;case 8:_context.next = 10;return (
+
+                _this.change(0));case 10:
+              uni.stopPullDownRefresh();
+              _this.$u.toast("\u5237\u65B0\u6210\u529F");case 12:case "end":return _context.stop();}}}, _callee);}))();
+  },
   computed: {},
 
 
-  onShow: function onShow() {
-    if (uni.getStorageSync('num')) {
-      this.getall();
-      this.getlist();
-    } else {
-      this.shows = true;
-    }
+  onShow: function onShow() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:if (!
+              uni.getStorageSync('num')) {_context2.next = 7;break;}_context2.next = 3;return (
+                _this2.getall());case 3:_context2.next = 5;return (
+                _this2.getlist());case 5:_context2.next = 8;break;case 7:
 
+
+              _this2.shows = true;case 8:_context2.next = 10;return (
+
+                _this2.change(0));case 10:case "end":return _context2.stop();}}}, _callee2);}))();
 
   },
+  onHide: function onHide() {
+    this.shows = false;
+  },
   methods: {
-    add: function add(val, val1) {
-      uni.navigateTo({
-        url: "/pages/ditle/ditle?id=".concat(val, "&type=").concat(val1) });
+    tstx: function tstx() {
 
     },
-    getall: function getall() {var _this = this;
+    add: function add(val, val1) {
+      if (val1 == 1) {
+        uni.switchTab({
+          url: '/pages/order/order' });
+
+      } else {
+        uni.navigateTo({
+          url: "/pages/ditle/ditle?id=".concat(val, "&type=").concat(val1) });
+
+      }
+
+    },
+    // 数字补0
+    hasDot: function hasDot(num) {
+      if (!isNaN(num)) {
+        return (num + '').indexOf('.') != -1 ? num : num.toFixed(2);
+      }
+    },
+    getall: function getall() {var _this3 = this;
       var shyc = JSON.parse(uni.getStorageSync('num'));
       _home.default.income({
         id: shyc.id }).
       then(function (res) {
-        _this.form.now = res.data.now.total;
-        _this.form.sevenDays = res.data.sevenDays.total;
-        _this.form.thirtyDays = res.data.thirtyDays.total;
-        _this.form.amount = res.data.amount;
+        _this3.form.now = res.data.now.total;
+        _this3.form.sevenDays = res.data.sevenDays.total;
+        _this3.form.thirtyDays = res.data.thirtyDays.total;
+        _this3.form.amount = res.data.amount;
       });
     },
-    getlist: function getlist() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var shyc, obj, objs;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
-                shyc = JSON.parse(uni.getStorageSync('num'));
-                obj = {
-                  size: null,
-                  current: null,
-                  shyh: shyc.bm };
+    getlist: function getlist() {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var shyc;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
+                shyc = JSON.parse(uni.getStorageSync('num'));_context3.next = 3;return (
+                  _home.default.business({
 
-                objs = {
-                  size: null,
-                  current: null,
-                  bm: shyc.bm };_context.next = 5;return (
-
-                  _home.default.business(JSON.stringify(obj)).then(function (res) {
-                    if (res.data.records.length > 0) {
-                      _this2.srlist = res.data.records;
-                      _this2.srlist.map(function (e) {
+                    id: shyc.id }).
+                  then(function (res) {
+                    console.log(9999999, res);
+                    if (res.data.length > 0) {
+                      _this4.srlist = res.data;
+                      _this4.srlist.map(function (e) {
                         e.type = 1;
+                        e.zkze = _this4.hasDot(e.zkze);
                       });
-
+                      _this4.srlist.map(function (e) {
+                        var munse = (e.zkze + '').indexOf('.');
+                        e.cui = (e.zkze + '').slice(0, munse);
+                        e.cuiend = (e.zkze + '').slice(munse + 1, (e.zkze + '').length);
+                      });
                     }
+                    console.log(_this4.srlist);
+                  }));case 3:_context3.next = 5;return (
+                  _home.default.cash({
 
-                  }));case 5:_context.next = 7;return (
-                  _home.default.cash(JSON.stringify(objs)).then(function (res) {
+                    id: shyc.id }).
+                  then(function (res) {
 
-                    if (res.data.records.length > 0) {
-                      _this2.zclist = res.data.records;
-                      _this2.zclist.map(function (e) {
+                    if (res.data.length > 0) {
+                      _this4.zclist = res.data;
+                      _this4.zclist.map(function (e) {
                         e.type = 2;
+                        e.zkze = _this4.hasDot(e.zkze);
+                      });
+                      _this4.zclist.map(function (e) {
+                        var munse = (e.zkze + '').indexOf('.');
+                        e.cui = (e.zkze + '').slice(0, munse);
+                        e.cuiend = (e.zkze + '').slice(munse + 1, (e.zkze + '').length);
                       });
 
                     }
 
                     console.log(res);
-                  }));case 7:
-                _this2.alllist = _this2.srlist.concat(_this2.zclist);
-                _this2.alllist.sort(function (a, b) {
+                  }));case 5:
+                _this4.srlist.map(function (eq) {
+                  console.log(eq.zkze);
+                  eq.zkze = _this4.hasDot(eq.zkze);
+                });
+                // this.zclist.map(eq=>{
+                // 	console.log(eq.zkze);
+                // // eq.zkze= this.hasDot(eq.zkze)
+                // })
+                _this4.alllist = _this4.srlist.concat(_this4.zclist);
+                // if(!isNaN(num)){
+                //             return ( (num + '').indexOf('.') != -1 ) ? num: num.toFixed(2);   
+                //  }
+
+                _this4.alllist.sort(function (a, b) {
                   return a.xsrq > b.xsrq ? -1 : 1;
-                });case 9:case "end":return _context.stop();}}}, _callee);}))();
+                });case 8:case "end":return _context3.stop();}}}, _callee3);}))();
     },
     txjl: function txjl() {
       if (uni.getStorageSync('num')) {
@@ -374,7 +467,7 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
     //绑卡
     bk: function bk() {
       uni.navigateTo({
-        url: '/pages/zaH/zaH' });
+        url: '/pages/zaH/zaHupdata/zaHupdata' });
 
     },
     ljtx: function ljtx() {
@@ -394,6 +487,19 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
     },
     change: function change(index) {
       this.current = index;
+      console.log(this.current, 'this.current');
+      console.log(this.alllist, 'this.alllist');
+      console.log(this.srlist, 'this.srlist');
+      if (this.current == 0 && this.alllist.length == 0) {
+        this.showwu = true;
+      } else if (this.current == 1 && this.srlist.length == 0) {
+        this.showwu = true;
+      } else if (this.current == 2 && this.zclist.length == 0) {
+        this.showwu = true;
+      } else {
+        this.showwu = false;
+      }
+      console.log(this.showwu, 'this.showwu');
     }
 
     // tabck(val){
