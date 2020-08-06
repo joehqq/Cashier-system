@@ -6,7 +6,7 @@
 				<view class="u-picker__title">{{ title }}</view>
 				<view
 					class="u-btn-picker u-btn-picker--primary"
-					:style="{ color: moving ? cancelColor : confirmColor }"
+					:style="{ color: moving ? confirmColor : confirmColor }"
 					hover-class="u-opacity"
 					:hover-stay-time="150"
 					@touchmove.stop=""
@@ -536,7 +536,7 @@ export default {
 		// 用户点击确定按钮
 		getResult(event = null) {
 			// #ifdef MP-WEIXIN
-			if (this.moving) return;
+			// if (this.moving) return;
 			// #endif
 			let result = {};
 			// 只返回用户在this.params中配置了为true的字段

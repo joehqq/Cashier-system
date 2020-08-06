@@ -65,7 +65,13 @@
 			gohome(){
 				
 				    
-				
+					var reg=/^[\u2E80-\u9FFF]+$/;//Unicode编码中的汉字范围
+					if(!reg.test(this.mobile)){
+						this.texts='请输入正确姓名'
+						this.xgcg=true
+						setTimeout(function(){ that.xgcg=false }, 1000);
+						return
+					}
 					var regExp = /^(622516|622517|622518|622521|622522|622523|984301|984303|621352|621793|621795|621796|621351|621390|621792|621791)\d{10}$/g;
 					const that =this
 					if(!this.mobile){
@@ -169,8 +175,8 @@
 	.lin{
 		width:654rpx;
 		margin: 16rpx auto;
-		height:1px;
-		background:#E6E6E6;
+		height:1rpx;
+		background:#E5E5E5;
 		opacity:1;
 	}
 	.headtext{

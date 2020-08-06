@@ -247,6 +247,7 @@
 				this.tYear = val.year
 				await this.getday()
 				await this.getlist()
+				
 				console.log(this.list, 8888)
 			},
 			doHandleYear(tYear) {

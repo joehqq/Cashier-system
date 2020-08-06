@@ -733,7 +733,7 @@ var _area = _interopRequireDefault(__webpack_require__(/*! ../../libs/util/area.
     // 用户点击确定按钮
     getResult: function getResult() {var event = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
-      if (this.moving) return;
+      // if (this.moving) return;
 
       var result = {};
       // 只返回用户在this.params中配置了为true的字段

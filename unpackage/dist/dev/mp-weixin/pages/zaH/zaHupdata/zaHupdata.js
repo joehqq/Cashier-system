@@ -214,7 +214,13 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../../api/home.js 
 //
 //
 var _default = { data: function data() {return { texts: '', border: true, mobile: '', mobiles: '', reluse: false, xgcg: false };}, onLoad: function onLoad() {if (uni.getStorageSync('num')) {var shyc = JSON.parse(uni.getStorageSync('num')); // uni.getStorageSync('num')
-      this.mobile = shyc.payee;this.mobiles = shyc.card;}}, methods: { gohome: function gohome() {var _this = this;var regExp = /^(622516|622517|622518|622521|622522|622523|984301|984303|621352|621793|621795|621796|621351|621390|621792|621791)\d{10}$/g;var that = this;if (!this.mobile) {this.texts = '姓名不能为空';this.xgcg = true;setTimeout(function () {that.xgcg = false;}, 1000);return;}if (!regExp.test(this.mobiles)) {this.texts = '请输入正确的浦发银行卡号';this.xgcg = true;setTimeout(function () {that.xgcg = false;}, 1000);return;
+      this.mobile = shyc.payee;this.mobiles = shyc.card;}}, methods: { gohome: function gohome() {var _this = this;var reg = /^[\u2E80-\u9FFF]+$/; //Unicode编码中的汉字范围
+      if (!reg.test(this.mobile)) {this.texts = '请输入正确姓名';this.xgcg = true;setTimeout(function () {that.xgcg = false;}, 1000);return;}var regExp = /^(622516|622517|622518|622521|622522|622523|984301|984303|621352|621793|621795|621796|621351|621390|621792|621791)\d{10}$/g;var that = this;if (!this.mobile) {this.texts = '姓名不能为空';this.xgcg = true;setTimeout(function () {that.xgcg = false;}, 1000);return;}
+      if (!regExp.test(this.mobiles)) {
+        this.texts = '请输入正确的浦发银行卡号';
+        this.xgcg = true;
+        setTimeout(function () {that.xgcg = false;}, 1000);
+        return;
       } else {
         var shyc = JSON.parse(uni.getStorageSync('num'));
         var obj = {

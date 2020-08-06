@@ -2,16 +2,16 @@
 	<view class="app">
 		<view class="head">
 			<view class="head1">
-				<view class="heads" >
-					<view class="rq">
-						{{tYear}}年 {{m}}月
+				<view class="heads">
+					<view class="rq" @click="show=true">
+						{{tYear}}年 {{m}}月 {{ds}}日
 					</view>
-						<image class="tszp" @click="show1=true" src="../../static/img/home/tss.png" mode=""></image>
-					<image @click="show=true"  src="../../static/img/home/y.png" mode=""></image>
+					<image @click="show=true" src="../../static/img/home/y.png" mode=""></image>
+					<image class="tszp" @click="show1=true" src="../../static/img/home/tss.png" mode=""></image>
 				</view>
 				<view class="headss">
 					<image @click="rights" src="../../static/img/home/righticon.png" mode=""></image>
-					<text @click="xzrq" >{{datas |myday(day,tYear,m)}}</text>
+					<text @click="xzrq">{{datas |myday(day,tYear,m)}}</text>
 					<image @click="lefts" src="../../static/img/home/y.png" mode=""></image>
 				</view>
 			</view>
@@ -63,7 +63,7 @@
 							<view class="textbox">
 								<image v-if="index>2?false:true" :src="'../../static/img/home/264'+index+'.png'" mode=""></image>
 								<view class="boxims" v-else>
-									<text v-if="index+1>9?true:false">0</text> {{ index+1 }}
+									<text v-if="index+1>9?false:true">0</text> {{ index+1 }}
 								</view>
 								<text class="hsy">{{item.SPMC==null?'':item.SPMC}}</text>
 							</view>
@@ -77,7 +77,7 @@
 							<view class="textbox">
 								<image v-if="index>2?false:true" :src="'../../static/img/home/264'+index+'.png'" mode=""></image>
 								<view class="boxims" v-else>
-									0{{ index+1 }}
+								<text v-if="index+1>9?false:true">0</text> {{ index+1 }}
 								</view>
 								<text class="hsy">{{item.SPMC==null?'':item.SPMC}}</text>
 							</view>
@@ -96,26 +96,20 @@
 				</view>
 			</view>
 		</view>
-		<u-modal v-model="show1" title="可提现收益"
-		content='每日早晨7:00更新当日销售数据的统计情况'
-		:show-confirm-button='false' cancel-color='#7CC457'
-		 :show-cancel-button='true' cancel-text='知道了' 
-		></u-modal>
+		<u-modal v-model="show1" title="可提现收益" content='每日早晨7:00更新当日销售数据的统计情况' :show-confirm-button='false' cancel-color='#7CC457'
+		 :show-cancel-button='true' cancel-text='知道了'></u-modal>
 		<u-picker @cancel="show=false" @confirm="sjqr" mode="time" v-model="show" :params="params" :end-year='tYear'></u-picker>
 		<u-modal v-model="shows" @confirm='dl' title="暂未登录" show-cancel-button=true confirm-text='去登录' content="登录后才能继续当前操作"></u-modal>
 	</view>
 </template>
 
 <script>
-	let timer;
-	let timers;
-
 	import homeApi from '../../api/home.js'
 	var myDate = new Date();
 	export default {
 		data() {
 			return {
-				show1:false,
+				show1: false,
 				showwu: false,
 				form: {
 					all: 0,
@@ -126,6 +120,7 @@
 				shows: false,
 				lists: [],
 				list: [],
+				ds: '',
 				show: false,
 				time: '2020-0602 10:23',
 				tYear: '',
@@ -133,7 +128,7 @@
 				params: {
 					year: true,
 					month: true,
-					day: false,
+					day: true,
 					hour: false,
 					minute: false,
 					second: false
@@ -145,16 +140,16 @@
 			};
 		},
 		async onPullDownRefresh() {
+			await this.doday()
 			this.datas = myDate.getDate(),
 				await this.doHandleYear()
 			await this.doHandleMonth()
 			if (uni.getStorageSync('num')) {
 				this.shows = false
-
 				await this.getbb()
 				await this.getzdz()
 				await this.getday()
-				
+
 			} else {
 				this.shows = true
 			}
@@ -202,12 +197,12 @@
 					ms = '0' + ms;
 				}
 
-				if (val1 == val && val2 == Year && ms == val3) {
+				if (val1 == val ) {
 					return '今日'
-				} else if (val1 - 1 == val && val2 == Year && ms == val3) {
+				} else if (val1 - 1 == val) {
 					return '昨日'
-				} else {
-					return val + '日'
+				} else if(val1 - 2 == val ){
+					return  '前天'
 				}
 				// console.log(val)
 				// console.log(val1)
@@ -220,7 +215,8 @@
 				}
 			}
 		},
-		created() {
+		async created() {
+			await this.doday()
 			this.doHandleYear()
 			this.doHandleMonth()
 			this.getday()
@@ -235,20 +231,32 @@
 
 		},
 		methods: {
-			xzrq(){
-				
+			xzrq() {
+
 			},
-			getday() {
+			getday(val) {
+				if(val){
+					if (val.toString().length == 1) {
+						val = '0' + val;
+					}
+				}
+				const tYearqq = myDate.getFullYear();
+				let tMonthesqqnm = myDate.getMonth();
+				let mwsqnm = tMonthesqqnm + 1;
+
+				if (mwsqnm.toString().length == 1) {
+					mwsqnm = '0' + mwsqnm;
+				}
 				const date = new Date()
 				const obj = JSON.parse(uni.getStorageSync('num'))
 				homeApi.day({
 					id: obj.id,
-					xsrq: this.tYear + this.m + (this.datas<10?'0'+this.datas:this.datas)
+					xsrq: val ? `${tYearqq}${mwsqnm}${val}` : this.tYear + this.m + this.ds
 				}).then(res => {
 					if (res.code == 100) {
-						if (res.data != null ) {
-							this.form.all = res.data.total==null?0:res.data.total
-							this.form.xs = res.data.amount==null?0:res.data.amount
+						if (res.data != null) {
+							this.form.all = res.data.total == null ? 0 : res.data.total
+							this.form.xs = res.data.amount == null ? 0 : res.data.amount
 						} else {
 							this.$u.toast('当前日期无汇总数据');
 							this.form.all = 0
@@ -266,21 +274,45 @@
 					url: '/pages/login/logs'
 				});
 			},
-			getzdz(){
+			getzdz(val) {
+				if(val){
+					if (val.toString().length == 1) {
+						val = '0' + val;
+					}
+				}
 				const obj = JSON.parse(uni.getStorageSync('num'))
+				const tYearqq = myDate.getFullYear();
+				let tMonthesqqnm = myDate.getMonth();
+				let mwsqnm = tMonthesqqnm + 1;
+
+				if (mwsqnm.toString().length == 1) {
+					mwsqnm = '0' + mwsqnm;
+				}
 				homeApi.businessreal({
 					id: obj.id,
-					xsrq: this.tYear + this.m + (this.datas<10?'0'+this.datas:this.datas)
-				}).then(res=>{
-					this.form.dz= res.data.amount
+					xsrq: val ? `${tYearqq}${mwsqnm}${val}` : this.tYear + this.m + this.ds
+				}).then(res => {
+					this.form.dz = res.data.amount
 					// if(res.data)
 				})
 			},
-			getbb() {
+			getbb(val) {
+				if(val){
+					if (val.toString().length == 1) {
+						val = '0' + val;
+					}
+				}
+				const tYearqq = myDate.getFullYear();
+				let tMonthesqqnm = myDate.getMonth();
+								let mwsqnm = tMonthesqqnm + 1;
+								
+								if (mwsqnm.toString().length == 1) {
+									mwsqnm = '0' + mwsqnm;
+								}
 				const obj = JSON.parse(uni.getStorageSync('num'))
 				homeApi.total({
 					id: obj.id,
-					xsrq: this.tYear + this.m + (this.datas<10?'0'+this.datas:this.datas)
+					xsrq: val ? `${tYearqq}${mwsqnm}${val}` : this.tYear + this.m + this.ds
 				}).then(res => {
 					if (res.data.length > 0) {
 						this.lists = res.data
@@ -294,10 +326,10 @@
 					}
 
 				})
-				
+
 				homeApi.businessamount({
 					id: obj.id,
-					xsrq: this.tYear + this.m + (this.datas<10?'0'+this.datas:this.datas)
+					xsrq: val ? `${tYearqq}${mwsqnm}${val}` : this.tYear + this.m + this.ds
 
 				}).then(res => {
 					if (res.data.length > 0) {
@@ -315,70 +347,56 @@
 				})
 			},
 			lefts() {
-				this.type=1
-				      let that = this;
-					  that.lists=[]
-					  that.list=[]
-					  var tYear = myDate.getFullYear();
-					  var tMonthesq = myDate.getMonth();
-					  const das = myDate.getDate()
-					  var mwsq = tMonthesq + 1;
-					  if (mwsq.toString().length == 1) {
-					  	mwsq = '0' + mwsq;
-					  }
-					  if (mwsq == that.m && tYear == that.tYear) {
-					  	if (that.datas == das) {
-					  		that.datas = das
-					  	} else {
-					  		that.datas++
-					  	}
-					  } else {
-					  	var curDate = new Date(that.tYear);
-					  	var curMonth = curDate.getMonth();
-					  	curDate.setMonth(curMonth + 1);
-					  	curDate.setDate(0);
-					  	const enddats = curDate.getDate();
-					  	if (that.datas == enddats) {
-					  		that.datas = enddats
-					  	} else {
-					  		that.datas++
-					  	}
-					  }
-				      if (timer) {
-				        clearTimeout(timer);
-				      }
-				        timer = setTimeout(function() {
-				        
-				         that.getday()
-				         that.getbb()
-						 that.getzdz()
-				          
-				          timer = undefined;
-				        }, 300);
-				
+				this.type = 1
+				this.lists = []
+				this.list = []
+				var tMonthesq = myDate.getMonth();
+				const das = myDate.getDate()
+				var mwsq = tMonthesq + 1;
+				// tYear//当前年
+				//mwsq当前月
+				//das当前日
+				//datas变化日
+				if (mwsq.toString().length == 1) {
+					mwsq = '0' + mwsq;
+				}
+				if (this.datas == das) {
+					this.datas = das
+				} else {
+					this.datas++
+				}
+
+				this.getday(this.datas)
+				this.getbb(this.datas)
+				this.getzdz(this.datas)
+				this.doHandleYear()
+				this.doHandleMonth()
+				if (this.datas.toString().length == 1) {
+					this.ds = '0' + this.datas;
+				}
+				console.log(this.datas,'this.datas')
+				console.log(das,'dasdas')
 			},
-			rights() {		
-				this.type=1
-				let that = this;
-				console.log(this.type)
-				this.lists=[]
-				this.list=[]
-				if (this.datas == 1) {
-					this.datas = 1
+			rights() {
+				this.type = 1
+				this.lists = []
+				this.list = []
+				const das = myDate.getDate()
+				var tYearqs = myDate.getFullYear();
+
+				if (this.datas == (das - 2)) {
+					this.datas = das
 				} else {
 					this.datas--
 				}
-				if (timers) {
-				  clearTimeout(timers);
+if (this.datas.toString().length == 1) {
+					this.ds = '0' + this.datas;
 				}
-				  timers = setTimeout(function() {
-				  
-				  that.getday()
-				  that.getbb()
-				    that.getzdz()
-				    timers = undefined;
-				  }, 300);
-				
+				this.getday(this.datas)
+				this.getbb(this.datas)
+				this.getzdz(this.datas)
+				this.doHandleYear()
+				this.doHandleMonth()
 			},
 			gr() {
 				this.type = 1
@@ -386,33 +404,30 @@
 			qy() {
 				this.type = 2
 			},
-			getCountDays(ym) {
-				var curDate = new Date(ym);
-				var curMonth = curDate.getMonth();
-				curDate.setMonth(curMonth + 1);
-				curDate.setDate(0);
-				this.datas = curDate.getDate();
-			},
+			// getCountDays(ym) {
+			// 	var curDate = new Date(ym);
+			// 	var curMonth = curDate.getMonth();
+			// 	curDate.setMonth(curMonth + 1);
+			// 	curDate.setDate(0);
+			// 	this.datas = curDate.getDate();
+			// },
 			sjqr(val) {
-				this.type=1
-				this.list=[]
-				this.lists=[]
+				this.type = 1
+				this.list = []
+				this.lists = []
 				var th = myDate.getMonth();
 				var ear = myDate.getFullYear();
 				var mq = th + 1;
 				if (mq.toString().length == 1) {
 					mq = '0' + mq;
-					console.log(22222)
 				}
-				if (val.month != mq || ear != val.year) {
-					this.getCountDays(val.year)
-					console.log(3333)
-				}
-				if (val.month == mq && ear == val.year) {
-					this.datas = myDate.getDate();
-				}
+				// if (val.month != mq || ear != val.year) {
+				// 	this.getCountDays(val.year)
+				// }
+
 				this.m = val.month
 				this.tYear = val.year
+				this.ds = val.day
 				this.getday()
 				this.getbb()
 				this.getzdz()
@@ -423,6 +438,14 @@
 				this.day = myDate.getDate();
 
 				this.tYear = tYear
+			},
+			doday() {
+
+				var dast = myDate.getDate();
+				if (dast.toString().length == 1) {
+					dast = '0' + dast;
+				}
+				this.ds = dast
 			},
 			doHandleMonth() {
 				var tMonthesw = myDate.getMonth();
@@ -502,16 +525,19 @@
 		margin-bottom: 20rpx;
 
 	}
-	/deep/.u-progress{
+
+	/deep/.u-progress {
 		width: 604rpx !important;
 		margin: 0 auto !important;
 		display: block !important;
-	
+
 	}
-.jiebk{
-	border-right: 2rpx solid #e6e6e6;
-	border-left: 2rpx solid #e6e6e6;
-}
+
+	.jiebk {
+		border-right: 2rpx solid #e6e6e6;
+		border-left: 2rpx solid #e6e6e6;
+	}
+
 	.centerpm {
 		padding: 24rpx;
 		box-sizing: border-box;
@@ -597,13 +623,15 @@
 			}
 		}
 	}
-.tszp{
-	position: absolute;
-	top: 0;
-	left: 180rpx;
-	width: 44rpx;
-	height: 44rpx;
-}
+
+	.tszp {
+		position: absolute;
+		top: 0;
+		left: 280rpx;
+		width: 44rpx;
+		height: 44rpx;
+	}
+
 	.xzt {
 		font-size:
 			28rpx !important;
@@ -680,7 +708,7 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		width: 245rpx;
+		width: 280rpx;
 		height: 40rpx;
 		font-size: 28rpx;
 		font-family: PingFang SC;

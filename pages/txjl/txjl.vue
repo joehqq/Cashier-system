@@ -2,7 +2,7 @@
 	<view class="app">
 	<view v-if="list.length">
 		<view class="center">
-			<view class="fist" :class="index+1==list.length?'bord':''" v-for="(item,index) in list" :key='index' @click="add(item.id)">
+			<view class="fist" :class="index+1==list.length?'bord':''" v-for="(item,index) in list" :key='index' @click="add(item.id,1)">
 				<view class="centeres">
 					<view class="sh">
 						{{item.flag |sh}}
@@ -60,9 +60,9 @@
 			            return ( (num + '').indexOf('.') != -1 ) ? num: num.toFixed(2);   
 			        }
 			},
-			add(val) {
+			add(val,val1) {
 				uni.navigateTo({
-					url: `/pages/ditle/ditle?id=${val}`
+					url: `/pages/ditle/ditle?id=${val}&type=${val1}`
 				});
 			},
 			getlist() {
@@ -75,7 +75,7 @@
 					}
 				).then(res => {
 					if(res.data.length>0){
-						this.list = res.data.records
+						this.list = res.data
 						this.list.map(e=>{
 							e.zkze=this.hasDot(e.zkze)
 						})

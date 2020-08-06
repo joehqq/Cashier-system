@@ -77,8 +77,8 @@
 .lin.data-v-e8138b74 {
   width: 654rpx;
   margin: 16rpx auto;
-  height: 1px;
-  background: #E6E6E6;
+  height: 1rpx;
+  background: #E5E5E5;
   opacity: 1;
 }
 .headtext.data-v-e8138b74 {

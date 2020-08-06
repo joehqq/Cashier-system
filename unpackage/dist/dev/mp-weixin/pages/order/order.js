@@ -416,6 +416,7 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
                 _this4.tYear = val.year;_context2.next = 6;return (
                   _this4.getday());case 6:_context2.next = 8;return (
                   _this4.getlist());case 8:
+
                 console.log(_this4.list, 8888);case 9:case "end":return _context2.stop();}}}, _callee2);}))();
     },
     doHandleYear: function doHandleYear(tYear) {

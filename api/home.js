@@ -51,7 +51,7 @@ function infos(data){
 
 function income(data){
 	return http({
-		url: '/business/xs-dj2020/income',
+		url: '/business/dj-sk/income',
 		method: 'GET', // 严格区分大小写,必须是大写
 		data
 	})
@@ -82,7 +82,7 @@ function update(data){
 function updatemobile(data){
 	return http({
 		url: '/business/user/update/mobile',
-		method: 'GET', // 严格区分大小写,必须是大写
+		method: 'POST', // 严格区分大小写,必须是大写
 		data
 	})
 }
