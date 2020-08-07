@@ -136,7 +136,6 @@
 }
 .card .heads.data-v-127632e4 {
   width: 100%;
-  padding-top: 24rpx;
   background: white;
   padding: 24rpx  24rpx 0;
   display: -webkit-box;
@@ -165,6 +164,7 @@
   font-weight: 500;
   color: #bbbbbb;
   opacity: 1;
+  margin-top: 16rpx;
 }
 .card .center.data-v-127632e4 {
   position: relative;
@@ -179,6 +179,9 @@
   border-bottom: 1px solid #e6e6e6;
 }
 .card .center .nums.data-v-127632e4 {
+  position: absolute;
+  left: 630rpx;
+  bottom: 154rpx;
   height: 38rpx;
   font-size: 32rpx;
   font-family: SF Pro Text;
@@ -264,7 +267,7 @@
   height: 58rpx;
   font-size: 48rpx;
   display: block;
-  font-family: DIN;
+  font-family: dinbold;
   font-weight: bold;
   color: #fa4d4d;
   opacity: 1;

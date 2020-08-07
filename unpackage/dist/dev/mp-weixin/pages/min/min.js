@@ -107,9 +107,9 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var f0 = _vm._f("sr")(_vm.allday.day.amount)
+  var f0 = _vm._f("sr")(_vm.allday.now.total)
 
-  var f1 = _vm._f("srs")(_vm.allday.month.amount)
+  var f1 = _vm._f("srs")(_vm.allday.month.total)
 
   _vm.$mp.data = Object.assign(
     {},
@@ -235,11 +235,11 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
     return {
       zhye: '0',
       allday: {
-        day: {
-          amount: null },
+        now: {
+          total: null },
 
         month: {
-          amount: null } },
+          total: null } },
 
 
       shows: false,
@@ -332,6 +332,7 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
     } },
 
   methods: (_methods = {
+
     dl: function dl() {
       uni.navigateTo({
         url: '/pages/login/logs' });
@@ -348,8 +349,7 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
         _home.default.outam({
           id: objs.id,
           month: month,
-          year: year,
-          day: day }).
+          year: year }).
         then(function (res) {
           _this2.allday = res.data;
         });

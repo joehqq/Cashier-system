@@ -143,6 +143,7 @@
   border-bottom: 1rpx #e6e6e6 solid;
 }
 .center text.data-v-b237504c {
+  width: 102rpx;
   height: 48rpx;
   font-size: 34rpx;
   font-family: PingFang SC;

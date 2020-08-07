@@ -24247,7 +24247,7 @@ function infos(data) {
 
 function income(data) {
   return (0, _request.default)({
-    url: '/business/dj-sk/income',
+    url: '/business/xs-dj2020/income',
     method: 'GET', // 严格区分大小写,必须是大写
     data: data });
 
@@ -24358,7 +24358,7 @@ function businessreal(data) {
 //获取指定月份和日的提现金额
 function outam(data) {
   return (0, _request.default)({
-    url: '/business/cash-out/amount',
+    url: '/business/dj-sk/amount/month',
     method: 'GET', // 严格区分大小写,必须是大写
     data: data });
 

@@ -174,7 +174,7 @@
 							user.mobile = tel.substr(0,3) + "****" + tel.substr(7)
 							uni.setStorageSync('num',JSON.stringify(user))
 							this.$u.toast('修改成功');
-							uni.redirectTo({
+							uni.switchTab({
 							  url: '/pages/home/home'
 							});
 							

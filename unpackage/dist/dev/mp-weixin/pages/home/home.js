@@ -290,12 +290,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
-
-
 var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 42));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var _default =
 {
   data: function data() {
@@ -354,6 +348,9 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
                 _this2.change(0));case 10:case "end":return _context2.stop();}}}, _callee2);}))();
 
   },
+  onLoad: function onLoad(val) {
+    console.log(val, 888888);
+  },
   onHide: function onHide() {
     this.shows = false;
   },
@@ -384,10 +381,22 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
       _home.default.income({
         id: shyc.id }).
       then(function (res) {
-        _this3.form.now = res.data.now.total;
-        _this3.form.sevenDays = res.data.sevenDays.total;
-        _this3.form.thirtyDays = res.data.thirtyDays.total;
-        _this3.form.amount = res.data.amount;
+        if (res.data.now) {
+          _this3.form.now = res.data.now.total == null ? 0 : res.data.now.total;
+        } else {
+          _this3.form.now = 0;
+        }
+        if (res.data.sevenDays) {
+          _this3.form.sevenDays = res.data.sevenDays.total == null ? 0 : res.data.sevenDays.total;
+        } else {
+          _this3.form.sevenDays = 0;
+        }
+        if (res.data.thirtyDays) {
+          _this3.form.thirtyDays = res.data.thirtyDays.total == null ? 0 : res.data.thirtyDays.total;
+        } else {
+          _this3.form.thirtyDays = 0;
+        }
+        _this3.form.amount = res.data.amount == null ? 0 : res.data.amount;
       });
     },
     getlist: function getlist() {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var shyc;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:

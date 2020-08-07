@@ -80,13 +80,7 @@
 							  url: '/pages/home/home'
 						})
 						}else{
-							if(res.message=='请选择此账号绑定的手机号进行登录！'){
-								this.$u.toast(`请选择此账号绑定的手机号进行登录！`);
-							}else if(res.message=="验证码输入错误！"){
-								this.$u.toast(`验证码输入错误！`);
-							}else{
-								this.$u.toast(`网络错误,请稍后重试`);
-							}
+							this.$u.toast(res.message);
 							uni.login({
 							  provider: 'weixin',
 							  success: function (loginRes) {
@@ -128,7 +122,7 @@
 								uni.setStorageSync('uuid',res.data)
 								this.$refs.uCode.start();
 							}else{
-								this.$u.toast('网络错误,请稍后重试');
+								this.$u.toast(res.message);
 							}
 							
 						})
@@ -273,6 +267,7 @@
 	 align-items: center;
 	 border-bottom: 1rpx #e6e6e6 solid ;
 	 text{
+		 width: 102rpx;
 		 height:48rpx;
 		 font-size:34rpx;
 		 font-family:PingFang SC;

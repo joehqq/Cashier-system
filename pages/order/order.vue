@@ -36,16 +36,18 @@
 					</view>
 				</view>
 				<view class="center" v-for="(itms,ind) in item.xsMxList" :key='ind'>
-					<image src="../../static/img/home/log.png" mode=""></image>
-					<view class="centerbox">
-						<view class="title">
-							{{itms.SPMC ==null?'':itms.SPMC}} {{itms.SPGG ==null?'':itms.SPGG}}
+					<view style="display: flex;">
+						<image src="../../static/img/home/log.png" mode=""></image>
+						<view class="centerbox">
+							<view class="title">
+								{{itms.SPMC ==null?'':itms.SPMC}} {{itms.SPGG ==null?'':itms.SPGG}}
+							</view>
+							<text class="dis">{{itms.BZ==null?'':itms.BZ}}</text>
+							<view class="num">
+								<text v-if="itms.LSDJ">¥</text> <text class="cui">{{itms.cui}}</text>
+								<text class="cuiend">.{{itms.cuiend}}</text> </view>
+						
 						</view>
-						<text class="dis">{{itms.BZ==null?'':itms.BZ}}</text>
-						<view class="num">
-							<text v-if="itms.LSDJ">¥</text> <text class="cui">{{itms.cui}}</text>
-							<text class="cuiend">.{{itms.cuiend}}</text> </view>
-
 					</view>
 					<view class="nums" v-if="itms.XSSL">
 						x{{itms.XSSL==null?'':itms.XSSL}}
@@ -172,7 +174,9 @@
 					this.shows = true
 			}
 		},
-
+		onLoad(e) {
+			console.log(e,8888888888)
+		},
 		methods: {
 			hasDot(num) {
 				console.log(num, '13113')
@@ -376,7 +380,6 @@
 
 		.heads {
 			width: 100%;
-			padding-top: 24rpx;
 			background: rgba(255, 255, 255, 1);
 			padding: 24rpx  24rpx 0;
 			display: flex;
@@ -402,6 +405,7 @@
 				font-weight: 500;
 				color: rgba(187, 187, 187, 1);
 				opacity: 1;
+				margin-top: 16rpx;
 			}
 		}
 
@@ -423,6 +427,9 @@
 
 			.nums {
 				// width:32px;
+				position: absolute;
+				left: 630rpx;
+				bottom: 154rpx;
 				height: 38rpx;
 				font-size: 32rpx;
 				font-family: SF Pro Text;
@@ -511,7 +518,7 @@
 				height: 58rpx;
 				font-size: 48rpx;
 				display: block;
-				font-family: DIN;
+				font-family: dinbold;
 				font-weight: bold;
 				color: rgba(250, 77, 77, 1);
 				opacity: 1;

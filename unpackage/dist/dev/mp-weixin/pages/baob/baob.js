@@ -334,17 +334,17 @@ var myDate = new Date();var _default =
               _this.datas = myDate.getDate();_context.next = 5;return (
                 _this.doHandleYear());case 5:_context.next = 7;return (
                 _this.doHandleMonth());case 7:if (!
-              uni.getStorageSync('num')) {_context.next = 17;break;}
+              uni.getStorageSync('num')) {_context.next = 15;break;}
               _this.shows = false;_context.next = 11;return (
                 _this.getbb());case 11:_context.next = 13;return (
-                _this.getzdz());case 13:_context.next = 15;return (
-                _this.getday());case 15:_context.next = 18;break;case 17:
+
+                _this.getday());case 13:_context.next = 16;break;case 15:
 
 
-              _this.shows = true;case 18:
+              _this.shows = true;case 16:
 
-              uni.stopPullDownRefresh();_context.next = 21;return (
-                _this.$u.toast("\u5237\u65B0\u6210\u529F"));case 21:case "end":return _context.stop();}}}, _callee);}))();
+              uni.stopPullDownRefresh();_context.next = 19;return (
+                _this.$u.toast("\u5237\u65B0\u6210\u529F"));case 19:case "end":return _context.stop();}}}, _callee);}))();
   },
   computed: {
     hga: function hga() {
@@ -413,7 +413,7 @@ var myDate = new Date();var _default =
               if (uni.getStorageSync('num')) {
 
                 _this2.getbb();
-                _this2.getzdz();
+                // this.getzdz()
               } else {
                 _this2.shows = true;
               }case 6:case "end":return _context2.stop();}}}, _callee2);}))();
@@ -441,12 +441,13 @@ var myDate = new Date();var _default =
       var obj = JSON.parse(uni.getStorageSync('num'));
       _home.default.day({
         id: obj.id,
-        xsrq: val ? "".concat(tYearqq).concat(mwsqnm).concat(val) : this.tYear + this.m + this.ds }).
+        xsrq: val ? "".concat(tYearqq, "-").concat(mwsqnm, "-").concat(val) : this.tYear + '-' + this.m + '-' + this.ds }).
       then(function (res) {
         if (res.code == 100) {
-          if (res.data != null) {
-            _this3.form.all = res.data.total == null ? 0 : res.data.total;
-            _this3.form.xs = res.data.amount == null ? 0 : res.data.amount;
+          if (res.data.amountAndTotal != null) {
+            _this3.form.all = res.data.amountAndTotal.total == null ? 0 : res.data.amountAndTotal.total;
+            _this3.form.xs = res.data.amountAndTotal.amount == null ? 0 : res.data.amountAndTotal.amount;
+            _this3.form.dz = res.data.real.total == null ? 0 : res.data.real.total;
           } else {
             _this3.$u.toast('当前日期无汇总数据');
             _this3.form.all = 0;
@@ -464,7 +465,7 @@ var myDate = new Date();var _default =
         url: '/pages/login/logs' });
 
     },
-    getzdz: function getzdz(val) {var _this4 = this;
+    getzdz: function getzdz(val) {
       if (val) {
         if (val.toString().length == 1) {
           val = '0' + val;
@@ -478,15 +479,9 @@ var myDate = new Date();var _default =
       if (mwsqnm.toString().length == 1) {
         mwsqnm = '0' + mwsqnm;
       }
-      _home.default.businessreal({
-        id: obj.id,
-        xsrq: val ? "".concat(tYearqq).concat(mwsqnm).concat(val) : this.tYear + this.m + this.ds }).
-      then(function (res) {
-        _this4.form.dz = res.data.amount;
-        // if(res.data)
-      });
+
     },
-    getbb: function getbb(val) {var _this5 = this;
+    getbb: function getbb(val) {var _this4 = this;
       if (val) {
         if (val.toString().length == 1) {
           val = '0' + val;
@@ -502,35 +497,35 @@ var myDate = new Date();var _default =
       var obj = JSON.parse(uni.getStorageSync('num'));
       _home.default.total({
         id: obj.id,
-        xsrq: val ? "".concat(tYearqq).concat(mwsqnm).concat(val) : this.tYear + this.m + this.ds }).
+        xsrq: val ? "".concat(tYearqq, "-").concat(mwsqnm, "-").concat(val) : this.tYear + '-' + this.m + '-' + this.ds }).
       then(function (res) {
         if (res.data.length > 0) {
-          _this5.lists = res.data;
-          _this5.phflangs = false;
-          var big = _this5.lists[0].total;
-          _this5.lists.map(function (ele, index) {
+          _this4.lists = res.data;
+          _this4.phflangs = false;
+          var big = _this4.lists[0].total;
+          _this4.lists.map(function (ele, index) {
             ele.num = ele.total / big * 100;
           });
         } else {
-          _this5.phflangs = true;
+          _this4.phflangs = true;
         }
 
       });
 
       _home.default.businessamount({
         id: obj.id,
-        xsrq: val ? "".concat(tYearqq).concat(mwsqnm).concat(val) : this.tYear + this.m + this.ds }).
+        xsrq: val ? "".concat(tYearqq, "-").concat(mwsqnm, "-").concat(val) : this.tYear + '-' + this.m + '-' + this.ds }).
 
       then(function (res) {
         if (res.data.length > 0) {
-          _this5.list = res.data;
-          _this5.phflang = false;
-          var bigs = _this5.list[0].amount;
-          _this5.list.map(function (ele, index) {
+          _this4.list = res.data;
+          _this4.phflang = false;
+          var bigs = _this4.list[0].amount;
+          _this4.list.map(function (ele, index) {
             ele.nums = ele.amount / bigs * 100;
           });
         } else {
-          _this5.phflang = true;
+          _this4.phflang = true;
         }
 
 
@@ -558,14 +553,11 @@ var myDate = new Date();var _default =
 
       this.getday(this.datas);
       this.getbb(this.datas);
-      this.getzdz(this.datas);
       this.doHandleYear();
       this.doHandleMonth();
       if (this.datas.toString().length == 1) {
         this.ds = '0' + this.datas;
       }
-      console.log(this.datas, 'this.datas');
-      console.log(das, 'dasdas');
     },
     rights: function rights() {
       this.type = 1;
@@ -575,7 +567,7 @@ var myDate = new Date();var _default =
       var tYearqs = myDate.getFullYear();
 
       if (this.datas == das - 2) {
-        this.datas = das;
+        this.datas = das - 2;
       } else {
         this.datas--;
       }
@@ -584,7 +576,6 @@ var myDate = new Date();var _default =
       }
       this.getday(this.datas);
       this.getbb(this.datas);
-      this.getzdz(this.datas);
       this.doHandleYear();
       this.doHandleMonth();
     },
@@ -620,7 +611,6 @@ var myDate = new Date();var _default =
       this.ds = val.day;
       this.getday();
       this.getbb();
-      this.getzdz();
     },
     doHandleYear: function doHandleYear(tYear) {
 

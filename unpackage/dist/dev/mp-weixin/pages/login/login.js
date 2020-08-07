@@ -225,13 +225,7 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
 var _default = { data: function data() {return { value: '', tips: '', tes: '《用户服务协议》', texts: '确认认证', values: '', show: false, seconds: 60, code: '', codeText: '' };}, methods: { dl: function dl() {var _this = this;if (this.value == '') {this.$u.toast("\u8BF7\u8F93\u5165\u624B\u673A\u53F7");} else if (this.values == '') {this.$u.toast("\u8BF7\u8F93\u5165\u9A8C\u8BC1\u7801");} else if (!uni.getStorageSync('uuid')) {this.$u.toast("\u9A8C\u8BC1\u7801\u9519\u8BEF");} else {var uuid = uni.getStorageSync('uuid');var obj = { mobile: this.value, code: this.values, uuid: uuid, js_code: uni.getStorageSync('code') };console.log(obj);this.show = true;_home.default.login(JSON.stringify(obj)).then(function (res) {if (res.code == 100) {uni.setStorageSync('token', res.data.token);uni.setStorageSync('num', JSON.stringify(res.data.businessInfo));uni.switchTab({ url: '/pages/home/home' });
 
           } else {
-            if (res.message == '请选择此账号绑定的手机号进行登录！') {
-              _this.$u.toast("\u8BF7\u9009\u62E9\u6B64\u8D26\u53F7\u7ED1\u5B9A\u7684\u624B\u673A\u53F7\u8FDB\u884C\u767B\u5F55\uFF01");
-            } else if (res.message == "验证码输入错误！") {
-              _this.$u.toast("\u9A8C\u8BC1\u7801\u8F93\u5165\u9519\u8BEF\uFF01");
-            } else {
-              _this.$u.toast("\u7F51\u7EDC\u9519\u8BEF,\u8BF7\u7A0D\u540E\u91CD\u8BD5");
-            }
+            _this.$u.toast(res.message);
             uni.login({
               provider: 'weixin',
               success: function success(loginRes) {
@@ -273,7 +267,7 @@ var _default = { data: function data() {return { value: '', tips: '', tes: '《�
               uni.setStorageSync('uuid', res.data);
               _this2.$refs.uCode.start();
             } else {
-              _this2.$u.toast('网络错误,请稍后重试');
+              _this2.$u.toast(res.message);
             }
 
           });

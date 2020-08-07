@@ -319,7 +319,7 @@ var _default = { data: function data() {return { tips: '', texts: '确认认证'
               _user.mobile = tel.substr(0, 3) + "****" + tel.substr(7);
               uni.setStorageSync('num', JSON.stringify(_user));
               _this2.$u.toast('修改成功');
-              uni.redirectTo({
+              uni.switchTab({
                 url: '/pages/home/home' });
 
 

@@ -27,7 +27,7 @@
 					</view>
 				</view>
 				<view class="mok">
-					<image class="imagesew"  @click="show1=true" src="../../static/img/home/ts.png" mode=""></image>
+					<image class="imagesew" @click="show1=true" src="../../static/img/home/ts.png" mode=""></image>
 					<text>
 						{{form.amount==null?0:form.amount}}
 					</text>
@@ -92,7 +92,7 @@
 						</view>
 						<view class="rightbox">
 							<!-- <text >-¥{{item.zkze}}</text> -->
-							<text class="reds">-<text class="cuiq reds" >¥</text> <text class="cuiz reds">{{item.cui}}</text> <text class="cuiend reds">.{{item.cuiend}}</text>
+							<text class="reds">-<text class="cuiq reds">¥</text> <text class="cuiz reds">{{item.cui}}</text> <text class="cuiend reds">.{{item.cuiend}}</text>
 							</text>
 							<image src="../../static/img/home/y.png" mode=""></image>
 						</view>
@@ -117,7 +117,7 @@
 						<view class="rightbox">
 
 							<text :class="item.type==1?'':'reds'">{{item.type==1?'+':'-'}} <text class="cuiq" :class="item.type==1?'':'reds'">¥</text>
-							 <text :class="item.type==1?'':'reds'" class="cuiz">{{item.cui}}</text>
+								<text :class="item.type==1?'':'reds'" class="cuiz">{{item.cui}}</text>
 								<text class="cuiend" :class="item.type==1?'':'reds'">.{{item.cuiend}}</text> </text>
 							<image src="../../static/img/home/y.png" mode=""></image>
 						</view>
@@ -132,16 +132,10 @@
 				</view>
 			</view>
 		</view>
-		<u-modal v-model="show1" title="可提现收益" 
-		content='每日早晨7:00自动提现,提现后2小时内到账'
-		:show-confirm-button='false' cancel-color='#7CC457'
-		 :show-cancel-button='true' cancel-text='知道了' 
-		></u-modal>
-		<u-modal v-model="show2" title="今日收入"
-		content='每晚到第二日凌晨实时收入统计'
-		:show-confirm-button='false' cancel-color='#7CC457'
-		 :show-cancel-button='true' cancel-text='知道了' 
-		></u-modal>
+		<u-modal v-model="show1" title="可提现收益" content='每日早晨7:00自动提现,提现后2小时内到账' :show-confirm-button='false' cancel-color='#7CC457'
+		 :show-cancel-button='true' cancel-text='知道了'></u-modal>
+		<u-modal v-model="show2" title="今日收入" content='每晚到第二日凌晨实时收入统计' :show-confirm-button='false' cancel-color='#7CC457'
+		 :show-cancel-button='true' cancel-text='知道了'></u-modal>
 		<u-modal v-model="show" @confirm='bk' title="未绑定银行卡" show-cancel-button=true confirm-text='去绑卡' :content="content"></u-modal>
 		<u-modal v-model="shows" @confirm='dl' title="暂未登录" show-cancel-button=true confirm-text='去登录' content="登录后才能继续当前操作"></u-modal>
 	</view>
@@ -152,8 +146,8 @@
 	export default {
 		data() {
 			return {
-				show1:false,
-				show2:false,
+				show1: false,
+				show2: false,
 				form: {
 					now: '',
 					sevenDays: '',
@@ -206,6 +200,9 @@
 			await this.change(0)
 
 		},
+		onLoad(val) {
+			console.log(val, 888888)
+		},
 		onHide() {
 			this.shows = false
 		},
@@ -214,16 +211,16 @@
 
 			},
 			add(val, val1) {
-				if(val1==1){
+				if (val1 == 1) {
 					uni.switchTab({
-					    url: '/pages/order/order'
+						url: '/pages/order/order'
 					});
-				}else{
+				} else {
 					uni.navigateTo({
 						url: `/pages/ditle/ditle?id=${val}&type=${val1}`
 					});
 				}
-				
+
 			},
 			// 数字补0
 			hasDot(num) {
@@ -236,10 +233,22 @@
 				homeApi.income({
 					id: shyc.id
 				}).then(res => {
-					this.form.now = res.data.now.total
-					this.form.sevenDays = res.data.sevenDays.total
-					this.form.thirtyDays = res.data.thirtyDays.total
-					this.form.amount = res.data.amount
+					if (res.data.now) {
+						this.form.now = res.data.now.total == null ? 0 : res.data.now.total
+					} else {
+						this.form.now = 0
+					}
+					if (res.data.sevenDays) {
+						this.form.sevenDays = res.data.sevenDays.total == null ? 0 : res.data.sevenDays.total
+					} else {
+						this.form.sevenDays = 0
+					}
+					if (res.data.thirtyDays) {
+						this.form.thirtyDays = res.data.thirtyDays.total == null ? 0 : res.data.thirtyDays.total
+					} else {
+						this.form.thirtyDays = 0
+					}
+					this.form.amount = res.data.amount == null ? 0 : res.data.amount
 				})
 			},
 			async getlist() {
@@ -497,9 +506,11 @@
 			}
 		}
 	}
-.fst{
-	padding:0  !important;
-}
+
+	.fst {
+		padding: 0 !important;
+	}
+
 	.imagese {
 		width: 40rpx;
 		height: 44rpx;
@@ -621,7 +632,7 @@
 			text-align: center;
 			width: 100%;
 			font-size: 32rpx;
-			font-family: DIN;
+			font-family: dinbold;
 			font-weight: 400;
 			color: rgba(255, 255, 255, 1);
 			opacity: 1;
@@ -665,7 +676,7 @@
 			width: 100%;
 			height: 80rpx;
 			font-size: 64rpx;
-			font-family: DIN;
+			font-family: dinbold;
 			font-weight: 400;
 			line-height: 64rpx;
 			color: rgba(255, 255, 255, 1);
@@ -679,7 +690,7 @@
 	}
 
 	.center {
-		padding: 22rpx 0  0;
+		padding: 22rpx 0 0;
 		box-sizing: border-box;
 		margin-bottom: 24rpx;
 	}

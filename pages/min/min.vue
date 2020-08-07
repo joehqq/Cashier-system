@@ -21,8 +21,8 @@
 					<view class="jrsr">
 						今日收入
 					</view>
-					<view class="qian" :class="allday.day.amount==null?'xzt':''">
-						{{allday.day.amount |sr}}
+					<view class="qian" :class="allday.now.total==null?'xzt':''">
+						{{allday.now.total |sr}}
 					</view>
 				</view>
 
@@ -30,8 +30,8 @@
 					<view class="jrsr">
 						本月收入
 					</view>
-					<view class="qian" :class="allday.month.amount==null?'xzt':''">
-						{{allday.month.amount |srs}}
+					<view class="qian" :class="allday.month.total==null?'xzt':''">
+						{{allday.month.total |srs}}
 					</view>
 				</view>
 			</view>
@@ -80,11 +80,11 @@
 			return {
 				zhye: '0',
 				allday: {
-					day: {
-						amount: null
+					now: {
+						total: null
 					},
 					month: {
-						amount: null
+						total: null
 					}
 				},
 				shows: false,
@@ -177,6 +177,7 @@
 			}
 		},
 		methods: {
+	
 			dl() {
 				uni.navigateTo({
 					url: '/pages/login/logs'
@@ -193,8 +194,7 @@
 					homeApi.outam({
 						id: objs.id,
 						month: month,
-						year: year,
-						day: day
+						year: year
 					}).then(res => {
 						this.allday = res.data
 					})
@@ -370,7 +370,7 @@
 				width: 100%;
 				height: 38rpx;
 				font-size: 32rpx;
-				font-family: DIN;
+				font-family: dinbold;
 				font-weight: 400;
 				line-height: 40rpx;
 				color: rgba(255, 255, 255, 1);
@@ -425,7 +425,7 @@
 					width: 100%;
 					height: 80rpx;
 					font-size: 64rpx;
-					font-family: DIN;
+					font-family: dinbold;
 					font-weight: 400;
 					line-height: 80rpx;
 					color: rgba(255, 255, 255, 1);

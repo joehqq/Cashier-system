@@ -77,7 +77,7 @@
 							<view class="textbox">
 								<image v-if="index>2?false:true" :src="'../../static/img/home/264'+index+'.png'" mode=""></image>
 								<view class="boxims" v-else>
-								<text v-if="index+1>9?false:true">0</text> {{ index+1 }}
+									<text v-if="index+1>9?false:true">0</text> {{ index+1 }}
 								</view>
 								<text class="hsy">{{item.SPMC==null?'':item.SPMC}}</text>
 							</view>
@@ -147,7 +147,7 @@
 			if (uni.getStorageSync('num')) {
 				this.shows = false
 				await this.getbb()
-				await this.getzdz()
+				// await this.getzdz()
 				await this.getday()
 
 			} else {
@@ -197,12 +197,12 @@
 					ms = '0' + ms;
 				}
 
-				if (val1 == val ) {
+				if (val1 == val) {
 					return '今日'
 				} else if (val1 - 1 == val) {
 					return '昨日'
-				} else if(val1 - 2 == val ){
-					return  '前天'
+				} else if (val1 - 2 == val) {
+					return '前天'
 				}
 				// console.log(val)
 				// console.log(val1)
@@ -223,7 +223,7 @@
 			if (uni.getStorageSync('num')) {
 
 				this.getbb()
-				this.getzdz()
+				// this.getzdz()
 			} else {
 				this.shows = true
 			}
@@ -235,7 +235,7 @@
 
 			},
 			getday(val) {
-				if(val){
+				if (val) {
 					if (val.toString().length == 1) {
 						val = '0' + val;
 					}
@@ -251,12 +251,13 @@
 				const obj = JSON.parse(uni.getStorageSync('num'))
 				homeApi.day({
 					id: obj.id,
-					xsrq: val ? `${tYearqq}${mwsqnm}${val}` : this.tYear + this.m + this.ds
+					xsrq: val ? `${tYearqq}-${mwsqnm}-${val}` : this.tYear +'-'+ this.m +'-'+ this.ds
 				}).then(res => {
 					if (res.code == 100) {
-						if (res.data != null) {
-							this.form.all = res.data.total == null ? 0 : res.data.total
-							this.form.xs = res.data.amount == null ? 0 : res.data.amount
+						if (res.data.amountAndTotal != null) {
+							this.form.all = res.data.amountAndTotal.total == null ? 0 : res.data.amountAndTotal.total
+							this.form.xs = res.data.amountAndTotal.amount == null ? 0 : res.data.amountAndTotal.amount
+							this.form.dz = res.data.real.total == null ? 0 : res.data.real.total
 						} else {
 							this.$u.toast('当前日期无汇总数据');
 							this.form.all = 0
@@ -275,7 +276,7 @@
 				});
 			},
 			getzdz(val) {
-				if(val){
+				if (val) {
 					if (val.toString().length == 1) {
 						val = '0' + val;
 					}
@@ -288,31 +289,25 @@
 				if (mwsqnm.toString().length == 1) {
 					mwsqnm = '0' + mwsqnm;
 				}
-				homeApi.businessreal({
-					id: obj.id,
-					xsrq: val ? `${tYearqq}${mwsqnm}${val}` : this.tYear + this.m + this.ds
-				}).then(res => {
-					this.form.dz = res.data.amount
-					// if(res.data)
-				})
+				
 			},
 			getbb(val) {
-				if(val){
+				if (val) {
 					if (val.toString().length == 1) {
 						val = '0' + val;
 					}
 				}
 				const tYearqq = myDate.getFullYear();
 				let tMonthesqqnm = myDate.getMonth();
-								let mwsqnm = tMonthesqqnm + 1;
-								
-								if (mwsqnm.toString().length == 1) {
-									mwsqnm = '0' + mwsqnm;
-								}
+				let mwsqnm = tMonthesqqnm + 1;
+
+				if (mwsqnm.toString().length == 1) {
+					mwsqnm = '0' + mwsqnm;
+				}
 				const obj = JSON.parse(uni.getStorageSync('num'))
 				homeApi.total({
 					id: obj.id,
-					xsrq: val ? `${tYearqq}${mwsqnm}${val}` : this.tYear + this.m + this.ds
+					xsrq: val ? `${tYearqq}-${mwsqnm}-${val}` : this.tYear +'-'+ this.m +'-'+ this.ds
 				}).then(res => {
 					if (res.data.length > 0) {
 						this.lists = res.data
@@ -329,7 +324,7 @@
 
 				homeApi.businessamount({
 					id: obj.id,
-					xsrq: val ? `${tYearqq}${mwsqnm}${val}` : this.tYear + this.m + this.ds
+					xsrq: val ? `${tYearqq}-${mwsqnm}-${val}` : this.tYear +'-'+ this.m +'-'+ this.ds
 
 				}).then(res => {
 					if (res.data.length > 0) {
@@ -368,14 +363,11 @@
 
 				this.getday(this.datas)
 				this.getbb(this.datas)
-				this.getzdz(this.datas)
 				this.doHandleYear()
 				this.doHandleMonth()
 				if (this.datas.toString().length == 1) {
 					this.ds = '0' + this.datas;
 				}
-				console.log(this.datas,'this.datas')
-				console.log(das,'dasdas')
 			},
 			rights() {
 				this.type = 1
@@ -385,16 +377,15 @@
 				var tYearqs = myDate.getFullYear();
 
 				if (this.datas == (das - 2)) {
-					this.datas = das
+					this.datas = das-2
 				} else {
 					this.datas--
 				}
-if (this.datas.toString().length == 1) {
+				if (this.datas.toString().length == 1) {
 					this.ds = '0' + this.datas;
 				}
 				this.getday(this.datas)
 				this.getbb(this.datas)
-				this.getzdz(this.datas)
 				this.doHandleYear()
 				this.doHandleMonth()
 			},
@@ -430,7 +421,6 @@ if (this.datas.toString().length == 1) {
 				this.ds = val.day
 				this.getday()
 				this.getbb()
-				this.getzdz()
 			},
 			doHandleYear(tYear) {
 
@@ -530,6 +520,7 @@ if (this.datas.toString().length == 1) {
 		width: 604rpx !important;
 		margin: 0 auto !important;
 		display: block !important;
+		height: 16rpx !important;
 
 	}
 
@@ -593,6 +584,10 @@ if (this.datas.toString().length == 1) {
 		width: 100%;
 
 		.je1 {
+			width: 33%;
+			padding-top: 10rpx;
+			padding-bottom: 10rpx;
+
 			display: flex;
 			flex-wrap: wrap;
 			justify-content: center;
@@ -641,7 +636,7 @@ if (this.datas.toString().length == 1) {
 		margin-bottom: 196rpx;
 
 		.as {
-			margin: 44rpx 0 20rpx;
+			margin: 44rpx 24rpx 20rpx;
 			width: 100%;
 			height: 40rpx;
 			font-size: 28rpx;
