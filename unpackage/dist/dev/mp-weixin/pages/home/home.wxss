@@ -63,19 +63,25 @@
   border: 1px solid #E6e6e6;
 }
 .cuiq.data-v-92bb8f34 {
+  margin-right: 2rpx;
   font-size: 28rpx !important;
+  margin-left: 7rpx;
 }
 .cuiz.data-v-92bb8f34 {
-  font-size: 40rpx !important;
+  font-size: 28rpx !important;
 }
 .cuiend.data-v-92bb8f34 {
   font-size: 32rpx !important;
 }
 .reds.data-v-92bb8f34 {
-  color: red !important;
+  color: #333333 !important;
+}
+.mx.data-v-92bb8f34 {
+  padding: 24rpx;
+  box-sizing: border-box;
 }
 .mx .xxxr.data-v-92bb8f34 {
-  padding: 0 24rpx 0 24rpx;
+  padding: 0 0 0 0;
   box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
@@ -83,7 +89,7 @@
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
           justify-content: space-between;
-  border-bottom: 1px solid #ebeef5;
+  border-bottom: 1px solid #F3F3F3;
   padding-bottom: 24rpx;
 }
 .mx .rightbox.data-v-92bb8f34 {
@@ -101,11 +107,11 @@
 .mx .rightbox text.data-v-92bb8f34 {
   width: 100%;
   text-align: right !important;
-  height: 48rpx;
-  font-size: 40rpx;
-  font-family: SF Pro Text;
+  height: 37rpx;
+  font-size: 28rpx;
+  font-family: dinbold;
   font-weight: 600;
-  color: #7cc457;
+  color: #FA4D4D;
   opacity: 1;
 }
 .mx .rightbox image.data-v-92bb8f34 {
@@ -138,7 +144,9 @@
 }
 .mx .xxxr .leftbox .times.data-v-92bb8f34,
 .mx .xxxr .leftbox .orderid.data-v-92bb8f34 {
-  width: 100%;
+  width: 328rpx;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   height: 34rpx;
   font-size: 24rpx;
   font-family: PingFang SC;
@@ -258,7 +266,7 @@
   height: 44rpx;
   position: absolute;
   top: 42rpx;
-  left: 128rpx;
+  right: -50rpx;
 }
 .mok.data-v-92bb8f34 {
   position: relative;

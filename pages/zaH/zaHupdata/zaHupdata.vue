@@ -65,13 +65,13 @@
 			gohome(){
 				
 				    
-					var reg=/^[\u2E80-\u9FFF]+$/;//Unicode编码中的汉字范围
-					if(!reg.test(this.mobile)){
-						this.texts='请输入正确姓名'
-						this.xgcg=true
-						setTimeout(function(){ that.xgcg=false }, 1000);
-						return
-					}
+					// var reg=/^[\u2E80-\u9FFF]+$/;//Unicode编码中的汉字范围
+					// if(!reg.test(this.mobile)){
+					// 	this.texts='请输入正确姓名'
+					// 	this.xgcg=true
+					// 	setTimeout(function(){ that.xgcg=false }, 1000);
+					// 	return
+					// }
 					var regExp = /^(622516|622517|622518|622521|622522|622523|984301|984303|621352|621793|621795|621796|621351|621390|621792|621791)\d{10}$/g;
 					const that =this
 					if(!this.mobile){
@@ -98,12 +98,17 @@
 								let datas =JSON.parse(uni.getStorageSync('num'))
 								datas.payee=this.mobile
 								datas.card=this.mobiles
-								console.log(datas)
 								uni.setStorageSync('num',JSON.stringify(datas))
 								this.texts='修改成功'
-								uni.redirectTo({
-								  url: '/pages/zaH/zaH'
-								});
+								setTimeout(function() {
+									// uni.reLaunch({
+									//   url: '/pages/zaH/zaH'
+									// });
+									uni.navigateBack({
+									    delta: 1
+									});
+								}, 300);
+								
 								this.xgcg=true
 								setTimeout(function(){ that.xgcg=false }, 1000);
 								

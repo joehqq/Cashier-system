@@ -19,6 +19,7 @@
 			</view>
 		</view>
 		<view class="app">
+
 			<u-cell-group>
 				<view class="gh" @click="add">
 					<u-cell-item title="绑卡信息" value="去更换"></u-cell-item>
@@ -32,7 +33,7 @@
 			</u-cell-group>
 		</view>
 		<view class="boxsbtn">
-			<view class="btn">
+			<view class="btn" @click="starttx">
 				立即申请
 			</view>
 			<text>
@@ -40,6 +41,9 @@
 			</text>
 		</view>
 		<u-modal v-model="shows" @confirm='dl' title="暂未登录" show-cancel-button=true confirm-text='去登录' content="登录后才能继续当前操作"></u-modal>
+		<view class="boxzz" v-if="show">
+			<u-loading class="ddjz" :show="show" mode="circle"></u-loading>
+		</view>
 	</view>
 </template>
 
@@ -49,6 +53,7 @@
 		data() {
 			return {
 				shows: false,
+				show: false,
 				form: {
 					card: "",
 					je: '',
@@ -58,11 +63,57 @@
 			};
 		},
 		methods: {
+			 starttx() {
+				 if(this.form.je==0){
+					 this.$u.toast('当前账户余额为0');
+				 }else{
+					 this.show = true
+					 const obj = JSON.parse(uni.getStorageSync('num'))
+					 homeApi.ljtx(JSON.stringify({
+					 	id: obj.id
+					 })).then(res => {
+					 	if (res.code == 100) {
+					 		this.getlist();
+					 		this.show = false
+					 		this.$u.toast('提现成功');
+					 	}
+						else if(res.message==8){
+							this.$u.toast('操作失败,账户或卡号不正确');
+						}else {
+					 		this.$u.toast('网络错误,请稍后重试');
+					 		this.show = false
+					 	}
+					 
+					 })
+				 }
+				
+			},
 			add() {
 				if (uni.getStorageSync('num')) {
 					uni.navigateTo({
 						url: '/pages/zaH/zaHupdata/zaHupdata'
 					});
+				} else {
+					this.shows = true
+				}
+			},
+		async	getlist() {
+				if (uni.getStorageSync('num')) {
+					const obj = JSON.parse(uni.getStorageSync('num'))
+					await homeApi.businesstxjs({
+						id: obj.id
+					}).then(res => {
+						this.form.je = res.data.cashOut == null ? 0 : res.data.cashOut
+						this.form.card = res.data.card == null ? '' :
+							`浦发银行 [${res.data.card.slice(res.data.card.length-4,res.data.card.length)}]`
+						this.form.name = res.data.payee == null ? '' : res.data.payee
+					})
+					
+					await homeApi.letxje({
+						id: obj.id
+					}).then(res => {
+						this.form.ljje = res.data.total == null ? 0 : res.data.total
+					})
 				} else {
 					this.shows = true
 				}
@@ -73,47 +124,25 @@
 				});
 			}
 		},
-		async onLoad() {
-
-			if (uni.getStorageSync('num')) {
-				const obj = JSON.parse(uni.getStorageSync('num'))
-
-				await homeApi.businesstxjs({
-					id: obj.id
-				}).then(res => {
-					console.log(res)
-					this.form.je = res.data.cashOut == null ? 0 : res.data.cashOut
-					this.form.card = res.data.card == null ? '' : `浦发银行 [${res.data.card.slice(res.data.card.length-4,res.data.card.length)}]`
-					this.form.name = res.data.payee == null ? '' : res.data.payee
-				})
-				await homeApi.payed({
-					id: obj.id
-				}).then(res => {
-					this.form.ljje = res.data.amount == null ? 0 : res.data.amount
-				})
-
-				// this.form.ljje=
-
-
-
-			} else {
-				this.shows = true
-			}
+		 onShow() {
+			this.getlist()
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	.asg{
-		/deep/.u-cell__value{
+	.asg {
+		/deep/.u-cell__value {
 			color: #333333 !important;
 		}
-		/deep/.u-cell{
+
+		/deep/.u-cell {
 			padding: 22rpx 0 !important;
 			color: #333333 !important;
 			font-size: 28rpx !important;
 		}
 	}
+
 	.imgs {
 		position: absolute;
 		top: 68rpx;
@@ -122,32 +151,35 @@
 	}
 
 	.app {
-		width: 702rpx
-		;
+		width: 702rpx;
 		margin: 0 auto;
-		padding:0 24rpx;
+		padding: 0 24rpx;
 		box-sizing: border-box;
-		background:rgba(255,255,255,1);
-		box-shadow:0px 2rpx 12rpx rgba(0,0,0,0.08);
-		opacity:1;
-		border-radius:16rpx;
+		background: rgba(255, 255, 255, 1);
+		box-shadow: 0px 2rpx 12rpx rgba(0, 0, 0, 0.08);
+		opacity: 1;
+		border-radius: 16rpx;
 	}
-	.gnm{
-		/deep/.u-cell{
+
+	.gnm {
+		/deep/.u-cell {
 			padding: 22rpx 0 !important;
-			border-bottom: 1rpx  #e5e5e5 solid;
+			border-bottom: 1rpx #f3f3f3 solid;
 			color: #333333 !important;
 			font-size: 28rpx !important;
-			border-top: 1rpx  #e5e5e5 solid;
+			border-top: 1rpx #f3f3f3 solid;
 		}
-		/deep/.u-cell__value{
+
+		/deep/.u-cell__value {
 			color: #333333 !important;
 			font-size: 28rpx !important;
 		}
 	}
-/deep/.u-border-bottom:after{
-	border-bottom-width:0rpx !important;
-}
+
+	/deep/.u-border-bottom:after {
+		border-bottom-width: 0rpx !important;
+	}
+
 	.ljje {
 		width: 100%;
 		height: 34rpx;
@@ -163,7 +195,7 @@
 			width: 100%;
 			height: 38rpx;
 			font-size: 32rpx;
-			font-family: SF Pro Display;
+			font-family: dinbold;
 			font-weight: bold;
 			line-height: 38rpx;
 			color: rgba(102, 102, 102, 1);
@@ -187,11 +219,14 @@
 		opacity: 1;
 		margin: 0 auto 48rpx;
 	}
-/deep/.u-cell{
-	padding: 20rpx 0 !important;
-}
+
+	/deep/.u-cell {
+		padding: 20rpx 0 !important;
+	}
+
 	.gh {
-		margin-bottom: 20rpx;
+
+		// margin-bottom: 20rpx;
 		/deep/.u-cell__value {
 			font-size: 28rpx;
 			font-family: PingFang SC;
@@ -200,17 +235,26 @@
 			opacity: 1;
 
 		}
-/deep/.u-cell {
+
+		/deep/.u-cell {
 			font-size: 28rpx;
 			font-family: PingFang SC;
 			font-weight: bold;
-			color:#333333 !important;
+			color: #333333 !important;
 			opacity: 1;
-			padding: 16rpx 0 !important;
+			padding: 22rpx 0 !important;
 		}
+
 		/deep/.u-icon__icon {
 			color: rgba(250, 77, 77, 1) !important;
 		}
+	}
+
+	.ddjz {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
 	}
 
 	.boxsbtn {
@@ -245,12 +289,22 @@
 			width: 100%;
 			height: 80rpx;
 			font-size: 64rpx;
-			font-family: DIN;
+			font-family: dinbold;
 			font-weight: 400;
 			line-height: 80rpx;
 			color: rgba(235, 96, 15, 1);
 			opacity: 1;
 		}
+	}
+
+	.boxzz {
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		top: 0;
+		left: 0;
+		background-color: rgba(0, 0, 0, 0.6);
+		z-index: 99;
 	}
 
 	.center {

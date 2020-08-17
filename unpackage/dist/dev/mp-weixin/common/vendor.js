@@ -760,7 +760,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -8058,7 +8058,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -8079,14 +8079,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -8171,7 +8171,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -8738,7 +8738,59 @@ function rgbToHex(rgb) {
 
 /***/ }),
 
-/***/ 215:
+/***/ 22:
+/*!******************************************************!*\
+  !*** D:/work/h5/Cash/uview-ui/libs/function/guid.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
+                                                                                                      * 本算法来源于简书开源代码，详见：https://www.jianshu.com/p/fdbf293d0a85
+                                                                                                      * 全局唯一标识符（uuid，Globally Unique Identifier）,也称作 uuid(Universally Unique IDentifier) 
+                                                                                                      * 一般用于多个组件之间,给它一个唯一的标识符,或者v-for循环的时候,如果使用数组的index可能会导致更新列表出现问题
+                                                                                                      * 最可能的情况是左滑删除item或者对某条信息流"不喜欢"并去掉它的时候,会导致组件内的数据可能出现错乱
+                                                                                                      * v-for的时候,推荐使用后端返回的id而不是循环的index
+                                                                                                      * @param {Number} len uuid的长度
+                                                                                                      * @param {Boolean} firstU 将返回的首字母置为"u"
+                                                                                                      * @param {Nubmer} radix 生成uuid的基数(意味着返回的字符串都是这个基数),2-二进制,8-八进制,10-十进制,16-十六进制
+                                                                                                      */
+function guid() {var len = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 32;var firstU = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;var radix = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+  var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
+  var uuid = [];
+  radix = radix || chars.length;
+
+  if (len) {
+    // 如果指定uuid长度,只是取随机的字符,0|x为位运算,能去掉x的小数位,返回整数位
+    for (var i = 0; i < len; i++) {uuid[i] = chars[0 | Math.random() * radix];}
+  } else {
+    var r;
+    // rfc4122标准要求返回的uuid中,某些位为固定的字符
+    uuid[8] = uuid[13] = uuid[18] = uuid[23] = '-';
+    uuid[14] = '4';
+
+    for (var _i = 0; _i < 36; _i++) {
+      if (!uuid[_i]) {
+        r = 0 | Math.random() * 16;
+        uuid[_i] = chars[_i == 19 ? r & 0x3 | 0x8 : r];
+      }
+    }
+  }
+  // 移除第一个字符,并用u替代,因为第一个字符为数值时,该guuid不能用作id或者class
+  if (firstU) {
+    uuid.shift();
+    return 'u' + uuid.join('');
+  } else {
+    return uuid.join('');
+  }
+}var _default =
+
+guid;exports.default = _default;
+
+/***/ }),
+
+/***/ 223:
 /*!******************************************************!*\
   !*** D:/work/h5/Cash/uview-ui/libs/util/province.js ***!
   \******************************************************/
@@ -8888,7 +8940,7 @@ provinceData;exports.default = _default;
 
 /***/ }),
 
-/***/ 216:
+/***/ 224:
 /*!**************************************************!*\
   !*** D:/work/h5/Cash/uview-ui/libs/util/city.js ***!
   \**************************************************/
@@ -10402,7 +10454,7 @@ cityData;exports.default = _default;
 
 /***/ }),
 
-/***/ 217:
+/***/ 225:
 /*!**************************************************!*\
   !*** D:/work/h5/Cash/uview-ui/libs/util/area.js ***!
   \**************************************************/
@@ -22955,58 +23007,6 @@ areaData;exports.default = _default;
 
 /***/ }),
 
-/***/ 22:
-/*!******************************************************!*\
-  !*** D:/work/h5/Cash/uview-ui/libs/function/guid.js ***!
-  \******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
-                                                                                                      * 本算法来源于简书开源代码，详见：https://www.jianshu.com/p/fdbf293d0a85
-                                                                                                      * 全局唯一标识符（uuid，Globally Unique Identifier）,也称作 uuid(Universally Unique IDentifier) 
-                                                                                                      * 一般用于多个组件之间,给它一个唯一的标识符,或者v-for循环的时候,如果使用数组的index可能会导致更新列表出现问题
-                                                                                                      * 最可能的情况是左滑删除item或者对某条信息流"不喜欢"并去掉它的时候,会导致组件内的数据可能出现错乱
-                                                                                                      * v-for的时候,推荐使用后端返回的id而不是循环的index
-                                                                                                      * @param {Number} len uuid的长度
-                                                                                                      * @param {Boolean} firstU 将返回的首字母置为"u"
-                                                                                                      * @param {Nubmer} radix 生成uuid的基数(意味着返回的字符串都是这个基数),2-二进制,8-八进制,10-十进制,16-十六进制
-                                                                                                      */
-function guid() {var len = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 32;var firstU = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;var radix = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-  var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
-  var uuid = [];
-  radix = radix || chars.length;
-
-  if (len) {
-    // 如果指定uuid长度,只是取随机的字符,0|x为位运算,能去掉x的小数位,返回整数位
-    for (var i = 0; i < len; i++) {uuid[i] = chars[0 | Math.random() * radix];}
-  } else {
-    var r;
-    // rfc4122标准要求返回的uuid中,某些位为固定的字符
-    uuid[8] = uuid[13] = uuid[18] = uuid[23] = '-';
-    uuid[14] = '4';
-
-    for (var _i = 0; _i < 36; _i++) {
-      if (!uuid[_i]) {
-        r = 0 | Math.random() * 16;
-        uuid[_i] = chars[_i == 19 ? r & 0x3 | 0x8 : r];
-      }
-    }
-  }
-  // 移除第一个字符,并用u替代,因为第一个字符为数值时,该guuid不能用作id或者class
-  if (firstU) {
-    uuid.shift();
-    return 'u' + uuid.join('');
-  } else {
-    return uuid.join('');
-  }
-}var _default =
-
-guid;exports.default = _default;
-
-/***/ }),
-
 /***/ 23:
 /*!*******************************************************!*\
   !*** D:/work/h5/Cash/uview-ui/libs/function/color.js ***!
@@ -23055,7 +23055,53 @@ color;exports.default = _default;
 
 /***/ }),
 
-/***/ 232:
+/***/ 24:
+/*!***********************************************************!*\
+  !*** D:/work/h5/Cash/uview-ui/libs/function/type2icon.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
+                                                                                                      * 根据主题type值,获取对应的图标
+                                                                                                      * @param String type 主题名称,primary|info|error|warning|success
+                                                                                                      * @param String fill 是否使用fill填充实体的图标  
+                                                                                                      */
+function type2icon() {var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'success';var fill = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  // 如果非预置值,默认为success
+  if (['primary', 'info', 'error', 'warning', 'success'].indexOf(type) == -1) type = 'success';
+  var iconName = '';
+  // 目前(2019-12-12),info和primary使用同一个图标
+  switch (type) {
+    case 'primary':
+      iconName = 'info-circle';
+      break;
+    case 'info':
+      iconName = 'info-circle';
+      break;
+    case 'error':
+      iconName = 'close-circle';
+      break;
+    case 'warning':
+      iconName = 'error-circle';
+      break;
+    case 'success':
+      iconName = 'checkmark-circle';
+      break;
+    default:
+      iconName = 'checkmark-circle';}
+
+  // 是否是实体类型,加上-fill,在icon组件库中,实体的类名是后面加-fill的
+  if (fill) iconName += '-fill';
+  return iconName;
+}var _default =
+
+type2icon;exports.default = _default;
+
+/***/ }),
+
+/***/ 240:
 /*!*****************************************************!*\
   !*** D:/work/h5/Cash/uview-ui/libs/util/emitter.js ***!
   \*****************************************************/
@@ -23112,52 +23158,6 @@ function _broadcast(componentName, eventName, params) {
     broadcast: function broadcast(componentName, eventName, params) {
       _broadcast.call(this, componentName, eventName, params);
     } } };exports.default = _default;
-
-/***/ }),
-
-/***/ 24:
-/*!***********************************************************!*\
-  !*** D:/work/h5/Cash/uview-ui/libs/function/type2icon.js ***!
-  \***********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
-                                                                                                      * 根据主题type值,获取对应的图标
-                                                                                                      * @param String type 主题名称,primary|info|error|warning|success
-                                                                                                      * @param String fill 是否使用fill填充实体的图标  
-                                                                                                      */
-function type2icon() {var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'success';var fill = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-  // 如果非预置值,默认为success
-  if (['primary', 'info', 'error', 'warning', 'success'].indexOf(type) == -1) type = 'success';
-  var iconName = '';
-  // 目前(2019-12-12),info和primary使用同一个图标
-  switch (type) {
-    case 'primary':
-      iconName = 'info-circle';
-      break;
-    case 'info':
-      iconName = 'info-circle';
-      break;
-    case 'error':
-      iconName = 'close-circle';
-      break;
-    case 'warning':
-      iconName = 'error-circle';
-      break;
-    case 'success':
-      iconName = 'checkmark-circle';
-      break;
-    default:
-      iconName = 'checkmark-circle';}
-
-  // 是否是实体类型,加上-fill,在icon组件库中,实体的类名是后面加-fill的
-  if (fill) iconName += '-fill';
-  return iconName;
-}var _default =
-
-type2icon;exports.default = _default;
 
 /***/ }),
 
@@ -24194,8 +24194,70 @@ if (hadRuntime) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _request = _interopRequireDefault(__webpack_require__(/*! ./request.js */ 43));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _request = _interopRequireDefault(__webpack_require__(/*! ./request.js */ 43));var _yzm$login$payed$list;function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
+//累计到账
+function letxje(data) {
+  return (0, _request.default)({
+    url: '/finace/total',
+    method: 'GET', // 严格区分大小写,必须是大写
+    data: data });
 
+}
+// 每日到账
+function ledz(data) {
+  return (0, _request.default)({
+    url: '/finace/day/amount',
+    method: 'GET', // 严格区分大小写,必须是大写
+    data: data });
+
+}
+// 提现详情
+function txxq(data) {
+  return (0, _request.default)({
+    url: '/finace/info',
+    method: 'GET', // 严格区分大小写,必须是大写
+    data: data });
+
+}
+// 提现记录
+function txjl(data) {
+  return (0, _request.default)({
+    url: '/finace/list',
+    method: 'GET', // 严格区分大小写,必须是大写
+    data: data });
+
+}
+//立即体现
+function ljtx(data) {
+  return (0, _request.default)({
+    url: '/finace/cash-out',
+    method: 'POST', // 严格区分大小写,必须是大写
+    data: data });
+
+}
+//add del 商品
+function add(data) {
+  return (0, _request.default)({
+    url: '/business/dmb-spzl/add',
+    method: 'POST', // 严格区分大小写,必须是大写
+    data: data });
+
+}
+function del(data) {
+  return (0, _request.default)({
+    url: '/business/dmb-spzl/del',
+    method: 'POST', // 严格区分大小写,必须是大写
+    data: data });
+
+}
+//获取商户信息
+function list(data) {
+  return (0, _request.default)({
+    url: '/business/kc-spzl/list',
+    method: 'POST', // 严格区分大小写,必须是大写
+    data: data });
+
+}
 // 提现
 
 function businesstxjs(data) {
@@ -24247,7 +24309,7 @@ function infos(data) {
 
 function income(data) {
   return (0, _request.default)({
-    url: '/business/xs-dj2020/income',
+    url: '/business/dj-sk/income',
     method: 'GET', // 严格区分大小写,必须是大写
     data: data });
 
@@ -24261,7 +24323,7 @@ function cash(data) {
 }
 function business(data) {
   return (0, _request.default)({
-    url: '/business/xs-dj2020/list',
+    url: '/business/dj-sk/list/all',
     method: 'GET', // 严格区分大小写,必须是大写
     data: data });
 
@@ -24354,7 +24416,14 @@ function businessreal(data) {
     data: data });
 
 }
+//商品管理数量
+function spnum(data) {
+  return (0, _request.default)({
+    url: '/business/dmb-spzl/list',
+    method: 'POST', // 严格区分大小写,必须是大写
+    data: data });
 
+}
 //获取指定月份和日的提现金额
 function outam(data) {
   return (0, _request.default)({
@@ -24378,31 +24447,40 @@ function businessupdate(data) {
     method: 'post', // 严格区分大小写,必须是大写
     data: data });
 
-}var _default =
-{
+}var _default = (_yzm$login$payed$list = {
+
   yzm: yzm,
   login: login,
   payed: payed,
+  list: list,
+  ljtx: ljtx,
+  add: add,
+  txjl: txjl,
+  del: del,
   yzms: yzms,
   business: business,
   total: total,
-  orderall: orderall,
-  day: day,
-  income: income,
-  info: info,
-  wx: wx,
-  businessupdate: businessupdate,
-  businesstxjs: businesstxjs,
-  outam: outam,
-  businessamount: businessamount,
-  updatemobile: updatemobile,
-  businessreal: businessreal,
-  amount: amount,
-  update: update,
-  mobile: mobile,
-  cash: cash,
-  infos: infos,
-  yhkupdate: yhkupdate };exports.default = _default;
+  txxq: txxq }, _defineProperty(_yzm$login$payed$list, "txjl",
+txjl), _defineProperty(_yzm$login$payed$list, "orderall",
+orderall), _defineProperty(_yzm$login$payed$list, "day",
+day), _defineProperty(_yzm$login$payed$list, "ledz", ledz), _defineProperty(_yzm$login$payed$list, "income",
+income), _defineProperty(_yzm$login$payed$list, "info",
+info), _defineProperty(_yzm$login$payed$list, "wx",
+wx), _defineProperty(_yzm$login$payed$list, "spnum",
+spnum), _defineProperty(_yzm$login$payed$list, "businessupdate",
+businessupdate), _defineProperty(_yzm$login$payed$list, "businesstxjs",
+businesstxjs), _defineProperty(_yzm$login$payed$list, "outam",
+outam), _defineProperty(_yzm$login$payed$list, "businessamount",
+businessamount), _defineProperty(_yzm$login$payed$list, "updatemobile",
+updatemobile), _defineProperty(_yzm$login$payed$list, "businessreal",
+businessreal), _defineProperty(_yzm$login$payed$list, "amount",
+amount), _defineProperty(_yzm$login$payed$list, "letxje",
+letxje), _defineProperty(_yzm$login$payed$list, "update",
+update), _defineProperty(_yzm$login$payed$list, "mobile",
+mobile), _defineProperty(_yzm$login$payed$list, "cash",
+cash), _defineProperty(_yzm$login$payed$list, "infos",
+infos), _defineProperty(_yzm$login$payed$list, "yhkupdate",
+yhkupdate), _yzm$login$payed$list);exports.default = _default;
 
 /***/ }),
 
@@ -24467,8 +24545,10 @@ http;exports.default = _default;
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; // 定义全局的变量
 var _default = {
-  host: 'https://poswx.zhdutyfreemall.com'
-  // host:'http://192.168.5.106:80'
+  // host: 'https://poswx.zhdutyfreemall.com'
+  host: 'https://poswxtest.zhdutyfreemall.com'
+
+  // host:'http://172.16.7.13:80'
 };exports.default = _default;
 
 /***/ })

@@ -94,13 +94,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   uLoadmore: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-loadmore/u-loadmore */ "uview-ui/components/u-loadmore/u-loadmore").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-loadmore/u-loadmore.vue */ 203))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-loadmore/u-loadmore */ "uview-ui/components/u-loadmore/u-loadmore").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-loadmore/u-loadmore.vue */ 211))
   },
   uPicker: function() {
-    return Promise.all(/*! import() | uview-ui/components/u-picker/u-picker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-picker/u-picker")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-picker/u-picker.vue */ 210))
+    return Promise.all(/*! import() | uview-ui/components/u-picker/u-picker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-picker/u-picker")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-picker/u-picker.vue */ 218))
   },
   uModal: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-modal/u-modal */ "uview-ui/components/u-modal/u-modal").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-modal/u-modal.vue */ 182))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-modal/u-modal */ "uview-ui/components/u-modal/u-modal").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-modal/u-modal.vue */ 190))
   }
 }
 var render = function() {
@@ -247,6 +247,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
 var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 42));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(n);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var _default =
 {
   data: function data() {
@@ -302,7 +310,7 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
               _this.doHandleMonth();
               if (uni.getStorageSync('num')) {
                 _this.getday();
-                _this.getlist();
+                // this.getlist()
               } else {
                 _this.shows = true;
               }
@@ -313,7 +321,8 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
 
     if (this.total - this.current * this.size > 0) {
       this.current = ++this.current;
-      this.getlist();
+      // this.getlist()
+      this.getday();
     } else {
       this.status = 'nomore';
     }
@@ -325,11 +334,13 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
     // 	if (this.page >= 3)
     // 	else 
     // }, 2000)
-    console.log(this.current);
+
   },
   onHide: function onHide() {
     this.list = [];
     this.show = false;
+    this.current = 1;
+    this.size = 5;
   },
   onShow: function onShow() {
     this.show = false;
@@ -337,61 +348,56 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
     this.doHandleMonth();
     if (uni.getStorageSync('num')) {
       this.getday();
-      this.getlist();
+      // this.getlist()
     } else {
       this.status = 'nomore',
       this.shows = true;
     }
   },
   onLoad: function onLoad(e) {
-    console.log(e, 8888888888);
   },
   methods: {
     hasDot: function hasDot(num) {
-      console.log(num, '13113');
       if (!isNaN(num)) {
-        return (num + '').indexOf('.') != -1 ? num : num.toFixed(2);
+
+        num = (num - 0).toFixed(2);
+        return num;
       }
     },
-    getlist: function getlist() {var _this2 = this;
+    getlist: function getlist() {
 
-      var obj = JSON.parse(uni.getStorageSync('num'));
-      var ids = {
-        id: obj.id,
-        year: this.tYear,
-        month: this.m,
-        current: this.current,
-        size: this.size };
-
-      _home.default.orderall(JSON.stringify(ids)).then(function (res) {var _this2$list;
-        if (res.data.records.length == 0 || _this2.current * _this2.size > res.data.total || _this2.current * _this2.size == res.
-        data.total) {
-          _this2.status = 'nomore';
-        }
-        (_this2$list = _this2.list).push.apply(_this2$list, _toConsumableArray(res.data.records));
-        _this2.list.map(function (e) {
-          e.xsMxList.map(function (rq) {
-            rq.LSDJ = _this2.hasDot(rq.LSDJ);
-          });
-          e.xsze = _this2.hasDot(e.xsze);
-          _this2.total = res.data.total;
-
-        });
-        _this2.list.map(function (es) {
-
-          var munsel = (es.xsze + '').indexOf('.');
-          es.cui = (es.xsze + '').slice(0, munsel);
-          es.cuiend = (es.xsze + '').slice(munsel + 1, (es.xsze + '').length);
-
-
-          es.xsMxList.map(function (e) {
-            var munse = (e.LSDJ + '').indexOf('.');
-            e.cui = (e.LSDJ + '').slice(0, munse);
-            e.cuiend = (e.LSDJ + '').slice(munse + 1, (e.LSDJ + '').length);
-          });
-        });
-        console.log(_this2.list, 88888);
-      });
+      // const obj = JSON.parse(uni.getStorageSync('num'))
+      // const ids = {
+      // 	id: obj.id,
+      // 	year: this.tYear,
+      // 	month: this.m,
+      // 	current: this.current,
+      // 	size: this.size
+      // }
+      // homeApi.orderall(JSON.stringify(ids)).then(res => {
+      // 	if (res.data.mxList.records.length == 0 || this.current * this.size > res.data.mxList.total || this.current * this.size == res
+      // 		.data.total) {
+      // 		this.status = 'nomore';
+      // 	}
+      // 	this.list.push(...res.data.mxList.records)
+      // 	this.list.map(e => {
+      // 		e.xsMxList.map(rq => {
+      // 			rq.LSDJ = this.hasDot(rq.LSDJ)
+      // 		})
+      // 		e.xsze = this.hasDot(e.xsze)
+      // 		this.total = res.data.mxList.total
+      // 	})
+      // 	this.list.map(es => {
+      // 		const munsel = (es.xsze + '').indexOf('.')
+      // 		es.cui = (es.xsze + '').slice(0, munsel)
+      // 		es.cuiend = (es.xsze + '').slice(munsel + 1, (es.xsze + '').length)
+      // 		es.xsMxList.map(e => {
+      // 			const munse = (e.LSDJ + '').indexOf('.')
+      // 			e.cui = (e.LSDJ + '').slice(0, munse)
+      // 			e.cuiend = (e.LSDJ + '').slice(munse + 1, (e.LSDJ + '').length)
+      // 		})
+      // 	})
+      // })
 
 
     },
@@ -400,28 +406,52 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
         url: '/pages/login/logs' });
 
     },
-    getday: function getday() {var _this3 = this;
+    getday: function getday() {var _this2 = this;
       var obj = JSON.parse(uni.getStorageSync('num'));
 
       _home.default.amount({
         year: this.tYear,
         month: this.m,
-        id: obj.id }).
-      then(function (res) {
-        _this3.xsje = res.data.lsze;
-        _this3.dzje = res.data.xsze;
+        id: obj.id,
+        current: this.current,
+        size: this.size }).
+      then(function (res) {var _this2$list;
+        _this2.xsje = res.data.amount;
+        _this2.dzje = res.data.xsze;
+        if (res.data.mxList.records.length == 0 || (_this2.current == 0 ? 1 : _this2.current) * _this2.size > res.data.mxList.total ||
+        (_this2.current == 0 ? 1 : _this2.current) * _this2.size == res.
+        data.total) {
+          _this2.status = 'nomore';
+        }
+        (_this2$list = _this2.list).push.apply(_this2$list, _toConsumableArray(res.data.mxList.records));
+        _this2.list.map(function (e) {
+          e.xsMxList.map(function (rq) {
+            rq.ZKJE = _this2.hasDot(rq.ZKJE);
+          });
+          e.xsze = _this2.hasDot(e.xsze);
+          _this2.total = res.data.mxList.total;
+        });
+        _this2.list.map(function (es) {
+          var munsel = (es.xsze + '').indexOf('.');
+          es.cui = (es.xsze + '').slice(0, munsel);
+          es.cuiend = (es.xsze + '').slice(munsel + 1, (es.xsze + '').length);
+          es.xsMxList.map(function (e) {
+            var munse = (e.ZKJE + '').indexOf('.');
+            e.cui = (e.ZKJE + '').slice(0, munse);
+            e.cuiend = (e.ZKJE + '').slice(munse + 1, (e.ZKJE + '').length);
+          });
+        });
       });
     },
-    sjqr: function sjqr(val) {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
-                _this4.size = 5,
-                _this4.current = 1;
-                _this4.list = [];
-                _this4.m = val.month;
-                _this4.tYear = val.year;_context2.next = 6;return (
-                  _this4.getday());case 6:_context2.next = 8;return (
-                  _this4.getlist());case 8:
+    sjqr: function sjqr(val) {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
+                _this3.size = 5,
+                _this3.current = 1;
+                _this3.list = [];
+                _this3.m = val.month;
+                _this3.tYear = val.year;_context2.next = 6;return (
+                  _this3.getday());case 6:case "end":return _context2.stop();}}}, _callee2);}))();
 
-                console.log(_this4.list, 8888);case 9:case "end":return _context2.stop();}}}, _callee2);}))();
+
     },
     doHandleYear: function doHandleYear(tYear) {
       var myDate = new Date();

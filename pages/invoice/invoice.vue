@@ -79,7 +79,6 @@
 				this.texts=''
 				this.fp=true
 			}
-			console.log(obj,'ry')
 			this.sh=obj.companyInvoiceNum==null?'':obj.companyInvoiceNum
 		},
 		methods:{

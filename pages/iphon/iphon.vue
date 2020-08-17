@@ -3,10 +3,10 @@
 
 		<view class="box">
 			<view class="head">
-				<view class="gr"  @click="gr">
+				<view class="gr" :class="type==1?'font':''"  @click="gr">
 				<text  :class="type==1?'':'grays'" >1</text>	验证原号码
 				</view>
-				<view class="gr "   @click="qy">
+				<view class="gr " :class="type==2?'font':''"  @click="qy">
 				<text :class="type==2?'':'grays'">2</text>	绑定新号码
 				</view>
 			</view>
@@ -23,6 +23,9 @@
 					</view>
 				</view>
 				<u-input style="margin-left: 24rpx;" placeholder='请输入验证码' v-model="mobiles" :type="type" />
+			</view>
+			<view class="lins">
+				
 			</view>
 		</view>
 			<u-button  class="btn" @click="gohome"  :ripple="true">{{texts}}</u-button>
@@ -199,6 +202,30 @@
 </script>
 
 <style lang="scss" scoped>
+	.wrap {
+		margin-right: 24rpx;
+	}
+	/deep/u-input{
+		margin-left: 0 !important;
+	}
+	.center{
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		padding-top: 24rpx;
+		box-sizing: border-box;
+		overflow: hidden;
+		width:702rpx;
+		height:224rpx;
+		margin:  0 auto;
+		background:rgba(255,255,255,1);
+		box-shadow:0px 2rpx 12rpx rgba(0,0,0,0.08);
+		opacity:1;
+		border-radius:16rpx;
+	}
+	.font{
+		font-weight: bold !important;
+	}
 	.lxkf {
 		width: 100%;
 		position: fixed;
@@ -240,6 +267,7 @@
 
 	}
 	.grays{
+		
 		background-color: #fff !important;
 		border: 1px solid #999999 !important;
 		color: #999999 !important;
@@ -285,7 +313,7 @@
 		font-size: 28rpx;
 		font-family: PingFang SC;
 		font-weight: 500;
-		line-height: 40rpx;
+		// line-height: 40rpx;
 		color: rgba(51, 51, 51, 1);
 		opacity: 1;
 		margin-left: 26rpx !important;
@@ -295,8 +323,8 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		width: 654rpx;
-		height: 112rpx;
+		width: 100%;
+		// height: 112rpx;
 		background: rgba(255, 255, 255, 1);
 	}
 
@@ -356,12 +384,13 @@
 		justify-content: center;
 		font-size: 28rpx;
 		font-family: PingFang SC;
-		font-weight: bold;
+		// font-weight: bold;
 		color: rgba(51, 51, 51, 1);
 		opacity: 1;
 		height: 80rpx;
 		line-height: 80rpx;
 		text{
+			font-family: dinbold;
 			width: 48rpx;
 			height: 48rpx;
 			color: #fff;
@@ -381,7 +410,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin-bottom: 24rpx;
+	margin-bottom: 12rpx;
 	}
 
 	/deep/.u-field {
@@ -390,10 +419,16 @@
 	}
 
 	.box {
-		width: 702rpx;
-		margin: 24rpx auto 0;
-		background: rgba(255, 255, 255, 1);
-		box-shadow: 0px 2rpx 12rpx rgba(0, 0, 0, 0.08);
-		opacity: 1;
+		position: relative;
+		.lins{
+		position: absolute;
+		width: 654rpx;
+		height: 2rpx;
+		top: 200rpx;
+		left: 48rpx;
+		background-color:#F3F3F3;
+
+		}
+		
 	}
 </style>

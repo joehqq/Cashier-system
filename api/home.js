@@ -1,5 +1,67 @@
 import http from './request.js'
-
+//累计到账
+function letxje(data){
+	return http({
+		url: '/finace/total',
+		method: 'GET', // 严格区分大小写,必须是大写
+		data
+	})
+}
+// 每日到账
+function ledz(data){
+	return http({
+		url: '/finace/day/amount',
+		method: 'GET', // 严格区分大小写,必须是大写
+		data
+	})
+}
+// 提现详情
+function txxq(data){
+	return http({
+		url: '/finace/info',
+		method: 'GET', // 严格区分大小写,必须是大写
+		data
+	})
+}
+// 提现记录
+function txjl(data){
+	return http({
+		url: '/finace/list',
+		method: 'GET', // 严格区分大小写,必须是大写
+		data
+	})
+}
+//立即体现
+function ljtx(data){
+	return http({
+		url: '/finace/cash-out',
+		method: 'POST', // 严格区分大小写,必须是大写
+		data
+	})
+}
+//add del 商品
+function add(data){
+	return http({
+		url: '/business/dmb-spzl/add',
+		method: 'POST', // 严格区分大小写,必须是大写
+		data
+	})
+}
+function del(data){
+	return http({
+		url: '/business/dmb-spzl/del',
+		method: 'POST', // 严格区分大小写,必须是大写
+		data
+	})
+}
+//获取商户信息
+function list(data){
+	return http({
+		url: '/business/kc-spzl/list',
+		method: 'POST', // 严格区分大小写,必须是大写
+		data
+	})
+}
 // 提现
 
 function businesstxjs(data){
@@ -51,7 +113,7 @@ function infos(data){
 
 function income(data){
 	return http({
-		url: '/business/xs-dj2020/income',
+		url: '/business/dj-sk/income',
 		method: 'GET', // 严格区分大小写,必须是大写
 		data
 	})
@@ -65,7 +127,7 @@ function cash(data){
 }
 function business(data){
 	return http({
-		url: '/business/xs-dj2020/list',
+		url: '/business/dj-sk/list/all',
 		method: 'GET', // 严格区分大小写,必须是大写
 		data
 	})
@@ -158,7 +220,14 @@ function businessreal(data){
 		data
 	})
 }
-
+//商品管理数量
+function spnum(data){
+	return http({
+		url: '/business/dmb-spzl/list',
+		method: 'POST', // 严格区分大小写,必须是大写
+		data
+	})
+}
 //获取指定月份和日的提现金额
 function outam(data){
 	return http({
@@ -187,14 +256,22 @@ export default {
 	yzm,
 	login,
 	payed,
+	list,
+	ljtx,
+	add,
+	txjl,
+	del,
 	yzms,
 	business,
 	total,
+	txxq,
+	txjl,
 	orderall,
-	day,
+	day,ledz,
 	income,
 	info,
 	wx,
+	spnum,
 	businessupdate,
 	businesstxjs,
 	outam,
@@ -202,6 +279,7 @@ export default {
 	updatemobile,
 	businessreal,
 	amount,
+	letxje,
 	update,
 	mobile,
 	cash,

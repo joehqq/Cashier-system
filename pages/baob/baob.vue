@@ -26,7 +26,8 @@
 				</view>
 				<view class="je1 jiebk">
 					<view class="je">
-						{{form.dz==null?0:form.dz}}
+						{{form.zdz==null?0:form.zdz}}
+						
 					</view>
 					<view class="wz">
 						总到账 (元)
@@ -96,7 +97,7 @@
 				</view>
 			</view>
 		</view>
-		<u-modal v-model="show1" title="可提现收益" content='每日早晨7:00更新当日销售数据的统计情况' :show-confirm-button='false' cancel-color='#7CC457'
+		<u-modal v-model="show1" title="每日报表" content='每日早晨7:00更新当日销售数据的统计情况' :show-confirm-button='false' cancel-color='#7CC457'
 		 :show-cancel-button='true' cancel-text='知道了'></u-modal>
 		<u-picker @cancel="show=false" @confirm="sjqr" mode="time" v-model="show" :params="params" :end-year='tYear'></u-picker>
 		<u-modal v-model="shows" @confirm='dl' title="暂未登录" show-cancel-button=true confirm-text='去登录' content="登录后才能继续当前操作"></u-modal>
@@ -113,6 +114,7 @@
 				showwu: false,
 				form: {
 					all: 0,
+					zdz:0,
 					dz: 0,
 					xs: 0
 				},
@@ -147,6 +149,7 @@
 			if (uni.getStorageSync('num')) {
 				this.shows = false
 				await this.getbb()
+				await this.getmrdz()
 				// await this.getzdz()
 				await this.getday()
 
@@ -158,23 +161,16 @@
 		},
 		computed: {
 			hga() {
-				console.log(this.type)
-				console.log(this.phflangs, 'phflangs')
-				console.log(this.phflang, 'phflang')
 				if (this.type == 1 && this.phflangs) {
-					console.log(1111)
 					return true
 				}
 				if (this.type == 1 && !this.phflangs) {
-					console.log(2222)
 					return false
 				}
 				if (this.type == 2 && !this.phflang) {
-					console.log(3333)
 					return false
 				}
 				if (this.type == 2 && this.phflang) {
-					console.log(44444)
 					return true
 				}
 
@@ -221,7 +217,7 @@
 			this.doHandleMonth()
 			this.getday()
 			if (uni.getStorageSync('num')) {
-
+				this.getmrdz()
 				this.getbb()
 				// this.getzdz()
 			} else {
@@ -251,7 +247,7 @@
 				const obj = JSON.parse(uni.getStorageSync('num'))
 				homeApi.day({
 					id: obj.id,
-					xsrq: val ? `${tYearqq}-${mwsqnm}-${val}` : this.tYear +'-'+ this.m +'-'+ this.ds
+					xsrq: val ? `${tYearqq}-${mwsqnm}-${val}` : this.tYear + '-' + this.m + '-' + this.ds
 				}).then(res => {
 					if (res.code == 100) {
 						if (res.data.amountAndTotal != null) {
@@ -289,7 +285,28 @@
 				if (mwsqnm.toString().length == 1) {
 					mwsqnm = '0' + mwsqnm;
 				}
+
+			},
+			getmrdz(val) {
+				if (val) {
+					if (val.toString().length == 1) {
+						val = '0' + val;
+					}
+				}
+				const tYearqq = myDate.getFullYear();
+				let tMonthesqqnm = myDate.getMonth();
+				let mwsqnm = tMonthesqqnm + 1;
 				
+				if (mwsqnm.toString().length == 1) {
+					mwsqnm = '0' + mwsqnm;
+				}
+				const obj = JSON.parse(uni.getStorageSync('num'))
+				homeApi.ledz({
+					id: obj.id,
+					rq:	val ? `${tYearqq}-${mwsqnm}-${val}` : this.tYear + '-' + this.m + '-' + this.ds
+				}).then(res => {
+					this.form.zdz= res.data.amount
+				})
 			},
 			getbb(val) {
 				if (val) {
@@ -307,7 +324,7 @@
 				const obj = JSON.parse(uni.getStorageSync('num'))
 				homeApi.total({
 					id: obj.id,
-					xsrq: val ? `${tYearqq}-${mwsqnm}-${val}` : this.tYear +'-'+ this.m +'-'+ this.ds
+					xsrq: val ? `${tYearqq}-${mwsqnm}-${val}` : this.tYear + '-' + this.m + '-' + this.ds
 				}).then(res => {
 					if (res.data.length > 0) {
 						this.lists = res.data
@@ -324,7 +341,7 @@
 
 				homeApi.businessamount({
 					id: obj.id,
-					xsrq: val ? `${tYearqq}-${mwsqnm}-${val}` : this.tYear +'-'+ this.m +'-'+ this.ds
+					xsrq: val ? `${tYearqq}-${mwsqnm}-${val}` : this.tYear + '-' + this.m + '-' + this.ds
 
 				}).then(res => {
 					if (res.data.length > 0) {
@@ -360,7 +377,7 @@
 				} else {
 					this.datas++
 				}
-
+				 this.getmrdz(this.datas)
 				this.getday(this.datas)
 				this.getbb(this.datas)
 				this.doHandleYear()
@@ -377,13 +394,14 @@
 				var tYearqs = myDate.getFullYear();
 
 				if (this.datas == (das - 2)) {
-					this.datas = das-2
+					this.datas = das - 2
 				} else {
 					this.datas--
 				}
 				if (this.datas.toString().length == 1) {
 					this.ds = '0' + this.datas;
 				}
+				this.getmrdz(this.datas)
 				this.getday(this.datas)
 				this.getbb(this.datas)
 				this.doHandleYear()
@@ -421,6 +439,7 @@
 				this.ds = val.day
 				this.getday()
 				this.getbb()
+				this.getmrdz()
 			},
 			doHandleYear(tYear) {
 
@@ -525,8 +544,8 @@
 	}
 
 	.jiebk {
-		border-right: 2rpx solid #e6e6e6;
-		border-left: 2rpx solid #e6e6e6;
+		border-right: 2rpx solid #F3F3F3;
+		border-left: 2rpx solid #F3F3F3;
 	}
 
 	.centerpm {
@@ -597,7 +616,7 @@
 				width: 100%;
 				height: 48rpx;
 				font-size: 40rpx;
-				font-family: DIN;
+				font-family: dinbold;
 				font-weight: bold;
 				line-height: 48rpx;
 				color: rgba(250, 77, 77, 1);

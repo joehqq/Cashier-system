@@ -92,6 +92,8 @@ __webpack_require__.r(__webpack_exports__);
   onLaunch: function onLaunch() {
 
   },
+
+
   onShow: function onShow() {
     uni.login({
       provider: 'weixin',

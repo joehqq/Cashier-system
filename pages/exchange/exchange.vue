@@ -22,7 +22,6 @@
 		},
 		methods:{
 			gohome(){
-				console.log(111)
 				uni.switchTab({
 				  url: '/pages/home/home'
 				});

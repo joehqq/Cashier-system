@@ -41,7 +41,11 @@
 				我的信息
 			</view>
 			<u-cell-group>
-				
+				<u-cell-item title="商品管理" @click='ddgl' :value="form.orders">
+					<image slot="icon" style="width: 48rpx; height: 48rpx;margin-right: 24rpx;" src="../../static/img/home/spgl.png"
+					 mode=""></image>
+				</u-cell-item>
+							
 					<u-cell-item title="我的账号" @click='xgzh' :value="form.company">
 						<image slot="icon" style="width: 48rpx; height: 48rpx;margin-right: 24rpx;" src="../../static/img/home/2598.png"
 						 mode=""></image>
@@ -93,7 +97,8 @@
 					num: '',
 					payee: '',
 					fpxx: '',
-					fp: ''
+					fp: '',
+					orders:''
 				},
 				listabc: [{
 						iconPath: "home",
@@ -141,9 +146,10 @@
 			this.iPhone()
 			this.getlists()
 			if (uni.getStorageSync('num')) {
+				this.getsp()
 				const num = JSON.parse(uni.getStorageSync('num'))
 				homeApi.businesstxjs({id:num.id}).then(res=>{
-					console.log(res,888)
+					this.zhye=res.data.cashOut==null?'':res.data.cashOut
 					this.form.company = res.data.company==null?'':res.data.company
 					this.form.payee = res.data.payee==null?'':res.data.payee
 					if (res.data.personInvoiceHead) {
@@ -177,7 +183,17 @@
 			}
 		},
 		methods: {
-	
+			getsp(){
+				const objs = JSON.parse(uni.getStorageSync('num'))
+				const xtDmb = JSON.parse(uni.getStorageSync('xtDmb'))
+				xtDmb
+				homeApi.spnum(JSON.stringify({
+					id:xtDmb.id,
+					spbm:''
+				})).then(res=>{
+					this.form.orders=res.data==null?0:res.data.length+'件'
+				})
+			},
 			dl() {
 				uni.navigateTo({
 					url: '/pages/login/logs'
@@ -186,7 +202,6 @@
 			getlists() {
 				if (uni.getStorageSync('num')) {
 					const objs = JSON.parse(uni.getStorageSync('num'))
-					this.zhye = objs.cashOut == null ? 0 : objs.cashOut
 					var currTime = new Date()
 					var year = currTime.getFullYear();
 					var month = currTime.getMonth() + 1
@@ -222,6 +237,17 @@
 				} else {
 					this.shows = true
 				}
+			},
+			
+			ddgl() {
+				if (uni.getStorageSync('num')) {
+					uni.navigateTo({
+						url: '/pages/orderse/orderse'
+					});
+				} else {
+					this.shows = true
+				}
+			
 			},
 			xgzh() {
 				if (uni.getStorageSync('num')) {
@@ -278,7 +304,7 @@
 	
 	.fsmx{
 		/deep/.u-border-bottom:after{
-			border-bottom-width: 0px;
+			border-bottom-width: 0px !important;
 
 			}
 	}
@@ -293,10 +319,7 @@
 		width: 650rpx !important;
 		margin: 0 auto !important;
 		padding: 24rpx 0 !important
-
-
 	}
-
 	.bgdtp {
 		width: 100%;
 		height: 100%;

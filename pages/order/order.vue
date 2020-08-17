@@ -7,13 +7,17 @@
 			</view>
 			<view class="qianbox">
 				<view class="fist">
-					<text :class="dzje==0?'xzt':''">{{dzje==0?'暂无数据':dzje}}</text>
+					<!-- :class="dzje==0?'xzt':''" -->
+					<!-- ==0?'暂无数据':dzje -->
+					<text>{{dzje}}</text>
 					<view>
 						到账金额(元)
 					</view>
 				</view>
 				<view class="fist">
-					<text :class="xsje==0?'xzt':''">{{xsje==0?'暂无数据':xsje}}</text>
+					<!-- ==0?'暂无数据':xsje -->
+					<!-- :class="xsje==0?'xzt':''" -->
+					<text>{{xsje}}</text>
 					<view>
 						销售金额(元)
 					</view>
@@ -26,7 +30,7 @@
 				<view class="heads">
 					<text :class="item.ztbz==0?'':'red'">{{item.ztbz==0?'已付款':'已完成'}}</text>
 					<view>
-						{{item.xsrq}} {{item.xssj==null?'':item.xssj}}
+						{{item.xsrq}} &nbsp {{item.xssj==null?'':item.xssj}}
 					</view>
 				</view>
 				<view class="dabh">
@@ -37,20 +41,20 @@
 				</view>
 				<view class="center" v-for="(itms,ind) in item.xsMxList" :key='ind'>
 					<view style="display: flex;">
-						<image src="../../static/img/home/log.png" mode=""></image>
+						<image :src="itms.avatar?itms.avatar:'../../static/img/home/yu.png'" mode=""></image>
 						<view class="centerbox">
 							<view class="title">
-								{{itms.SPMC ==null?'':itms.SPMC}} {{itms.SPGG ==null?'':itms.SPGG}}
+								{{itms.SPMC ==null?'':itms.SPMC}} 
 							</view>
 							<text class="dis">{{itms.BZ==null?'':itms.BZ}}</text>
 							<view class="num">
-								<text v-if="itms.LSDJ">¥</text> <text class="cui">{{itms.cui}}</text>
-								<text class="cuiend">.{{itms.cuiend}}</text> </view>
-						
+								<text class="zkze" v-if="itms.ZKJE">x</text><text class="cui">{{itms.XSSL==null?'':itms.XSSL}}</text>
+								 </view>
+
 						</view>
 					</view>
-					<view class="nums" v-if="itms.XSSL">
-						x{{itms.XSSL==null?'':itms.XSSL}}
+					<view class="nums" v-if="itms.XSSL"> 
+						<text class="hwz" >¥</text> {{itms.cui}}.<text class="cuiend">{{itms.cuiend}}</text>
 					</view>
 					<view class="footes">
 						商品编号: {{itms.SPBM==null?'':itms.SPBM}}
@@ -71,9 +75,13 @@
 				</view>
 			</view>
 		</view>
-		<u-loadmore :is-dot='true' :status="status" />
-		<u-picker @cancel="show=false" @confirm="sjqr" mode="time" v-model="show" :params="params" :end-year='ys'></u-picker>
+		<u-loadmore v-if="status=='nomore'?false:true" :is-dot='true' :status="status" />
+		<u-picker confirm-color='#7CC457' @cancel="show=false" @confirm="sjqr" mode="time" v-model="show" :params="params"
+		 :end-year='ys'></u-picker>
 		<u-modal v-model="shows" @confirm='dl' title="暂未登录" show-cancel-button=true confirm-text='去登录' content="登录后才能继续当前操作"></u-modal>
+		<view class="linsq">
+
+		</view>
 	</view>
 </template>
 
@@ -133,7 +141,7 @@
 			this.doHandleMonth()
 			if (uni.getStorageSync('num')) {
 				this.getday()
-				this.getlist()
+				// this.getlist()
 			} else {
 				this.shows = true
 			}
@@ -144,7 +152,8 @@
 
 			if (this.total - (this.current * this.size) > 0) {
 				this.current = ++this.current
-				this.getlist()
+				// this.getlist()
+				this.getday()
 			} else {
 				this.status = 'nomore';
 			}
@@ -156,11 +165,13 @@
 			// 	if (this.page >= 3)
 			// 	else 
 			// }, 2000)
-			console.log(this.current)
+
 		},
 		onHide() {
 			this.list = []
 			this.show = false
+			this.current = 1
+			this.size = 5
 		},
 		onShow() {
 			this.show = false
@@ -168,61 +179,56 @@
 			this.doHandleMonth()
 			if (uni.getStorageSync('num')) {
 				this.getday()
-				this.getlist()
+				// this.getlist()
 			} else {
 				this.status = 'nomore',
 					this.shows = true
 			}
 		},
 		onLoad(e) {
-			console.log(e,8888888888)
 		},
 		methods: {
 			hasDot(num) {
-				console.log(num, '13113')
 				if (!isNaN(num)) {
-					return ((num + '').indexOf('.') != -1) ? num : num.toFixed(2);
+					
+					num = (num-0).toFixed(2);
+					return num
 				}
 			},
 			getlist() {
 
-				const obj = JSON.parse(uni.getStorageSync('num'))
-				const ids = {
-					id: obj.id,
-					year: this.tYear,
-					month: this.m,
-					current: this.current,
-					size: this.size
-				}
-				homeApi.orderall(JSON.stringify(ids)).then(res => {
-					if (res.data.records.length == 0 || this.current * this.size > res.data.total || this.current * this.size == res
-						.data.total) {
-						this.status = 'nomore';
-					}
-					this.list.push(...res.data.records)
-					this.list.map(e => {
-						e.xsMxList.map(rq => {
-							rq.LSDJ = this.hasDot(rq.LSDJ)
-						})
-						e.xsze = this.hasDot(e.xsze)
-						this.total = res.data.total
-
-					})
-					this.list.map(es => {
-
-						const munsel = (es.xsze + '').indexOf('.')
-						es.cui = (es.xsze + '').slice(0, munsel)
-						es.cuiend = (es.xsze + '').slice(munsel + 1, (es.xsze + '').length)
-
-
-						es.xsMxList.map(e => {
-							const munse = (e.LSDJ + '').indexOf('.')
-							e.cui = (e.LSDJ + '').slice(0, munse)
-							e.cuiend = (e.LSDJ + '').slice(munse + 1, (e.LSDJ + '').length)
-						})
-					})
-					console.log(this.list, 88888)
-				})
+				// const obj = JSON.parse(uni.getStorageSync('num'))
+				// const ids = {
+				// 	id: obj.id,
+				// 	year: this.tYear,
+				// 	month: this.m,
+				// 	current: this.current,
+				// 	size: this.size
+				// }
+				// homeApi.orderall(JSON.stringify(ids)).then(res => {
+				// 	if (res.data.mxList.records.length == 0 || this.current * this.size > res.data.mxList.total || this.current * this.size == res
+				// 		.data.total) {
+				// 		this.status = 'nomore';
+				// 	}
+				// 	this.list.push(...res.data.mxList.records)
+				// 	this.list.map(e => {
+				// 		e.xsMxList.map(rq => {
+				// 			rq.LSDJ = this.hasDot(rq.LSDJ)
+				// 		})
+				// 		e.xsze = this.hasDot(e.xsze)
+				// 		this.total = res.data.mxList.total
+				// 	})
+				// 	this.list.map(es => {
+				// 		const munsel = (es.xsze + '').indexOf('.')
+				// 		es.cui = (es.xsze + '').slice(0, munsel)
+				// 		es.cuiend = (es.xsze + '').slice(munsel + 1, (es.xsze + '').length)
+				// 		es.xsMxList.map(e => {
+				// 			const munse = (e.LSDJ + '').indexOf('.')
+				// 			e.cui = (e.LSDJ + '').slice(0, munse)
+				// 			e.cuiend = (e.LSDJ + '').slice(munse + 1, (e.LSDJ + '').length)
+				// 		})
+				// 	})
+				// })
 
 
 			},
@@ -237,10 +243,35 @@
 				homeApi.amount({
 					year: this.tYear,
 					month: this.m,
-					id: obj.id
+					id: obj.id,
+					current: this.current,
+					size: this.size
 				}).then(res => {
-					this.xsje = res.data.lsze
+					this.xsje = res.data.amount
 					this.dzje = res.data.xsze
+					if (res.data.mxList.records.length == 0 || (this.current == 0 ? 1 : this.current) * this.size > res.data.mxList.total ||
+						(this.current == 0 ? 1 : this.current) * this.size == res
+						.data.total) {
+						this.status = 'nomore';
+					}
+					this.list.push(...res.data.mxList.records)
+					this.list.map(e => {
+						e.xsMxList.map(rq => {
+							rq.ZKJE = this.hasDot(rq.ZKJE)
+						})
+						e.xsze = this.hasDot(e.xsze)
+						this.total = res.data.mxList.total
+					})
+					this.list.map(es => {
+						const munsel = (es.xsze + '').indexOf('.')
+						es.cui = (es.xsze + '').slice(0, munsel)
+						es.cuiend = (es.xsze + '').slice(munsel + 1, (es.xsze + '').length)
+						es.xsMxList.map(e => {
+							const munse = (e.ZKJE + '').indexOf('.')
+							e.cui = (e.ZKJE + '').slice(0, munse)
+							e.cuiend = (e.ZKJE + '').slice(munse + 1, (e.ZKJE + '').length)
+						})
+					})
 				})
 			},
 			async sjqr(val) {
@@ -250,9 +281,8 @@
 				this.m = val.month
 				this.tYear = val.year
 				await this.getday()
-				await this.getlist()
-				
-				console.log(this.list, 8888)
+				// await this.getlist()
+
 			},
 			doHandleYear(tYear) {
 				var myDate = new Date();
@@ -276,7 +306,20 @@
 </script>
 
 <style scoped lang="scss">
-	
+	/deep/.u-more-text {
+		color: #999999 !important;
+	}
+
+	.linsq {
+		position: fixed;
+		top: 132rpx;
+		left: 374rpx;
+		z-index: 25;
+		width: 2rpx;
+		height: 120rpx;
+		background-color: #F3F3F3;
+	}
+
 	.cui {
 		padding-left: 0rpx !important;
 		font-size: 32rpx !important;
@@ -297,7 +340,9 @@
 		padding-right: 5rpx;
 		color: rgba(250, 77, 77, 1);
 	}
-
+.hwz{
+	font-size: 20rpx !important;
+	}
 	.footesbox {
 		display: flex;
 		justify-content: space-between;
@@ -305,7 +350,6 @@
 		height: 112rpx;
 		box-sizing: border-box;
 		padding-right: 24rpx;
-		padding-left: 24rpx;
 
 		.sonmeqian {
 			display: flex;
@@ -338,7 +382,7 @@
 			font-family: PingFang SC;
 			font-weight: 400;
 			line-height: 34rpx;
-			color: rgba(102, 102, 102, 1);
+			color: #333333;
 			opacity: 1;
 		}
 	}
@@ -357,14 +401,18 @@
 		line-height: 40rpx;
 		color: rgba(51, 51, 51, 1);
 		opacity: 1;
-		margin: 12rpx 0 42rpx 24rpx;
+		margin: 12rpx 0 42rpx 0rpx;
 		display: flex;
 		justify-content: flex-start;
 		align-items: center;
 	}
-
+.zkze{
+	
+}
 	.card {
 		margin-bottom: 24rpx;
+		padding: 0 24rpx 0;
+		box-sizing: border-box;
 
 		.footes {
 			position: absolute;
@@ -376,12 +424,15 @@
 			color: rgba(102, 102, 102, 1);
 			opacity: 1;
 			bottom: 24rpx;
+
 		}
 
 		.heads {
 			width: 100%;
 			background: rgba(255, 255, 255, 1);
-			padding: 24rpx  24rpx 0;
+			padding: 24rpx 0 0;
+			border-radius: 16rpx 16rpx 0 0;
+
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
@@ -419,24 +470,23 @@
 		// overflow: hidden;
 		.center {
 			position: relative;
-			padding: 24rpx 40rpx 85rpx 30rpx;
+			padding: 24rpx 40rpx 85rpx 6rpx;
 			display: flex;
 			justify-content: space-between;
 			box-sizing: border-box;
-			border-bottom: 1px solid rgba(230, 230, 230, 1);
+			border-bottom: 1px solid #F3F3F3;
 
 			.nums {
-				// width:32px;
-				position: absolute;
-				left: 630rpx;
-				bottom: 154rpx;
+				margin-top: 56rpx;
 				height: 38rpx;
-				font-size: 32rpx;
-				font-family: SF Pro Text;
-				font-weight: 400;
+				
 				line-height: 160rpx;
 				color: rgba(51, 51, 51, 1);
 				opacity: 1;
+				font-size: 32rpx;
+				font-family: SF Pro Text;
+				font-weight: 600;
+				color: rgba(250, 77, 77, 1);
 			}
 
 			.centerbox {
@@ -446,12 +496,12 @@
 				flex-wrap: wrap;
 
 				.num {
-					// width:124px;
-					height: 40rpx;
 					font-size: 32rpx;
 					font-family: SF Pro Text;
-					font-weight: 600;
-					color: rgba(250, 77, 77, 1);
+					font-weight: 400;
+					// width:124px;
+					height: 40rpx;
+					
 					opacity: 1;
 
 					text {
@@ -499,7 +549,7 @@
 	}
 
 	.cardboxs {
-		margin-top: 340rpx;
+		margin-top: 324rpx;
 	}
 
 	.qianbox {
@@ -509,8 +559,10 @@
 		align-items: center;
 
 		.fist {
-			padding: 16rpx 78rpx 46rpx;
+			width: 50%;
+			padding: 16rpx 0 46rpx;
 			box-sizing: border-box;
+			text-align: center;
 
 			text {
 				width: 100%;

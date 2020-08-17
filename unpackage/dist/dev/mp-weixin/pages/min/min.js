@@ -94,13 +94,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   uCellGroup: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-cell-group/u-cell-group */ "uview-ui/components/u-cell-group/u-cell-group").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-cell-group/u-cell-group.vue */ 189))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-cell-group/u-cell-group */ "uview-ui/components/u-cell-group/u-cell-group").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-cell-group/u-cell-group.vue */ 197))
   },
   uCellItem: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-cell-item/u-cell-item */ "uview-ui/components/u-cell-item/u-cell-item").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-cell-item/u-cell-item.vue */ 196))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-cell-item/u-cell-item */ "uview-ui/components/u-cell-item/u-cell-item").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-cell-item/u-cell-item.vue */ 204))
   },
   uModal: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-modal/u-modal */ "uview-ui/components/u-modal/u-modal").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-modal/u-modal.vue */ 182))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-modal/u-modal */ "uview-ui/components/u-modal/u-modal").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-modal/u-modal.vue */ 190))
   }
 }
 var render = function() {
@@ -228,6 +228,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
 var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 42));var _methods;function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
 {
 
@@ -248,7 +252,8 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
         num: '',
         payee: '',
         fpxx: '',
-        fp: '' },
+        fp: '',
+        orders: '' },
 
       listabc: [{
         iconPath: "home",
@@ -296,9 +301,10 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
     this.iPhone();
     this.getlists();
     if (uni.getStorageSync('num')) {
+      this.getsp();
       var num = JSON.parse(uni.getStorageSync('num'));
       _home.default.businesstxjs({ id: num.id }).then(function (res) {
-        console.log(res, 888);
+        _this.zhye = res.data.cashOut == null ? '' : res.data.cashOut;
         _this.form.company = res.data.company == null ? '' : res.data.company;
         _this.form.payee = res.data.payee == null ? '' : res.data.payee;
         if (res.data.personInvoiceHead) {
@@ -332,16 +338,25 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
     } },
 
   methods: (_methods = {
-
+    getsp: function getsp() {var _this2 = this;
+      var objs = JSON.parse(uni.getStorageSync('num'));
+      var xtDmb = JSON.parse(uni.getStorageSync('xtDmb'));
+      xtDmb;
+      _home.default.spnum(JSON.stringify({
+        id: xtDmb.id,
+        spbm: '' })).
+      then(function (res) {
+        _this2.form.orders = res.data == null ? 0 : res.data.length + '件';
+      });
+    },
     dl: function dl() {
       uni.navigateTo({
         url: '/pages/login/logs' });
 
     },
-    getlists: function getlists() {var _this2 = this;
+    getlists: function getlists() {var _this3 = this;
       if (uni.getStorageSync('num')) {
         var objs = JSON.parse(uni.getStorageSync('num'));
-        this.zhye = objs.cashOut == null ? 0 : objs.cashOut;
         var currTime = new Date();
         var year = currTime.getFullYear();
         var month = currTime.getMonth() + 1;
@@ -351,7 +366,7 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
           month: month,
           year: year }).
         then(function (res) {
-          _this2.allday = res.data;
+          _this3.allday = res.data;
         });
       } else {
         this.shows = true;
@@ -377,6 +392,17 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
     } else {
       this.shows = true;
     }
+  }), _defineProperty(_methods, "ddgl", function ddgl()
+
+  {
+    if (uni.getStorageSync('num')) {
+      uni.navigateTo({
+        url: '/pages/orderse/orderse' });
+
+    } else {
+      this.shows = true;
+    }
+
   }), _defineProperty(_methods, "xgzh", function xgzh()
   {
     if (uni.getStorageSync('num')) {

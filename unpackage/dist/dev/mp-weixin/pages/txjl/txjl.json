@@ -1,5 +1,6 @@
 {
   "navigationBarTitleText": "提现记录",
   "navigationBarTextStyle": "black",
+  "enablePullDownRefresh": true,
   "usingComponents": {}
 }

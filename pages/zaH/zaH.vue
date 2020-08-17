@@ -78,6 +78,7 @@
 				uni.navigateTo({
 				  url: '/pages/zaH/zaHupdata/zaHupdata'
 				});
+				
 				// uni.redirectTo({
 				//     url: '/pages/home/home'
 				// });

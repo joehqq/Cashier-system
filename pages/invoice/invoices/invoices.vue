@@ -199,7 +199,6 @@
 					companyInvoiceNum:this.type==1?'':this.mobiles
 				}
 			homeApi.businessupdate(JSON.stringify(oj)).then(res=>{
-				console.log(res)
 				if(res.code==100){
 					obj.personInvoiceHead=this.type==1?this.mobile:''
 					obj.companyInvoiceHead=this.type==1?'':this.mobile,

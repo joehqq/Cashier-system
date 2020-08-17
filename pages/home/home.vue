@@ -39,10 +39,12 @@
 		</view>
 		<view class="center fst">
 			<view class="fistbox">
+				<!-- -->
 				<view class="txbox" @click="ljtx">
 					<image src="../../static/img/home/tx.png" mode=""></image>
 					<text>立即提现</text>
 				</view>
+				<!--  -->
 				<view class="txbox" @click="txjl">
 					<image src="../../static/img/home/jl.png" mode=""></image>
 					<text>提现记录</text>
@@ -62,15 +64,15 @@
 								销售收入
 							</view>
 							<view class="times">
-								{{item.xsrq}}
+								{{item.createTime}}
 							</view>
 							<view class="orderid">
 								订单编号:{{item.xslsh}}
 							</view>
 						</view>
 						<view class="rightbox">
-							<!-- <text>+¥{{item.zkze}}</text> -->
-							<text>+<text class="cuiq">¥</text> <text class="cuiz">{{item.cui}}</text> <text class="cuiend">.{{item.cuiend}}</text>
+							<!-- <text>+¥{{item.bsGet}}</text> -->
+							<text>+ <text class="cuiz">{{item.cui}}</text> <text class="cuiz">.{{item.cuiend}}</text>
 							</text>
 							<image src="../../static/img/home/y.png" mode=""></image>
 						</view>
@@ -84,15 +86,15 @@
 								提现
 							</view>
 							<view class="times">
-								{{item.xsrq}}
+								{{item.createTime}}
 							</view>
 							<view class="orderid">
 								订单编号:{{item.xslsh}}
 							</view>
 						</view>
 						<view class="rightbox">
-							<!-- <text >-¥{{item.zkze}}</text> -->
-							<text class="reds">-<text class="cuiq reds">¥</text> <text class="cuiz reds">{{item.cui}}</text> <text class="cuiend reds">.{{item.cuiend}}</text>
+							<!-- <text >-¥{{item.bsGet}}</text> -->
+							<text class="reds">- <text class="cuiz reds">{{item.cui}}</text> <text class="cuiz reds">.{{item.cuiend}}</text>
 							</text>
 							<image src="../../static/img/home/y.png" mode=""></image>
 						</view>
@@ -107,7 +109,8 @@
 								{{item.type==1?'销售收入':'提现'}}
 							</view>
 							<view class="times">
-								{{item.xsrq}}
+								{{item.createTime }}
+
 							</view>
 							<view class="orderid">
 								订单编号:{{item.xslsh}}
@@ -116,9 +119,9 @@
 
 						<view class="rightbox">
 
-							<text :class="item.type==1?'':'reds'">{{item.type==1?'+':'-'}} <text class="cuiq" :class="item.type==1?'':'reds'">¥</text>
+							<text :class="item.type==1?'':'reds'">{{item.type==1?'+':'-'}}
 								<text :class="item.type==1?'':'reds'" class="cuiz">{{item.cui}}</text>
-								<text class="cuiend" :class="item.type==1?'':'reds'">.{{item.cuiend}}</text> </text>
+								<text class="cuiz" :class="item.type==1?'':'reds'">.{{item.cuiend}}</text> </text>
 							<image src="../../static/img/home/y.png" mode=""></image>
 						</view>
 					</view>
@@ -174,6 +177,9 @@
 				current: 0
 			}
 		},
+		filters: {
+			
+		},
 		async onPullDownRefresh() {
 			if (uni.getStorageSync('num')) {
 				await this.getall()
@@ -200,9 +206,7 @@
 			await this.change(0)
 
 		},
-		onLoad(val) {
-			console.log(val, 888888)
-		},
+		onLoad(val) {},
 		onHide() {
 			this.shows = false
 		},
@@ -224,8 +228,12 @@
 			},
 			// 数字补0
 			hasDot(num) {
+				
+				
 				if (!isNaN(num)) {
-					return ((num + '').indexOf('.') != -1) ? num : num.toFixed(2);
+					
+					num = (num-0).toFixed(2);
+					return num
 				}
 			},
 			getall() {
@@ -234,17 +242,17 @@
 					id: shyc.id
 				}).then(res => {
 					if (res.data.now) {
-						this.form.now = res.data.now.total == null ? 0 : res.data.now.total
+						this.form.now = res.data.now.amount == null ? 0 : res.data.now.amount
 					} else {
 						this.form.now = 0
 					}
 					if (res.data.sevenDays) {
-						this.form.sevenDays = res.data.sevenDays.total == null ? 0 : res.data.sevenDays.total
+						this.form.sevenDays = res.data.sevenDays.amount == null ? 0 : res.data.sevenDays.amount
 					} else {
 						this.form.sevenDays = 0
 					}
 					if (res.data.thirtyDays) {
-						this.form.thirtyDays = res.data.thirtyDays.total == null ? 0 : res.data.thirtyDays.total
+						this.form.thirtyDays = res.data.thirtyDays.amount == null ? 0 : res.data.thirtyDays.amount
 					} else {
 						this.form.thirtyDays = 0
 					}
@@ -257,57 +265,51 @@
 
 					id: shyc.id
 				}).then(res => {
-					console.log(9999999, res)
 					if (res.data.length > 0) {
 						this.srlist = res.data
 						this.srlist.map(e => {
 							e.type = 1
-							e.zkze = this.hasDot(e.zkze)
+							e.bsGet = this.hasDot(e.bsGet)
 						})
 						this.srlist.map(e => {
-							const munse = (e.zkze + '').indexOf('.')
-							e.cui = (e.zkze + '').slice(0, munse)
-							e.cuiend = (e.zkze + '').slice(munse + 1, (e.zkze + '').length)
+							const munse = (e.bsGet + '').indexOf('.')
+							e.cui = (e.bsGet + '').slice(0, munse)
+							e.cuiend = (e.bsGet + '').slice(munse + 1, (e.bsGet + '').length)
 						})
 					}
-					console.log(this.srlist)
 				});
-				await homeApi.cash({
-
+				// 支出列表暂无
+				await homeApi.txjl({
 					id: shyc.id
 				}).then(res => {
 
 					if (res.data.length > 0) {
-						this.zclist = res.data
+						let arr=[]
+						this.zclist=[]
+						arr=res.data
+						arr.map(res=>{
+							if(res.status==1){
+								this.zclist.push(res)
+							}
+						})
+						console.log(this.zclist,'this.zclist')
 						this.zclist.map(e => {
 							e.type = 2
-							e.zkze = this.hasDot(e.zkze)
+							e.bsGet = this.hasDot(e.bsGet)
 						})
 						this.zclist.map(e => {
-							const munse = (e.zkze + '').indexOf('.')
-							e.cui = (e.zkze + '').slice(0, munse)
-							e.cuiend = (e.zkze + '').slice(munse + 1, (e.zkze + '').length)
+							const munse = (e.bsGet + '').indexOf('.')
+							e.cui = (e.bsGet + '').slice(0, munse)
+							e.cuiend = (e.bsGet + '').slice(munse + 1, (e.bsGet + '').length)
 						})
-
 					}
-
-					console.log(res)
 				})
-				this.srlist.map(eq => {
-					console.log(eq.zkze);
-					eq.zkze = this.hasDot(eq.zkze)
-				})
-				// this.zclist.map(eq=>{
-				// 	console.log(eq.zkze);
-				// // eq.zkze= this.hasDot(eq.zkze)
-				// })
+				
 				this.alllist = this.srlist.concat(this.zclist);
-				// if(!isNaN(num)){
-				//             return ( (num + '').indexOf('.') != -1 ) ? num: num.toFixed(2);   
-				//  }
+				
 
 				this.alllist.sort(function(a, b) {
-					return a.xsrq > b.xsrq ? -1 : 1;
+					return a.createTime > b.createTime ? -1 : 1;
 				});
 			},
 			txjl() {
@@ -333,6 +335,7 @@
 			},
 			ljtx() {
 				if (uni.getStorageSync('num')) {
+					// this.$u.toast(`此功能暂未开放`);
 					const shyc = JSON.parse(uni.getStorageSync('num'))
 					if (shyc.card) {
 						uni.navigateTo({
@@ -348,9 +351,6 @@
 			},
 			change(index) {
 				this.current = index;
-				console.log(this.current, 'this.current')
-				console.log(this.alllist, 'this.alllist')
-				console.log(this.srlist, 'this.srlist')
 				if (this.current == 0 && this.alllist.length == 0) {
 					this.showwu = true
 				} else if (this.current == 1 && this.srlist.length == 0) {
@@ -420,11 +420,13 @@
 	}
 
 	.cuiq {
+		margin-right: 2rpx;
 		font-size: 28rpx !important;
+		margin-left: 7rpx;
 	}
 
 	.cuiz {
-		font-size: 40rpx !important;
+		font-size: 28rpx !important;
 	}
 
 	.cuiend {
@@ -432,17 +434,19 @@
 	}
 
 	.reds {
-		color: red !important;
+		color: #333333 !important;
 	}
 
 	.mx {
+		padding: 24rpx;
+		box-sizing: border-box;
 
 		.xxxr {
-			padding: 0 24rpx 0 24rpx;
+			padding: 0 0 0 0;
 			box-sizing: border-box;
 			display: flex;
 			justify-content: space-between;
-			border-bottom: 1px solid #ebeef5;
+			border-bottom: 1px solid #F3F3F3;
 			padding-bottom: 24rpx;
 		}
 
@@ -456,11 +460,11 @@
 			text {
 				width: 100%;
 				text-align: right !important;
-				height: 48rpx;
-				font-size: 40rpx;
-				font-family: SF Pro Text;
+				height: 37rpx;
+				font-size: 28rpx;
+				font-family: dinbold;
 				font-weight: 600;
-				color: rgba(124, 196, 87, 1);
+				color: #FA4D4D;
 				opacity: 1;
 			}
 
@@ -493,7 +497,13 @@
 
 				.times,
 				.orderid {
-					width: 100%;
+					width: 328rpx;
+					text-overflow: ellipsis;
+					// 文本溢出属性指定应向用户如何显示溢出内容
+					// ellipsis是省略的意思
+					// overflow 属性规定当内容溢出元素框时发生的事情。
+					// hidden   内容会被修剪，并且其余内容是不可见的。
+					white-space: nowrap;
 					height: 34rpx;
 					font-size: 24rpx;
 					font-family: PingFang SC;
@@ -621,7 +631,7 @@
 		height: 44rpx;
 		position: absolute;
 		top: 42rpx;
-		left: 128rpx;
+		right: -50rpx;
 
 	}
 

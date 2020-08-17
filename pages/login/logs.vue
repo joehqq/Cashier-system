@@ -11,7 +11,7 @@
 				</view>
 			</view>
 			<view class="btn">
-				<button class="custom-style1" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber"  >微信一键登录</button>
+				<button class="custom-style1" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">微信一键登录</button>
 				<view class="custom-style" @click="iphon">手机号快捷登录</view>
 				<!-- <view class="custom-style" @click="iphosn">手机的方式号快捷登录</view> -->
 			</view>
@@ -25,7 +25,7 @@
 		<view class="bar" @click="ty">
 			点击登录即表示您同意<text>{{tes}}</text>
 		</view>
-		
+
 		<view class="boxzz" v-if="show">
 			<u-loading class="ddjz" :show="show" mode="circle"></u-loading>
 		</view>
@@ -33,43 +33,38 @@
 </template>
 
 <script>
-	
 	import homeApi from '../../api/home.js'
 	export default {
 		data() {
 			return {
 				tes: '《用户服务协议》',
-				openid:'',
-				session_key:'',
-				show:false
+				openid: '',
+				session_key: '',
+				show: false
 			};
 		},
 		onLoad() {
-             uni.login({
-               provider: 'weixin',
-               success: function (loginRes) {
-                uni.setStorageSync('code',loginRes.code)
-               }
-             }); 
+			uni.login({
+				provider: 'weixin',
+				success: function(loginRes) {
+					uni.setStorageSync('code', loginRes.code)
+				}
+			});
 		},
-		created() {
-		},
+		created() {},
 		methods: {
-		iphosn(){
-			uni.authorize({
-			    scope: 'scope.invoice',
-			    success() {
-			      wx.chooseInvoiceTitle({
-			        success(res) {
-						console.log(res)
+			iphosn() {
+				uni.authorize({
+					scope: 'scope.invoice',
+					success() {
+						wx.chooseInvoiceTitle({
+							success(res) {
+							}
+						})
 					}
-			      })
-			    }
-			})
-		},
-			bindGetUserInfo(e){
-				console.log(e)
-				console.log(11111)
+				})
+			},
+			bindGetUserInfo(e) {
 			},
 			iphon() {
 
@@ -82,42 +77,46 @@
 					url: '/pages/login/xy'
 				});
 			},
-			
-			getPhoneNumber(e) {
-				// if(e.detail.encryptedData){}
-				console.log(e.detail.encryptedData,'e.detail.encryptedData')
-				console.log(e.detail.iv,'e.detail.iv')
-				this.show=true
-				const obj = {
-					code: uni.getStorageSync('code'),
-					ivData:e.detail.iv,
-					encrypData:e.detail.encryptedData
-				}
-				homeApi.wx({js_code: uni.getStorageSync('code'),
-					ivData:e.detail.iv,
-					encrypData:e.detail.encryptedData}).then(res => {
-					if(res.code==100){
-						   uni.setStorageSync('token',res.data.token)
-						   uni.setStorageSync('num',JSON.stringify(res.data.businessInfo))
-						uni.switchTab({
-							url: '/pages/home/home'
-						});
-					}else{
-						if(res.message=='请选择此账号绑定的手机号进行登录！'){
-							this.$u.toast(`请选择此账号绑定的手机号进行登录！`);
-						}else{
-							this.$u.toast(res.message);
-						}
-						uni.login({
-						  provider: 'weixin',
-						  success: function (loginRes) {
-						   uni.setStorageSync('code',loginRes.code)
-						  }
-						}); 
+
+			async getPhoneNumber(e) {
+				this.show = true
+				
+				if (e.detail.encryptedData) {
+					const obj = {
+						code: uni.getStorageSync('code'),
+						ivData: e.detail.iv,
+						encrypData: e.detail.encryptedData
 					}
-					this.show=false
-				})
-				console.log(e)
+					homeApi.wx({
+						js_code: uni.getStorageSync('code'),
+						ivData: e.detail.iv,
+						encrypData: e.detail.encryptedData
+					}).then(res => {
+						if (res.code == 100) {
+							uni.setStorageSync('token', res.data.token)
+							uni.setStorageSync('num', JSON.stringify(res.data.businessInfo))
+							uni.setStorageSync('xtDmb', JSON.stringify(res.data.xtDmb))
+							uni.switchTab({
+								url: '/pages/home/home'
+							});
+						} else {
+							if (res.message == '请选择此账号绑定的手机号进行登录！') {
+								this.$u.toast(`请选择此账号绑定的手机号进行登录！`);
+							} else {
+								this.$u.toast(res.message);
+							}
+							uni.login({
+								provider: 'weixin',
+								success: function(loginRes) {
+									uni.setStorageSync('code', loginRes.code)
+								}
+							});
+						}
+						this.show = false
+					})
+				} else {
+					this.show = false
+				}
 			},
 
 			wx() {
@@ -260,13 +259,15 @@
 			opacity: 1;
 		}
 	}
-	.ddjz{
+
+	.ddjz {
 		position: fixed;
 		top: 50%;
 		left: 50%;
-		transform: translate(-50%,-50%);
+		transform: translate(-50%, -50%);
 	}
-	.boxzz{
+
+	.boxzz {
 		width: 100%;
 		height: 100%;
 		position: fixed;

@@ -94,10 +94,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   uTabs: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-tabs/u-tabs */ "uview-ui/components/u-tabs/u-tabs").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabs/u-tabs.vue */ 175))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-tabs/u-tabs */ "uview-ui/components/u-tabs/u-tabs").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabs/u-tabs.vue */ 183))
   },
   uModal: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-modal/u-modal */ "uview-ui/components/u-modal/u-modal").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-modal/u-modal.vue */ 182))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-modal/u-modal */ "uview-ui/components/u-modal/u-modal").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-modal/u-modal.vue */ 190))
   }
 }
 var render = function() {
@@ -290,6 +290,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
 var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 42));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var _default =
 {
   data: function data() {
@@ -322,6 +325,9 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
       current: 0 };
 
   },
+  filters: {},
+
+
   onPullDownRefresh: function onPullDownRefresh() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:if (!
               uni.getStorageSync('num')) {_context.next = 7;break;}_context.next = 3;return (
                 _this.getall());case 3:_context.next = 5;return (
@@ -348,9 +354,7 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
                 _this2.change(0));case 10:case "end":return _context2.stop();}}}, _callee2);}))();
 
   },
-  onLoad: function onLoad(val) {
-    console.log(val, 888888);
-  },
+  onLoad: function onLoad(val) {},
   onHide: function onHide() {
     this.shows = false;
   },
@@ -372,8 +376,12 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
     },
     // 数字补0
     hasDot: function hasDot(num) {
+
+
       if (!isNaN(num)) {
-        return (num + '').indexOf('.') != -1 ? num : num.toFixed(2);
+
+        num = (num - 0).toFixed(2);
+        return num;
       }
     },
     getall: function getall() {var _this3 = this;
@@ -382,17 +390,17 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
         id: shyc.id }).
       then(function (res) {
         if (res.data.now) {
-          _this3.form.now = res.data.now.total == null ? 0 : res.data.now.total;
+          _this3.form.now = res.data.now.amount == null ? 0 : res.data.now.amount;
         } else {
           _this3.form.now = 0;
         }
         if (res.data.sevenDays) {
-          _this3.form.sevenDays = res.data.sevenDays.total == null ? 0 : res.data.sevenDays.total;
+          _this3.form.sevenDays = res.data.sevenDays.amount == null ? 0 : res.data.sevenDays.amount;
         } else {
           _this3.form.sevenDays = 0;
         }
         if (res.data.thirtyDays) {
-          _this3.form.thirtyDays = res.data.thirtyDays.total == null ? 0 : res.data.thirtyDays.total;
+          _this3.form.thirtyDays = res.data.thirtyDays.amount == null ? 0 : res.data.thirtyDays.amount;
         } else {
           _this3.form.thirtyDays = 0;
         }
@@ -405,58 +413,52 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
 
                     id: shyc.id }).
                   then(function (res) {
-                    console.log(9999999, res);
                     if (res.data.length > 0) {
                       _this4.srlist = res.data;
                       _this4.srlist.map(function (e) {
                         e.type = 1;
-                        e.zkze = _this4.hasDot(e.zkze);
+                        e.bsGet = _this4.hasDot(e.bsGet);
                       });
                       _this4.srlist.map(function (e) {
-                        var munse = (e.zkze + '').indexOf('.');
-                        e.cui = (e.zkze + '').slice(0, munse);
-                        e.cuiend = (e.zkze + '').slice(munse + 1, (e.zkze + '').length);
+                        var munse = (e.bsGet + '').indexOf('.');
+                        e.cui = (e.bsGet + '').slice(0, munse);
+                        e.cuiend = (e.bsGet + '').slice(munse + 1, (e.bsGet + '').length);
                       });
                     }
-                    console.log(_this4.srlist);
                   }));case 3:_context3.next = 5;return (
-                  _home.default.cash({
 
+                  _home.default.txjl({
                     id: shyc.id }).
                   then(function (res) {
 
                     if (res.data.length > 0) {
-                      _this4.zclist = res.data;
+                      var arr = [];
+                      _this4.zclist = [];
+                      arr = res.data;
+                      arr.map(function (res) {
+                        if (res.status == 1) {
+                          _this4.zclist.push(res);
+                        }
+                      });
+                      console.log(_this4.zclist, 'this.zclist');
                       _this4.zclist.map(function (e) {
                         e.type = 2;
-                        e.zkze = _this4.hasDot(e.zkze);
+                        e.bsGet = _this4.hasDot(e.bsGet);
                       });
                       _this4.zclist.map(function (e) {
-                        var munse = (e.zkze + '').indexOf('.');
-                        e.cui = (e.zkze + '').slice(0, munse);
-                        e.cuiend = (e.zkze + '').slice(munse + 1, (e.zkze + '').length);
+                        var munse = (e.bsGet + '').indexOf('.');
+                        e.cui = (e.bsGet + '').slice(0, munse);
+                        e.cuiend = (e.bsGet + '').slice(munse + 1, (e.bsGet + '').length);
                       });
-
                     }
-
-                    console.log(res);
                   }));case 5:
-                _this4.srlist.map(function (eq) {
-                  console.log(eq.zkze);
-                  eq.zkze = _this4.hasDot(eq.zkze);
-                });
-                // this.zclist.map(eq=>{
-                // 	console.log(eq.zkze);
-                // // eq.zkze= this.hasDot(eq.zkze)
-                // })
+
                 _this4.alllist = _this4.srlist.concat(_this4.zclist);
-                // if(!isNaN(num)){
-                //             return ( (num + '').indexOf('.') != -1 ) ? num: num.toFixed(2);   
-                //  }
+
 
                 _this4.alllist.sort(function (a, b) {
-                  return a.xsrq > b.xsrq ? -1 : 1;
-                });case 8:case "end":return _context3.stop();}}}, _callee3);}))();
+                  return a.createTime > b.createTime ? -1 : 1;
+                });case 7:case "end":return _context3.stop();}}}, _callee3);}))();
     },
     txjl: function txjl() {
       if (uni.getStorageSync('num')) {
@@ -481,6 +483,7 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
     },
     ljtx: function ljtx() {
       if (uni.getStorageSync('num')) {
+        // this.$u.toast(`此功能暂未开放`);
         var shyc = JSON.parse(uni.getStorageSync('num'));
         if (shyc.card) {
           uni.navigateTo({
@@ -496,9 +499,6 @@ var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 
     },
     change: function change(index) {
       this.current = index;
-      console.log(this.current, 'this.current');
-      console.log(this.alllist, 'this.alllist');
-      console.log(this.srlist, 'this.srlist');
       if (this.current == 0 && this.alllist.length == 0) {
         this.showwu = true;
       } else if (this.current == 1 && this.srlist.length == 0) {

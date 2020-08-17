@@ -94,7 +94,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   uLoading: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-loading/u-loading */ "uview-ui/components/u-loading/u-loading").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-loading/u-loading.vue */ 220))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-loading/u-loading */ "uview-ui/components/u-loading/u-loading").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-loading/u-loading.vue */ 228))
   }
 }
 var render = function() {
@@ -134,7 +134,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@vue/babel-preset-app/node_modules/@babel/runtime/regenerator */ 39));
 
 
 
@@ -169,43 +169,38 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 42));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var _default =
+{
+  data: function data() {
+    return {
+      tes: '《用户服务协议》',
+      openid: '',
+      session_key: '',
+      show: false };
 
-var _home = _interopRequireDefault(__webpack_require__(/*! ../../api/home.js */ 42));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var _default = { data: function data() {return { tes: '《用户服务协议》', openid: '', session_key: '', show: false };}, onLoad: function onLoad() {uni.login({ provider: 'weixin', success: function success(loginRes) {uni.setStorageSync('code', loginRes.code);} });}, created: function created() {}, methods: { iphosn: function iphosn() {uni.authorize({ scope: 'scope.invoice', success: function success() {wx.chooseInvoiceTitle({ success: function success(res) {console.log(res);} });} });}, bindGetUserInfo: function bindGetUserInfo(e) {console.log(e);
-      console.log(11111);
+  },
+  onLoad: function onLoad() {
+    uni.login({
+      provider: 'weixin',
+      success: function success(loginRes) {
+        uni.setStorageSync('code', loginRes.code);
+      } });
+
+  },
+  created: function created() {},
+  methods: {
+    iphosn: function iphosn() {
+      uni.authorize({
+        scope: 'scope.invoice',
+        success: function success() {
+          wx.chooseInvoiceTitle({
+            success: function success(res) {
+            } });
+
+        } });
+
+    },
+    bindGetUserInfo: function bindGetUserInfo(e) {
     },
     iphon: function iphon() {
 
@@ -219,41 +214,45 @@ var _default = { data: function data() {return { tes: '《用户服务协议》'
 
     },
 
-    getPhoneNumber: function getPhoneNumber(e) {var _this = this;
-      // if(e.detail.encryptedData){}
-      console.log(e.detail.encryptedData, 'e.detail.encryptedData');
-      console.log(e.detail.iv, 'e.detail.iv');
-      this.show = true;
-      var obj = {
-        code: uni.getStorageSync('code'),
-        ivData: e.detail.iv,
-        encrypData: e.detail.encryptedData };
+    getPhoneNumber: function getPhoneNumber(e) {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var obj;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+                _this.show = true;
 
-      _home.default.wx({ js_code: uni.getStorageSync('code'),
-        ivData: e.detail.iv,
-        encrypData: e.detail.encryptedData }).then(function (res) {
-        if (res.code == 100) {
-          uni.setStorageSync('token', res.data.token);
-          uni.setStorageSync('num', JSON.stringify(res.data.businessInfo));
-          uni.switchTab({
-            url: '/pages/home/home' });
+                if (e.detail.encryptedData) {
+                  obj = {
+                    code: uni.getStorageSync('code'),
+                    ivData: e.detail.iv,
+                    encrypData: e.detail.encryptedData };
 
-        } else {
-          if (res.message == '请选择此账号绑定的手机号进行登录！') {
-            _this.$u.toast("\u8BF7\u9009\u62E9\u6B64\u8D26\u53F7\u7ED1\u5B9A\u7684\u624B\u673A\u53F7\u8FDB\u884C\u767B\u5F55\uFF01");
-          } else {
-            _this.$u.toast(res.message);
-          }
-          uni.login({
-            provider: 'weixin',
-            success: function success(loginRes) {
-              uni.setStorageSync('code', loginRes.code);
-            } });
+                  _home.default.wx({
+                    js_code: uni.getStorageSync('code'),
+                    ivData: e.detail.iv,
+                    encrypData: e.detail.encryptedData }).
+                  then(function (res) {
+                    if (res.code == 100) {
+                      uni.setStorageSync('token', res.data.token);
+                      uni.setStorageSync('num', JSON.stringify(res.data.businessInfo));
+                      uni.setStorageSync('xtDmb', JSON.stringify(res.data.xtDmb));
+                      uni.switchTab({
+                        url: '/pages/home/home' });
 
-        }
-        _this.show = false;
-      });
-      console.log(e);
+                    } else {
+                      if (res.message == '请选择此账号绑定的手机号进行登录！') {
+                        _this.$u.toast("\u8BF7\u9009\u62E9\u6B64\u8D26\u53F7\u7ED1\u5B9A\u7684\u624B\u673A\u53F7\u8FDB\u884C\u767B\u5F55\uFF01");
+                      } else {
+                        _this.$u.toast(res.message);
+                      }
+                      uni.login({
+                        provider: 'weixin',
+                        success: function success(loginRes) {
+                          uni.setStorageSync('code', loginRes.code);
+                        } });
+
+                    }
+                    _this.show = false;
+                  });
+                } else {
+                  _this.show = false;
+                }case 2:case "end":return _context.stop();}}}, _callee);}))();
     },
 
     wx: function wx() {

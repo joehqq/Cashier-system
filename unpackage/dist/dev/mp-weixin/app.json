@@ -4,6 +4,7 @@
     "pages/min/min",
     "pages/order/order",
     "pages/login/logs",
+    "pages/orderse/orderse",
     "pages/login/login",
     "pages/exchange/exchange",
     "pages/invoice/invoice",
@@ -51,6 +52,5 @@
       }
     ]
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap3.json"
+  "usingComponents": {}
 }

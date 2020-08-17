@@ -24,6 +24,18 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+.data-v-127632e4 .u-more-text {
+  color: #999999 !important;
+}
+.linsq.data-v-127632e4 {
+  position: fixed;
+  top: 132rpx;
+  left: 374rpx;
+  z-index: 25;
+  width: 2rpx;
+  height: 120rpx;
+  background-color: #F3F3F3;
+}
 .cui.data-v-127632e4 {
   padding-left: 0rpx !important;
   font-size: 32rpx !important;
@@ -41,6 +53,9 @@
   padding-right: 5rpx;
   color: #fa4d4d;
 }
+.hwz.data-v-127632e4 {
+  font-size: 20rpx !important;
+}
 .footesbox.data-v-127632e4 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -54,7 +69,6 @@
   height: 112rpx;
   box-sizing: border-box;
   padding-right: 24rpx;
-  padding-left: 24rpx;
 }
 .footesbox .sonmeqian.data-v-127632e4 {
   display: -webkit-box;
@@ -88,7 +102,7 @@
   font-family: PingFang SC;
   font-weight: 400;
   line-height: 34rpx;
-  color: #666666;
+  color: #333333;
   opacity: 1;
 }
 .red.data-v-127632e4 {
@@ -104,7 +118,7 @@
   line-height: 40rpx;
   color: #333333;
   opacity: 1;
-  margin: 12rpx 0 42rpx 24rpx;
+  margin: 12rpx 0 42rpx 0rpx;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -117,6 +131,8 @@
 }
 .card.data-v-127632e4 {
   margin-bottom: 24rpx;
+  padding: 0 24rpx 0;
+  box-sizing: border-box;
   width: 100%;
   background: white;
   box-shadow: 0px 2rpx 12rpx rgba(0, 0, 0, 0.08);
@@ -137,7 +153,8 @@
 .card .heads.data-v-127632e4 {
   width: 100%;
   background: white;
-  padding: 24rpx  24rpx 0;
+  padding: 24rpx 0 0;
+  border-radius: 16rpx 16rpx 0 0;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -168,7 +185,7 @@
 }
 .card .center.data-v-127632e4 {
   position: relative;
-  padding: 24rpx 40rpx 85rpx 30rpx;
+  padding: 24rpx 40rpx 85rpx 6rpx;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -176,19 +193,18 @@
   -webkit-justify-content: space-between;
           justify-content: space-between;
   box-sizing: border-box;
-  border-bottom: 1px solid #e6e6e6;
+  border-bottom: 1px solid #F3F3F3;
 }
 .card .center .nums.data-v-127632e4 {
-  position: absolute;
-  left: 630rpx;
-  bottom: 154rpx;
+  margin-top: 56rpx;
   height: 38rpx;
-  font-size: 32rpx;
-  font-family: SF Pro Text;
-  font-weight: 400;
   line-height: 160rpx;
   color: #333333;
   opacity: 1;
+  font-size: 32rpx;
+  font-family: SF Pro Text;
+  font-weight: 600;
+  color: #fa4d4d;
 }
 .card .center .centerbox.data-v-127632e4 {
   display: -webkit-box;
@@ -201,11 +217,10 @@
           flex-wrap: wrap;
 }
 .card .center .centerbox .num.data-v-127632e4 {
-  height: 40rpx;
   font-size: 32rpx;
   font-family: SF Pro Text;
-  font-weight: 600;
-  color: #fa4d4d;
+  font-weight: 400;
+  height: 40rpx;
   opacity: 1;
 }
 .card .center .centerbox .num text.data-v-127632e4 {
@@ -242,7 +257,7 @@
   font-size: 28rpx !important;
 }
 .cardboxs.data-v-127632e4 {
-  margin-top: 340rpx;
+  margin-top: 324rpx;
 }
 .qianbox.data-v-127632e4 {
   display: -webkit-box;
@@ -258,8 +273,10 @@
           align-items: center;
 }
 .qianbox .fist.data-v-127632e4 {
-  padding: 16rpx 78rpx 46rpx;
+  width: 50%;
+  padding: 16rpx 0 46rpx;
   box-sizing: border-box;
+  text-align: center;
 }
 .qianbox .fist text.data-v-127632e4 {
   width: 100%;

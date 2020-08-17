@@ -3,6 +3,8 @@
 		onLaunch: function() {
 			
 		},
+		
+		
 		onShow: function() {
 			uni.login({
 			  provider: 'weixin',
@@ -25,5 +27,6 @@
 	@import "uview-ui/index.scss";
 	body{
 		background: #FFFFFF !important;
+		// background-color: red !important;
 	}
 </style>

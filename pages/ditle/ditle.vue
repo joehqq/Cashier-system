@@ -3,15 +3,15 @@
 		<view class="box">
 			<view class="head">
 				<view :style="{'color':datas}">
-					{{form.flag |titlefl}}
+					{{form.status |titlefl}}
 				</view>
-				{{form.flag |titles}}
+				{{form.status |titles}}
 				</text>
 			</view>
 			<view class="boxse">
 				<view class="txje">
 					<text>提现金额 :</text>  <view >
-						¥ {{form.zkze}}
+						¥ {{form.bsGet}}
 					</view>
 				</view>
 				<view class="txje">
@@ -21,7 +21,7 @@
 				</view>
 				<view class="txje" :class="form.sprq?'':'nons'">
 					<text>申请时间 :</text>  <view >
-						{{form.xsrq}}
+						{{form.createTime}}
 					</view>
 				</view>
 				<view class="txje nons" v-if="form.sprq">
@@ -43,10 +43,7 @@
 		data() {
 			return {
 				form:{
-					je:12123,
-					num:154315331,
-					time:'2020-02-01 12:00',
-					timeend:'2020-02-01 12:00'
+					
 				}
 			};
 		},
@@ -55,34 +52,28 @@
 			titles(val){
 				
 			 if (val == 0) {
-			 	return '加速审核中,请耐心等待'
+			 	return '提现金额失败，请重新申请'
 			 } else if(val==1){
 			 	return '提现金额已到达指定账户'
 			 }else{
-			 	return '提现金额失败，请重新申请'
+			 	return '加速审核中,请耐心等待'
 			 }
 			},
 			titlefl(val){
 				if (val == 0) {
-					return '提现成功'
+					return '提现失败'
 				} else if(val==1){
 					return '提现成功'
 				}else{
-					return '提现失败'
+					return '审核中'
 				}
 			} 
 		},
 		onLoad(val) {
-			if(val.type==2){
-				homeApi.info({id:val.id}).then(res=>{
+				homeApi.txxq({id:val.id}).then(res=>{
 					this.form=res.data
 				})
-			}else{
-				homeApi.infos({id:val.id}).then(res=>{
-					this.form=res.data
-				})
-			}
-			
+				
 		},
 		methods:{
 			gohome(){
@@ -93,9 +84,9 @@
 		},
 		computed:{
 			datas(){
-				if (this.form.flag == 0) {
+				if (this.form.status == 2) {
 					return '#333333'
-				} else if(this.form.flag==1){
+				} else if(this.form.status==1){
 					return '#7CC457'
 				}else{
 					return '#FA4D4D'

@@ -7,15 +7,15 @@
 	      "desc": "选择微信发票快捷填写" // 高速公路行驶持续后台定位
 	    }},
 	"pages": [ //pages数组中第一项表示应用启动页,
-		{
-			"path": "pages/home/home",
-			"style": {
-				"navigationBarTitleText": "洪湾商户",
-				"navigationBarTextStyle": "black",
-				"enablePullDownRefresh": true
-			}
+	{
+		"path": "pages/home/home",
+		"style": {
+			"navigationBarTitleText": "洪湾商户",
+			"navigationBarTextStyle": "black",
+			"enablePullDownRefresh": true
 		}
-		, {
+	},
+		{
 			"path": "pages/min/min",
 			"style": {"navigationBarTitleText": "我的",
 				"navigationBarTextStyle": "black"}
@@ -33,6 +33,13 @@
 				"navigationBarTextStyle": "black"
 			}
 
+		} ,{
+			"path": "pages/orderse/orderse",
+			"style": {
+				"navigationBarTitleText": "洪湾渔港",
+				"navigationBarTextStyle": "black"
+			}
+
 		}, {
 			"path": "pages/login/login",
 			"style": {
@@ -41,6 +48,7 @@
 			}
 
 		}
+		
 	    ,{
             "path" : "pages/exchange/exchange",
             "style" : {
@@ -94,7 +102,8 @@
             "path" : "pages/txjl/txjl",
             "style" : {
 				"navigationBarTitleText": "提现记录",
-				"navigationBarTextStyle": "black"
+				"navigationBarTextStyle": "black",
+				"enablePullDownRefresh": true
 			}
         }
         ,{

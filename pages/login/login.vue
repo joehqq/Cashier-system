@@ -70,12 +70,12 @@
 						uuid:uuid,
 						js_code:uni.getStorageSync('code')
 					}
-					console.log(obj)
 					this.show=true
 					homeApi.login(JSON.stringify(obj)).then(res=>{
 						if(res.code==100){
 							uni.setStorageSync('token',res.data.token)
 							uni.setStorageSync('num',JSON.stringify(res.data.businessInfo))
+							uni.setStorageSync('xtDmb',JSON.stringify(res.data.xtDmb))
 						uni.switchTab({
 							  url: '/pages/home/home'
 						})

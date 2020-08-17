@@ -89,8 +89,8 @@
   height: 16rpx !important;
 }
 .jiebk.data-v-9fb18f74 {
-  border-right: 2rpx solid #e6e6e6;
-  border-left: 2rpx solid #e6e6e6;
+  border-right: 2rpx solid #F3F3F3;
+  border-left: 2rpx solid #F3F3F3;
 }
 .centerpm.data-v-9fb18f74 {
   padding: 24rpx;
@@ -175,7 +175,7 @@
   width: 100%;
   height: 48rpx;
   font-size: 40rpx;
-  font-family: DIN;
+  font-family: dinbold;
   font-weight: bold;
   line-height: 48rpx;
   color: #fa4d4d;
