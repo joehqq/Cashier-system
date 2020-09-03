@@ -76,6 +76,9 @@
 .reds.data-v-92bb8f34 {
   color: #333333 !important;
 }
+.nobord.data-v-92bb8f34 {
+  border-bottom: none !important;
+}
 .mx.data-v-92bb8f34 {
   padding: 24rpx;
   box-sizing: border-box;

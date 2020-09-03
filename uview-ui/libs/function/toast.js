@@ -1,4 +1,4 @@
-function toast(title, duration = 1500) {
+function toast(title, duration = 3000) {
 	uni.showToast({
 		title: title,
 		icon: 'none',

@@ -52,7 +52,7 @@
 			titles(val){
 				
 			 if (val == 0) {
-			 	return '提现金额失败，请重新申请'
+			 	return '提现失败，请重新申请'
 			 } else if(val==1){
 			 	return '提现金额已到达指定账户'
 			 }else{

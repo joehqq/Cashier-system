@@ -58,7 +58,7 @@
 				<view class="lin">
 				</view>
 				<view v-if="current==1" class="mx" v-for="(item,index) in srlist" :key='index' @click="add(item.id,1)">
-					<view class="xxxr" v-if="srlist.length">
+					<view class="xxxr" :class="index==srlist.length-1?'nobord':''" v-if="srlist.length">
 						<view class="leftbox">
 							<view class="xxxr-text">
 								销售收入
@@ -80,7 +80,7 @@
 
 				</view>
 				<view v-if="current==2" class="mx" v-for="(item,index) in zclist" :key='index' @click="add(item.id,2)">
-					<view class="xxxr" v-if="zclist.length">
+					<view class="xxxr" v-if="zclist.length" :class="index==zclist.length-1?'nobord':''">
 						<view class="leftbox">
 							<view class="xxxr-text">
 								提现
@@ -103,7 +103,7 @@
 				</view>
 
 				<view v-if="current==0" class="mx" v-for="(item,index) in alllist" :key='index' @click="add(item.id,item.type)">
-					<view class="xxxr">
+					<view class="xxxr" :class="index==alllist.length-1?'nobord':''">
 						<view class="leftbox">
 							<view class="xxxr-text">
 								{{item.type==1?'销售收入':'提现'}}
@@ -436,7 +436,11 @@
 	.reds {
 		color: #333333 !important;
 	}
-
+.nobord {
+			
+			border-bottom: none !important;
+			
+		}
 	.mx {
 		padding: 24rpx;
 		box-sizing: border-box;

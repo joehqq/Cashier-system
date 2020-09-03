@@ -75,12 +75,10 @@
 					 	if (res.code == 100) {
 					 		this.getlist();
 					 		this.show = false
-					 		this.$u.toast('提现成功');
-					 	}
-						else if(res.message==8){
-							this.$u.toast('操作失败,账户或卡号不正确');
+					 		this.$u.toast(res.message);
 						}else {
-					 		this.$u.toast('网络错误,请稍后重试');
+							// 提现失败, 错误码(你定义一个),请联系客服
+					 		this.$u.toast(res.message);
 					 		this.show = false
 					 	}
 					 

@@ -141,7 +141,6 @@
 			this.doHandleMonth()
 			if (uni.getStorageSync('num')) {
 				this.getday()
-				// this.getlist()
 			} else {
 				this.shows = true
 			}
@@ -152,19 +151,11 @@
 
 			if (this.total - (this.current * this.size) > 0) {
 				this.current = ++this.current
-				// this.getlist()
 				this.getday()
 			} else {
 				this.status = 'nomore';
 			}
-			// if (this.page >= 3) return;
-			// this.status = 'loading';
-			// this.page = ++this.page;
-			// setTimeout(() => {
-			// 	this.list += 10;
-			// 	if (this.page >= 3)
-			// 	else 
-			// }, 2000)
+			
 
 		},
 		onHide() {

@@ -862,6 +862,11 @@ function initProperties(props) {var isBehavior = arguments.length > 1 && argumen
       type: String,
       value: '' };
 
+    // 用于字节跳动小程序模拟抽象节点
+    properties.generic = {
+      type: Object,
+      value: null };
+
     properties.vueSlots = { // 小程序不能直接定义 $slots 的 props，所以通过 vueSlots 转换到 $slots
       type: null,
       value: [],
@@ -1160,14 +1165,17 @@ function handleEvent(event) {var _this = this;
             }
             handler.once = true;
           }
-          ret.push(handler.apply(handlerCtx, processEventArgs(
+          var params = processEventArgs(
           _this.$vm,
           event,
           eventArray[1],
           eventArray[2],
           isCustom,
-          methodName)));
+          methodName);
 
+          // 参数尾部增加原始事件对象用于复杂表达式内获取额外数据
+          // eslint-disable-next-line no-sparse-arrays
+          ret.push(handler.apply(handlerCtx, (Array.isArray(params) ? params : []).concat([,,,,,,,,,, event])));
         }
       });
     }
@@ -1721,9 +1729,9 @@ function normalizeComponent (
 /***/ }),
 
 /***/ 11:
-/*!*****************************************!*\
-  !*** D:/work/h5/Cash/uview-ui/index.js ***!
-  \*****************************************/
+/*!*******************************************!*\
+  !*** E:/worker/h5/Cash/uview-ui/index.js ***!
+  \*******************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1853,9 +1861,9 @@ var install = function install(Vue) {
 /***/ }),
 
 /***/ 12:
-/*!****************************************************!*\
-  !*** D:/work/h5/Cash/uview-ui/libs/mixin/mixin.js ***!
-  \****************************************************/
+/*!******************************************************!*\
+  !*** E:/worker/h5/Cash/uview-ui/libs/mixin/mixin.js ***!
+  \******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1893,9 +1901,9 @@ var install = function install(Vue) {
 /***/ }),
 
 /***/ 13:
-/*!******************************************************!*\
-  !*** D:/work/h5/Cash/uview-ui/libs/request/index.js ***!
-  \******************************************************/
+/*!********************************************************!*\
+  !*** E:/worker/h5/Cash/uview-ui/libs/request/index.js ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2069,9 +2077,9 @@ new Request();exports.default = _default;
 /***/ }),
 
 /***/ 14:
-/*!***********************************************************!*\
-  !*** D:/work/h5/Cash/uview-ui/libs/function/deepMerge.js ***!
-  \***********************************************************/
+/*!*************************************************************!*\
+  !*** E:/worker/h5/Cash/uview-ui/libs/function/deepMerge.js ***!
+  \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2110,9 +2118,9 @@ deepMerge;exports.default = _default;
 /***/ }),
 
 /***/ 15:
-/*!***********************************************************!*\
-  !*** D:/work/h5/Cash/uview-ui/libs/function/deepClone.js ***!
-  \***********************************************************/
+/*!*************************************************************!*\
+  !*** E:/worker/h5/Cash/uview-ui/libs/function/deepClone.js ***!
+  \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2144,9 +2152,9 @@ deepClone;exports.default = _default;
 /***/ }),
 
 /***/ 16:
-/*!******************************************************!*\
-  !*** D:/work/h5/Cash/uview-ui/libs/function/test.js ***!
-  \******************************************************/
+/*!********************************************************!*\
+  !*** E:/worker/h5/Cash/uview-ui/libs/function/test.js ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2329,9 +2337,9 @@ function empty(value) {
 /***/ }),
 
 /***/ 17:
-/*!*************************************************************!*\
-  !*** D:/work/h5/Cash/uview-ui/libs/function/queryParams.js ***!
-  \*************************************************************/
+/*!***************************************************************!*\
+  !*** E:/worker/h5/Cash/uview-ui/libs/function/queryParams.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2398,9 +2406,9 @@ queryParams;exports.default = _default;
 /***/ }),
 
 /***/ 18:
-/*!*******************************************************!*\
-  !*** D:/work/h5/Cash/uview-ui/libs/function/route.js ***!
-  \*******************************************************/
+/*!*********************************************************!*\
+  !*** E:/worker/h5/Cash/uview-ui/libs/function/route.js ***!
+  \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2495,9 +2503,9 @@ route;exports.default = _default;
 /***/ }),
 
 /***/ 19:
-/*!************************************************************!*\
-  !*** D:/work/h5/Cash/uview-ui/libs/function/timeFormat.js ***!
-  \************************************************************/
+/*!**************************************************************!*\
+  !*** E:/worker/h5/Cash/uview-ui/libs/function/timeFormat.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8459,7 +8467,7 @@ function internalMixin(Vue) {
   };
 
   Vue.prototype.__map = function(val, iteratee) {
-    //TODO 暂不考虑 string,number
+    //TODO 暂不考虑 string
     var ret, i, l, keys, key;
     if (Array.isArray(val)) {
       ret = new Array(val.length);
@@ -8473,6 +8481,13 @@ function internalMixin(Vue) {
       for (i = 0, l = keys.length; i < l; i++) {
         key = keys[i];
         ret[key] = iteratee(val[key], key, i);
+      }
+      return ret
+    } else if (typeof val === 'number') {
+      ret = new Array(val);
+      for (i = 0, l = val; i < l; i++) {
+        // 第一个参数暂时仍和小程序一致
+        ret[i] = iteratee(i, i);
       }
       return ret
     }
@@ -8572,9 +8587,9 @@ internalMixin(Vue);
 /***/ }),
 
 /***/ 20:
-/*!**********************************************************!*\
-  !*** D:/work/h5/Cash/uview-ui/libs/function/timeFrom.js ***!
-  \**********************************************************/
+/*!************************************************************!*\
+  !*** E:/worker/h5/Cash/uview-ui/libs/function/timeFrom.js ***!
+  \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8629,9 +8644,9 @@ timeFrom;exports.default = _default;
 /***/ }),
 
 /***/ 21:
-/*!***************************************************************!*\
-  !*** D:/work/h5/Cash/uview-ui/libs/function/colorGradient.js ***!
-  \***************************************************************/
+/*!*****************************************************************!*\
+  !*** E:/worker/h5/Cash/uview-ui/libs/function/colorGradient.js ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8739,9 +8754,9 @@ function rgbToHex(rgb) {
 /***/ }),
 
 /***/ 22:
-/*!******************************************************!*\
-  !*** D:/work/h5/Cash/uview-ui/libs/function/guid.js ***!
-  \******************************************************/
+/*!********************************************************!*\
+  !*** E:/worker/h5/Cash/uview-ui/libs/function/guid.js ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8791,9 +8806,9 @@ guid;exports.default = _default;
 /***/ }),
 
 /***/ 223:
-/*!******************************************************!*\
-  !*** D:/work/h5/Cash/uview-ui/libs/util/province.js ***!
-  \******************************************************/
+/*!********************************************************!*\
+  !*** E:/worker/h5/Cash/uview-ui/libs/util/province.js ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8941,9 +8956,9 @@ provinceData;exports.default = _default;
 /***/ }),
 
 /***/ 224:
-/*!**************************************************!*\
-  !*** D:/work/h5/Cash/uview-ui/libs/util/city.js ***!
-  \**************************************************/
+/*!****************************************************!*\
+  !*** E:/worker/h5/Cash/uview-ui/libs/util/city.js ***!
+  \****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10455,9 +10470,9 @@ cityData;exports.default = _default;
 /***/ }),
 
 /***/ 225:
-/*!**************************************************!*\
-  !*** D:/work/h5/Cash/uview-ui/libs/util/area.js ***!
-  \**************************************************/
+/*!****************************************************!*\
+  !*** E:/worker/h5/Cash/uview-ui/libs/util/area.js ***!
+  \****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23008,9 +23023,9 @@ areaData;exports.default = _default;
 /***/ }),
 
 /***/ 23:
-/*!*******************************************************!*\
-  !*** D:/work/h5/Cash/uview-ui/libs/function/color.js ***!
-  \*******************************************************/
+/*!*********************************************************!*\
+  !*** E:/worker/h5/Cash/uview-ui/libs/function/color.js ***!
+  \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23056,9 +23071,9 @@ color;exports.default = _default;
 /***/ }),
 
 /***/ 24:
-/*!***********************************************************!*\
-  !*** D:/work/h5/Cash/uview-ui/libs/function/type2icon.js ***!
-  \***********************************************************/
+/*!*************************************************************!*\
+  !*** E:/worker/h5/Cash/uview-ui/libs/function/type2icon.js ***!
+  \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23102,9 +23117,9 @@ type2icon;exports.default = _default;
 /***/ }),
 
 /***/ 240:
-/*!*****************************************************!*\
-  !*** D:/work/h5/Cash/uview-ui/libs/util/emitter.js ***!
-  \*****************************************************/
+/*!*******************************************************!*\
+  !*** E:/worker/h5/Cash/uview-ui/libs/util/emitter.js ***!
+  \*******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23162,9 +23177,9 @@ function _broadcast(componentName, eventName, params) {
 /***/ }),
 
 /***/ 25:
-/*!*************************************************************!*\
-  !*** D:/work/h5/Cash/uview-ui/libs/function/randomArray.js ***!
-  \*************************************************************/
+/*!***************************************************************!*\
+  !*** E:/worker/h5/Cash/uview-ui/libs/function/randomArray.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23180,9 +23195,9 @@ randomArray;exports.default = _default;
 /***/ }),
 
 /***/ 26:
-/*!*********************************************************!*\
-  !*** D:/work/h5/Cash/uview-ui/libs/function/addUnit.js ***!
-  \*********************************************************/
+/*!***********************************************************!*\
+  !*** E:/worker/h5/Cash/uview-ui/libs/function/addUnit.js ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23199,9 +23214,9 @@ function addUnit() {var value = arguments.length > 0 && arguments[0] !== undefin
 /***/ }),
 
 /***/ 27:
-/*!********************************************************!*\
-  !*** D:/work/h5/Cash/uview-ui/libs/function/random.js ***!
-  \********************************************************/
+/*!**********************************************************!*\
+  !*** E:/worker/h5/Cash/uview-ui/libs/function/random.js ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23220,9 +23235,9 @@ random;exports.default = _default;
 /***/ }),
 
 /***/ 28:
-/*!******************************************************!*\
-  !*** D:/work/h5/Cash/uview-ui/libs/function/trim.js ***!
-  \******************************************************/
+/*!********************************************************!*\
+  !*** E:/worker/h5/Cash/uview-ui/libs/function/trim.js ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23246,14 +23261,14 @@ trim;exports.default = _default;
 /***/ }),
 
 /***/ 29:
-/*!*******************************************************!*\
-  !*** D:/work/h5/Cash/uview-ui/libs/function/toast.js ***!
-  \*******************************************************/
+/*!*********************************************************!*\
+  !*** E:/worker/h5/Cash/uview-ui/libs/function/toast.js ***!
+  \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function toast(title) {var duration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1500;
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function toast(title) {var duration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 3000;
   uni.showToast({
     title: title,
     icon: 'none',
@@ -23298,9 +23313,9 @@ module.exports = g;
 /***/ }),
 
 /***/ 30:
-/*!***********************************************************!*\
-  !*** D:/work/h5/Cash/uview-ui/libs/function/getParent.js ***!
-  \***********************************************************/
+/*!*************************************************************!*\
+  !*** E:/worker/h5/Cash/uview-ui/libs/function/getParent.js ***!
+  \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23332,9 +23347,9 @@ function getParent(name, keys) {
 /***/ }),
 
 /***/ 31:
-/*!******************************************************!*\
-  !*** D:/work/h5/Cash/uview-ui/libs/config/config.js ***!
-  \******************************************************/
+/*!********************************************************!*\
+  !*** E:/worker/h5/Cash/uview-ui/libs/config/config.js ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23356,9 +23371,9 @@ var version = '1.4.3';var _default =
 /***/ }),
 
 /***/ 32:
-/*!******************************************************!*\
-  !*** D:/work/h5/Cash/uview-ui/libs/config/zIndex.js ***!
-  \******************************************************/
+/*!********************************************************!*\
+  !*** E:/worker/h5/Cash/uview-ui/libs/config/zIndex.js ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23396,9 +23411,9 @@ module.exports = __webpack_require__(/*! regenerator-runtime */ 40);
 /***/ }),
 
 /***/ 4:
-/*!**********************************!*\
-  !*** D:/work/h5/Cash/pages.json ***!
-  \**********************************/
+/*!************************************!*\
+  !*** E:/worker/h5/Cash/pages.json ***!
+  \************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -24187,9 +24202,9 @@ if (hadRuntime) {
 /***/ }),
 
 /***/ 42:
-/*!***********************************!*\
-  !*** D:/work/h5/Cash/api/home.js ***!
-  \***********************************/
+/*!*************************************!*\
+  !*** E:/worker/h5/Cash/api/home.js ***!
+  \*************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24485,9 +24500,9 @@ yhkupdate), _yzm$login$payed$list);exports.default = _default;
 /***/ }),
 
 /***/ 43:
-/*!**************************************!*\
-  !*** D:/work/h5/Cash/api/request.js ***!
-  \**************************************/
+/*!****************************************!*\
+  !*** E:/worker/h5/Cash/api/request.js ***!
+  \****************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24536,9 +24551,9 @@ http;exports.default = _default;
 /***/ }),
 
 /***/ 44:
-/*!**********************************!*\
-  !*** D:/work/h5/Cash/setting.js ***!
-  \**********************************/
+/*!************************************!*\
+  !*** E:/worker/h5/Cash/setting.js ***!
+  \************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24546,9 +24561,9 @@ http;exports.default = _default;
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; // 定义全局的变量
 var _default = {
   // host: 'https://poswx.zhdutyfreemall.com'
-  host: 'https://poswxtest.zhdutyfreemall.com'
+  host: "https://poswxtest.zhdutyfreemall.com"
 
-  // host:'http://172.16.7.13:80'
+  // host:'http://172.16.32.14:80'
 };exports.default = _default;
 
 /***/ })
